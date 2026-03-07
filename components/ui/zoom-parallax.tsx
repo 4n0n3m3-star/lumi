@@ -6,6 +6,7 @@ import { useRef } from 'react';
 interface Image {
 	src: string;
 	alt?: string;
+	label?: string;
 }
 
 interface ZoomParallaxProps {
@@ -31,7 +32,7 @@ export function ZoomParallax({ images }: ZoomParallaxProps) {
 	return (
 		<div ref={container} className="relative h-[300vh]">
 			<div className="sticky top-0 h-screen overflow-hidden">
-				{images.map(({ src, alt }, index) => {
+				{images.map(({ src, alt, label }, index) => {
 					const scale = scales[index % scales.length];
 
 					return (
@@ -46,6 +47,13 @@ export function ZoomParallax({ images }: ZoomParallaxProps) {
 									alt={alt || `Parallax image ${index + 1}`}
 									className="h-full w-full object-cover"
 								/>
+								{label && (
+									<div className="absolute inset-0 flex items-end justify-start p-4" style={{ background: 'linear-gradient(to top, rgba(26,14,6,0.6) 0%, transparent 60%)' }}>
+										<span style={{ fontFamily: "'Tenor Sans', serif", letterSpacing: '0.12em', fontSize: 'clamp(0.55rem, 1vw, 0.8rem)', color: 'rgba(253,250,247,0.85)', textTransform: 'uppercase', lineHeight: 1.3 }}>
+											{label}
+										</span>
+									</div>
+								)}
 							</div>
 						</motion.div>
 					);

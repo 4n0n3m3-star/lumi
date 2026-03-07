@@ -39,11 +39,13 @@ export default function ZoomParallaxSection() {
 		},
 		{
 			src: 'https://images.unsplash.com/photo-1590246814883-57c511e79503?w=800&h=800&fit=crop&auto=format&q=80',
-			alt: 'Studio atmosphere',
+			alt: 'O nosso espaço',
+			label: 'O nosso espaço',
 		},
 		{
 			src: 'https://images.unsplash.com/photo-1612459284270-db6f5c9b0b1d?w=800&h=800&fit=crop&auto=format&q=80',
-			alt: 'Tattoo artist at work',
+			alt: 'Está pronto para te receber',
+			label: 'Está pronto para te receber',
 		},
 		{
 			src: 'https://images.unsplash.com/photo-1559181567-c3190ca9959b?w=800&h=800&fit=crop&auto=format&q=80',
