@@ -444,19 +444,28 @@
         #studio {
             background: var(--cream-light);
         }
-        .studio-inner {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 80px;
-            margin-top: 56px;
-            align-items: start;
+        .studio-rule {
+            width: 100%;
+            height: 1px;
+            background: var(--blush);
+            margin: 24px 0 56px;
         }
         .studio-statement {
             font-family: 'Tenor Sans', serif;
-            font-size: clamp(2rem, 4vw, 3.2rem);
-            line-height: 1.25;
-            letter-spacing: -0.01em;
+            font-size: clamp(2.4rem, 5vw, 6.5rem);
+            font-weight: 300;
+            line-height: 1.18;
+            letter-spacing: 0.01em;
             color: var(--text);
+            margin-bottom: 72px;
+        }
+        .studio-statement em {
+            font-style: italic;
+            color: var(--warm-brown);
+        }
+        .studio-inner {
+            display: flex;
+            flex-direction: column;
         }
         .studio-statement em {
             font-style: italic;
@@ -464,20 +473,26 @@
         }
         .studio-details {
             display: flex;
-            flex-direction: column;
-            gap: 36px;
-            padding-top: 8px;
+            flex-direction: row;
+            gap: 0;
+            border-top: 1px solid var(--blush);
         }
         .studio-detail-item {
             display: flex;
             flex-direction: column;
-            gap: 4px;
-            padding-bottom: 36px;
-            border-bottom: 1px solid var(--blush);
+            gap: 6px;
+            padding: 32px 48px 32px 0;
+            flex: 1;
+            border-right: 1px solid var(--blush);
         }
         .studio-detail-item:last-child {
-            border-bottom: none;
-            padding-bottom: 0;
+            border-right: none;
+            padding-right: 0;
+            padding-left: 48px;
+            flex: 2;
+        }
+        .studio-detail-item:first-child {
+            padding-left: 0;
         }
         .studio-detail-label {
             font-size: 0.62rem;
@@ -1201,7 +1216,10 @@
             #contact { padding: 80px 32px; }
             footer { padding: 48px 32px 40px; }
             .hero-scroll { right: 32px; }
-            .studio-inner { grid-template-columns: 1fr; gap: 48px; }
+            .studio-details { flex-direction: column; border-top: none; }
+            .studio-detail-item { border-right: none; border-bottom: 1px solid var(--blush); padding: 24px 0; }
+            .studio-detail-item:last-child { border-bottom: none; padding-left: 0; }
+            .studio-detail-item:first-child { padding-left: 0; }
             .artists-grid { grid-template-columns: 1fr; gap: 24px; }
             .art-grid { grid-template-columns: 1fr 1fr; }
             .career-card { min-height: auto; padding: 48px 36px; }
@@ -1306,13 +1324,12 @@
 
 <!-- ─── STUDIO ABOUT ──────────────────────────────────── -->
 <section class="section" id="studio">
-    <p class="section-eyebrow fade-up" data-i18n="studio-eyebrow">O Atelier</p>
     <div class="studio-inner">
-        <div class="fade-up delay-1">
-            <h2 class="studio-statement" data-i18n="studio-statement">
-                Um santuário para <em>arte permanente</em> — criado com intenção, para durar uma vida.
-            </h2>
-        </div>
+        <p class="section-eyebrow fade-up" data-i18n="studio-eyebrow">O Atelier</p>
+        <div class="studio-rule fade-up"></div>
+        <h2 class="studio-statement fade-up delay-1" data-i18n="studio-statement">
+            Um santuário para <em>arte permanente</em> — criado com intenção, para durar uma vida.
+        </h2>
         <div class="studio-details fade-up delay-2">
             <div class="studio-detail-item">
                 <span class="studio-detail-label" data-i18n="studio-founded-label">Fundado</span>
