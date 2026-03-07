@@ -840,8 +840,8 @@ footer {
     .nav-menu-btn { display: block; }
     nav .lang-toggle:not(.lang-toggle--mobile) { display: none; }
     .section { padding: 80px 32px; }
-    .services-grid { grid-template-columns: 1fr; }
-    .service-card { height: 70vw; min-height: 360px; }
+    .services-grid { grid-template-columns: 1fr; width: 100vw; margin-left: calc((100% - 100vw) / 2); }
+    .service-card { height: 70vw; min-height: 360px; width: 100vw; }
     .service-card-content { padding: 36px 32px; }
     #contact { padding: 80px 32px; }
     footer { padding: 48px 32px 40px; }
