@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LUMI Atelier — Tattoo & Piercing Studio</title>
+    <title>LUMI Atelier — Estúdio de Tattoo & Piercing</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Tenor+Sans&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
@@ -91,6 +91,39 @@
         .nav-links a:hover { color: var(--cream-light); }
         nav.scrolled .nav-links a { color: var(--text-light); }
         nav.scrolled .nav-links a:hover { color: var(--warm-brown); }
+
+        /* Language Toggle */
+        .lang-toggle {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-left: 28px;
+        }
+        .lang-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.6rem;
+            font-weight: 400;
+            letter-spacing: 0.24em;
+            text-transform: uppercase;
+            color: rgba(253, 250, 247, 0.3);
+            padding: 2px 0;
+            transition: color 0.3s ease;
+        }
+        .lang-btn.active { color: rgba(253, 250, 247, 0.8); }
+        .lang-btn:hover:not(.active) { color: rgba(253, 250, 247, 0.6); }
+        nav.scrolled .lang-btn { color: var(--taupe); }
+        nav.scrolled .lang-btn.active { color: var(--warm-brown); }
+        nav.scrolled .lang-btn:hover:not(.active) { color: var(--text-light); }
+        .lang-sep {
+            font-size: 0.5rem;
+            color: rgba(253, 250, 247, 0.18);
+            pointer-events: none;
+        }
+        nav.scrolled .lang-sep { color: var(--blush); }
+
         .nav-menu-btn {
             display: none;
             background: none;
@@ -137,6 +170,19 @@
             transition: color 0.3s ease;
         }
         .mobile-menu a:hover { color: var(--warm-brown); }
+        .lang-toggle--mobile {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 8px;
+        }
+        .lang-toggle--mobile .lang-btn {
+            color: rgba(236, 217, 208, 0.3);
+            font-size: 0.7rem;
+            letter-spacing: 0.28em;
+        }
+        .lang-toggle--mobile .lang-btn.active { color: rgba(236, 217, 208, 0.8); }
+        .lang-toggle--mobile .lang-sep { color: rgba(236, 217, 208, 0.15); }
 
         /* ─── HERO ────────────────────────────────────── */
         .hero {
@@ -387,103 +433,196 @@
             color: var(--text);
         }
 
-        /* ─── SERVICES ──────────────────────────────── */
+        /* ─── SERVICES + BOOKING (MERGED) ────────────── */
         #services {
-            background: var(--cream);
-            padding: 120px 0;
+            background: var(--ink);
+            padding: 0;
         }
-        .services-header {
-            padding: 0 72px;
-            margin-bottom: 56px;
+        .services-intro {
+            padding: 80px 72px 52px;
+            border-bottom: 1px solid rgba(253, 250, 247, 0.04);
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 40px;
         }
-        .services-grid {
+        .services-eyebrow {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 400;
+            font-size: 0.65rem;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: rgba(167, 112, 73, 0.6);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .services-eyebrow::before {
+            content: '';
+            display: block;
+            width: 36px;
+            height: 1px;
+            background: rgba(167, 112, 73, 0.3);
+            flex-shrink: 0;
+        }
+        .services-intro-note {
+            font-size: 0.7rem;
+            letter-spacing: 0.08em;
+            color: rgba(236, 217, 208, 0.2);
+            font-style: italic;
+            flex-shrink: 0;
+        }
+
+        /* Service Panel */
+        .service-panel {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3px;
+            grid-template-columns: 55% 45%;
+            min-height: 88vh;
+            border-top: 1px solid rgba(253, 250, 247, 0.04);
         }
-        .service-card {
+        .service-panel--reverse {
+            grid-template-columns: 45% 55%;
+        }
+        .service-panel--reverse .service-panel-img { order: 2; }
+        .service-panel--reverse .service-panel-info { order: 1; }
+
+        .service-panel-img {
             position: relative;
             overflow: hidden;
-            aspect-ratio: 3/4;
-            cursor: pointer;
         }
-        .service-card img {
+        .service-panel-img img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             object-position: center 25%;
             display: block;
-            transition: transform 0.8s cubic-bezier(0.25,0.46,0.45,0.94);
+            transition: transform 1.1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
-        .service-card:hover img { transform: scale(1.04); }
-        .service-overlay {
+        .service-panel:hover .service-panel-img img { transform: scale(1.04); }
+        .service-panel-img-vignette {
             position: absolute;
             inset: 0;
-            background: rgba(26, 14, 6, 0);
-            transition: background 0.45s cubic-bezier(0.25,0.46,0.45,0.94);
+            background: linear-gradient(to bottom, transparent 55%, rgba(26,14,6,0.3) 100%);
+            pointer-events: none;
+        }
+        /* Side fade toward info column */
+        .service-panel:not(.service-panel--reverse) .service-panel-img-vignette {
+            background: linear-gradient(to bottom, transparent 55%, rgba(26,14,6,0.3) 100%),
+                        linear-gradient(to right, transparent 75%, rgba(26,14,6,0.45) 100%);
+        }
+        .service-panel--reverse .service-panel-img-vignette {
+            background: linear-gradient(to bottom, transparent 55%, rgba(26,14,6,0.3) 100%),
+                        linear-gradient(to left, transparent 75%, rgba(26,14,6,0.45) 100%);
+        }
+
+        .service-panel-info {
+            background: var(--ink);
+            padding: 72px 64px 72px 60px;
             display: flex;
             flex-direction: column;
-            justify-content: flex-end;
-            padding: 48px 44px;
+            justify-content: center;
+            gap: 22px;
+            position: relative;
+            overflow: hidden;
         }
-        .service-card:hover .service-overlay {
-            background: rgba(26, 14, 6, 0.55);
+        .service-panel--reverse .service-panel-info {
+            padding: 72px 60px 72px 64px;
         }
-        .service-label {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 200;
-            font-size: 0.6rem;
-            letter-spacing: 0.38em;
-            text-transform: uppercase;
-            color: rgba(236, 217, 208, 0.7);
-            margin-bottom: 12px;
-            transition: opacity 0.4s ease;
-        }
-        .service-title {
+        .service-panel-ghost {
+            position: absolute;
             font-family: 'Tenor Sans', serif;
-            font-size: clamp(1.6rem, 3vw, 2.4rem);
+            font-size: clamp(7rem, 14vw, 12rem);
+            color: rgba(253, 250, 247, 0.025);
+            line-height: 1;
+            pointer-events: none;
+            user-select: none;
+            bottom: 20px;
+            right: 36px;
+            letter-spacing: -0.04em;
+        }
+
+        .service-panel-label {
+            font-size: 0.58rem;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: rgba(167, 112, 73, 0.65);
+        }
+        .service-panel-title {
+            font-family: 'Tenor Sans', serif;
+            font-size: clamp(2.4rem, 4.5vw, 4rem);
             letter-spacing: 0.06em;
-            color: var(--cream-light);
-            line-height: 1.15;
-            margin-bottom: 10px;
-            text-shadow: 0 2px 20px rgba(26,14,6,0.5);
+            color: var(--cream);
+            line-height: 1.05;
         }
-        .service-artist {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 300;
-            font-size: 0.75rem;
-            letter-spacing: 0.12em;
-            color: rgba(236, 217, 208, 0.7);
-            margin-bottom: 24px;
+        .service-panel-rule {
+            width: 32px;
+            height: 1px;
+            background: rgba(208, 184, 172, 0.22);
         }
-        .service-cta {
+        .service-panel-desc {
+            font-size: 0.84rem;
+            line-height: 1.82;
+            color: rgba(236, 217, 208, 0.5);
+            max-width: 340px;
+        }
+        .service-panel-artist {
+            font-size: 0.58rem;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: rgba(167, 112, 73, 0.48);
+        }
+        .service-panel-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin-top: 6px;
+        }
+        .service-panel-cta {
             display: inline-block;
+            padding: 14px 36px;
+            border: 1px solid rgba(167, 112, 73, 0.4);
             font-family: 'Montserrat', sans-serif;
             font-weight: 400;
             font-size: 0.6rem;
-            letter-spacing: 0.28em;
+            letter-spacing: 0.3em;
             text-transform: uppercase;
             color: var(--cream);
             text-decoration: none;
-            padding-bottom: 4px;
-            border-bottom: 1px solid rgba(236,217,208,0.4);
-            opacity: 0;
-            transform: translateY(8px);
-            transition: opacity 0.4s ease, transform 0.4s ease, border-color 0.3s ease;
             width: fit-content;
+            transition: background 0.4s cubic-bezier(0.25,0.46,0.45,0.94),
+                        border-color 0.4s cubic-bezier(0.25,0.46,0.45,0.94),
+                        transform 0.3s cubic-bezier(0.25,0.46,0.45,0.94);
         }
-        .service-card:hover .service-cta {
-            opacity: 1;
-            transform: translateY(0);
+        .service-panel-cta:hover {
+            background: rgba(167, 112, 73, 0.16);
+            border-color: rgba(167, 112, 73, 0.75);
+            transform: translateY(-2px);
         }
-        .service-cta:hover { border-color: rgba(236,217,208,0.9); }
-        /* Always-visible state for the solid cream bg on card bottom */
-        .service-card-foot {
+        .service-panel-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.58rem;
+            letter-spacing: 0.26em;
+            text-transform: uppercase;
+            color: rgba(236, 217, 208, 0.28);
+            text-decoration: none;
+            width: fit-content;
+            padding-bottom: 2px;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+        .service-panel-link::after {
+            content: '';
             position: absolute;
-            bottom: 0; left: 0; right: 0;
-            padding: 32px 44px 36px;
-            background: linear-gradient(to top, rgba(26,14,6,0.95) 0%, rgba(26,14,6,0.7) 50%, transparent 100%);
+            bottom: 0; left: 0;
+            width: 0;
+            height: 1px;
+            background: rgba(236, 217, 208, 0.28);
+            transition: width 0.4s cubic-bezier(0.25,0.46,0.45,0.94), background 0.3s ease;
         }
+        .service-panel-link:hover { color: rgba(236, 217, 208, 0.6); }
+        .service-panel-link:hover::after { width: 100%; background: rgba(236, 217, 208, 0.6); }
 
         /* ─── ARTISTS ────────────────────────────────── */
         #artists {
@@ -976,122 +1115,6 @@
         }
         .footer-personal:hover { color: rgba(167, 112, 73, 0.85); }
 
-        /* ─── BOOKING CTA ────────────────────────────── */
-        #book {
-            background: var(--ink);
-            padding: 120px 72px;
-            position: relative;
-            overflow: hidden;
-        }
-        .book-glow {
-            position: absolute;
-            inset: 0;
-            pointer-events: none;
-            background: radial-gradient(ellipse 55% 55% at 50% 50%, rgba(167,112,73,0.07) 0%, transparent 70%);
-        }
-        .book-inner {
-            position: relative;
-            z-index: 2;
-        }
-        .book-eyebrow {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 200;
-            font-size: 0.6rem;
-            letter-spacing: 0.5em;
-            text-transform: uppercase;
-            color: rgba(167, 112, 73, 0.65);
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            margin-bottom: 52px;
-        }
-        .book-eyebrow::before {
-            content: '';
-            display: block;
-            width: 36px;
-            height: 1px;
-            background: rgba(167,112,73,0.3);
-            flex-shrink: 0;
-        }
-        .book-cards {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3px;
-        }
-        .book-card {
-            position: relative;
-            background: rgba(253,250,247,0.03);
-            border: 1px solid rgba(208,184,172,0.1);
-            padding: 56px 52px 52px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            transition: border-color 0.4s ease, background 0.4s ease;
-            text-decoration: none;
-        }
-        .book-card:hover {
-            border-color: rgba(167,112,73,0.35);
-            background: rgba(167,112,73,0.04);
-        }
-        .book-card-num {
-            font-family: 'Tenor Sans', serif;
-            font-size: clamp(5rem, 10vw, 8rem);
-            letter-spacing: -0.04em;
-            color: rgba(253,250,247,0.04);
-            line-height: 1;
-            position: absolute;
-            top: 28px;
-            right: 40px;
-            pointer-events: none;
-            user-select: none;
-        }
-        .book-card-eyebrow {
-            font-size: 0.55rem;
-            letter-spacing: 0.4em;
-            text-transform: uppercase;
-            color: rgba(167, 112, 73, 0.55);
-        }
-        .book-card-title {
-            font-family: 'Tenor Sans', serif;
-            font-size: clamp(2rem, 4vw, 3.2rem);
-            letter-spacing: 0.06em;
-            color: var(--cream);
-            line-height: 1.1;
-        }
-        .book-card-desc {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 300;
-            font-size: 0.82rem;
-            line-height: 1.75;
-            color: rgba(236, 217, 208, 0.5);
-            max-width: 320px;
-        }
-        .book-card-artist {
-            font-size: 0.6rem;
-            letter-spacing: 0.28em;
-            text-transform: uppercase;
-            color: rgba(167, 112, 73, 0.5);
-            margin-top: 4px;
-        }
-        .book-card-cta {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 0.62rem;
-            letter-spacing: 0.26em;
-            text-transform: uppercase;
-            color: var(--cream);
-            margin-top: 12px;
-            padding-bottom: 3px;
-            border-bottom: 1px solid rgba(236,217,208,0.2);
-            width: fit-content;
-            transition: border-color 0.3s ease, color 0.3s ease;
-        }
-        .book-card:hover .book-card-cta {
-            color: var(--warm-brown);
-            border-color: rgba(167,112,73,0.5);
-        }
-
         /* ─── RESPONSIVE ────────────────────────────── */
         @media (max-width: 900px) {
             nav { padding: 24px 32px; }
@@ -1099,8 +1122,18 @@
             .nav-links { display: none; }
             .nav-menu-btn { display: flex; }
             .section { padding: 80px 32px; }
-            #services { padding: 80px 0; }
-            .services-header { padding: 0 32px; }
+            .services-intro { padding: 60px 32px 40px; }
+            .services-intro-note { display: none; }
+            .service-panel {
+                grid-template-columns: 1fr;
+                min-height: auto;
+            }
+            .service-panel--reverse { grid-template-columns: 1fr; }
+            .service-panel--reverse .service-panel-img { order: 0; }
+            .service-panel--reverse .service-panel-info { order: 0; }
+            .service-panel-img { height: 55vw; min-height: 280px; }
+            .service-panel-info { padding: 52px 36px 56px; }
+            .service-panel--reverse .service-panel-info { padding: 52px 36px 56px; }
             #jewelry { padding: 100px 32px; }
             #contact { padding: 80px 32px; }
             footer { padding: 48px 32px 40px; }
@@ -1109,17 +1142,15 @@
             .artists-grid { grid-template-columns: 1fr; gap: 24px; }
             .art-grid { grid-template-columns: 1fr 1fr; }
             .career-card { min-height: auto; padding: 48px 36px; }
-            #book { padding: 80px 32px; }
-            .book-cards { grid-template-columns: 1fr; }
         }
         @media (max-width: 600px) {
             nav { padding: 20px 24px; }
             nav.scrolled { padding: 14px 24px; }
             .hero-name { font-size: clamp(5rem, 22vw, 8rem); }
             .section { padding: 64px 24px; }
-            #services { padding: 64px 0; }
-            .services-header { padding: 0 24px; }
-            .services-grid { grid-template-columns: 1fr; }
+            .services-intro { padding: 48px 24px 32px; }
+            .service-panel-info { padding: 40px 24px 48px; }
+            .service-panel--reverse .service-panel-info { padding: 40px 24px 48px; }
             #jewelry { padding: 80px 24px; }
             #contact { padding: 64px 24px; }
             footer { padding: 40px 24px 36px; }
@@ -1131,8 +1162,6 @@
             .art-subscribe input { border-right: 1px solid rgba(208,184,172,0.2); border-bottom: none; }
             .art-subscribe input { border-right: 1px solid var(--blush); }
             .contact-link { font-size: clamp(1.6rem, 8vw, 2.5rem); padding: 28px 0; }
-            #book { padding: 64px 24px; }
-            .book-card { padding: 40px 32px 36px; }
         }
     </style>
 </head>
@@ -1140,27 +1169,37 @@
 
 <!-- ─── MOBILE MENU ──────────────────────────────────── -->
 <div class="mobile-menu" id="mobileMenu">
-    <a href="#studio" onclick="closeMenu()">Studio</a>
-    <a href="#services" onclick="closeMenu()">Services</a>
-    <a href="#artists" onclick="closeMenu()">Artists</a>
-    <a href="#art" onclick="closeMenu()">Art</a>
-    <a href="#jewelry" onclick="closeMenu()">Jewelry</a>
-    <a href="#contact" onclick="closeMenu()">Contact</a>
-    <a href="book.html" style="color:var(--warm-brown);">Book</a>
+    <a href="#studio" onclick="closeMenu()" data-i18n="nav-studio">Estúdio</a>
+    <a href="#services" onclick="closeMenu()" data-i18n="nav-services">Serviços</a>
+    <a href="#artists" onclick="closeMenu()" data-i18n="nav-artists">Artistas</a>
+    <a href="#art" onclick="closeMenu()" data-i18n="nav-art">Arte</a>
+    <a href="#jewelry" onclick="closeMenu()" data-i18n="nav-jewelry">Joalharia</a>
+    <a href="#contact" onclick="closeMenu()" data-i18n="nav-contact">Contacto</a>
+    <a href="book.html" style="color:var(--warm-brown);" data-i18n="nav-book">Reservar</a>
+    <div class="lang-toggle lang-toggle--mobile">
+        <button class="lang-btn active" data-lang="pt" onclick="setLang('pt')">PT</button>
+        <span class="lang-sep">|</span>
+        <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+    </div>
 </div>
 
 <!-- ─── NAV ─────────────────────────────────────────── -->
 <nav id="nav">
     <a href="#home" class="nav-logo">Lumi Atelier</a>
     <ul class="nav-links">
-        <li><a href="#studio">Studio</a></li>
-        <li><a href="#services">Services</a></li>
-        <li><a href="#artists">Artists</a></li>
-        <li><a href="#art">Art</a></li>
-        <li><a href="#jewelry">Jewelry</a></li>
-        <li><a href="#contact">Contact</a></li>
-        <li><a href="book.html" style="color:var(--warm-brown);">Book</a></li>
+        <li><a href="#studio" data-i18n="nav-studio">Estúdio</a></li>
+        <li><a href="#services" data-i18n="nav-services">Serviços</a></li>
+        <li><a href="#artists" data-i18n="nav-artists">Artistas</a></li>
+        <li><a href="#art" data-i18n="nav-art">Arte</a></li>
+        <li><a href="#jewelry" data-i18n="nav-jewelry">Joalharia</a></li>
+        <li><a href="#contact" data-i18n="nav-contact">Contacto</a></li>
+        <li><a href="book.html" style="color:var(--warm-brown);" data-i18n="nav-book">Reservar</a></li>
     </ul>
+    <div class="lang-toggle">
+        <button class="lang-btn active" data-lang="pt" onclick="setLang('pt')">PT</button>
+        <span class="lang-sep">|</span>
+        <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+    </div>
     <button class="nav-menu-btn" id="menuBtn" aria-label="Menu" onclick="toggleMenu()">
         <span></span><span></span><span></span>
     </button>
@@ -1170,15 +1209,15 @@
 <section class="hero" id="home">
     <div class="hero-glow"></div>
     <div class="hero-content">
-        <p class="hero-eyebrow fade-up">Venda do Pinheiro · Tattoo &amp; Piercing Studio</p>
+        <p class="hero-eyebrow fade-up" data-i18n="hero-eyebrow">Venda do Pinheiro · Estúdio de Tattoo &amp; Piercing</p>
         <h1 class="hero-name fade-up delay-1">LUMI</h1>
         <div class="hero-rule fade-up delay-2"></div>
-        <p class="hero-sub fade-up delay-2">Atelier</p>
-        <p class="hero-tagline fade-up delay-3">Where light meets skin.</p>
-        <a href="#services" class="hero-cta fade-up delay-4">Explore our services</a>
+        <p class="hero-sub fade-up delay-2" data-i18n="hero-sub">Atelier</p>
+        <p class="hero-tagline fade-up delay-3" data-i18n="hero-tagline">Onde a luz encontra a pele.</p>
+        <a href="#services" class="hero-cta fade-up delay-4" data-i18n="hero-cta">Explorar os serviços</a>
     </div>
     <div class="hero-scroll">
-        <span class="hero-scroll-label">Scroll</span>
+        <span class="hero-scroll-label" data-i18n="hero-scroll">Rolar</span>
         <div class="hero-scroll-line"></div>
     </div>
 </section>
@@ -1191,97 +1230,80 @@
 
 <!-- ─── STUDIO ABOUT ──────────────────────────────────── -->
 <section class="section" id="studio">
-    <p class="section-eyebrow fade-up">The Atelier</p>
+    <p class="section-eyebrow fade-up" data-i18n="studio-eyebrow">O Atelier</p>
     <div class="studio-inner">
         <div class="fade-up delay-1">
-            <h2 class="studio-statement">
-                A sanctuary for <em>permanent art</em> — crafted with intention, worn for life.
+            <h2 class="studio-statement" data-i18n="studio-statement">
+                Um santuário para <em>arte permanente</em> — criado com intenção, para durar uma vida.
             </h2>
         </div>
         <div class="studio-details fade-up delay-2">
             <div class="studio-detail-item">
-                <span class="studio-detail-label">Founded</span>
-                <span class="studio-detail-value">2025 · Venda do Pinheiro, Portugal</span>
+                <span class="studio-detail-label" data-i18n="studio-founded-label">Fundado</span>
+                <span class="studio-detail-value" data-i18n="studio-founded-value">2025 · Venda do Pinheiro, Portugal</span>
             </div>
             <div class="studio-detail-item">
-                <span class="studio-detail-label">Specialities</span>
-                <span class="studio-detail-value">Fineline Tattoo · Piercing</span>
+                <span class="studio-detail-label" data-i18n="studio-specs-label">Especialidades</span>
+                <span class="studio-detail-value" data-i18n="studio-specs-value">Fineline Tattoo · Piercing</span>
             </div>
             <div class="studio-detail-item">
-                <span class="studio-detail-label">Philosophy</span>
-                <span class="studio-detail-value" style="font-family:'Montserrat',sans-serif;font-size:0.85rem;font-weight:300;line-height:1.75;color:var(--text-light);">Every mark we make is a collaboration between artist and skin. We work slowly, with care — creating pieces that age with you.</span>
+                <span class="studio-detail-label" data-i18n="studio-phil-label">Filosofia</span>
+                <span class="studio-detail-value" style="font-family:'Montserrat',sans-serif;font-size:0.85rem;font-weight:300;line-height:1.75;color:var(--text-light);" data-i18n="studio-phil-value">Cada marca que fazemos é uma colaboração entre artista e pele. Trabalhamos devagar, com cuidado — criando peças que envelhecem contigo.</span>
             </div>
         </div>
     </div>
 </section>
 
-<!-- ─── SERVICES ─────────────────────────────────────── -->
+<!-- ─── SERVICES + BOOKING (MERGED) ──────────────────── -->
 <section id="services">
-    <div class="services-header">
-        <p class="section-eyebrow fade-up">Services</p>
+    <div class="services-intro">
+        <p class="services-eyebrow fade-up" data-i18n="services-eyebrow">Serviços</p>
+        <span class="services-intro-note fade-up delay-1" data-i18n="services-intro-note">Apenas por marcação</span>
     </div>
-    <div class="services-grid">
-        <!-- Tattoo Card -->
-        <div class="service-card fade-up">
-            <img src="media/DSCF4917.jpg" alt="Tattoo Studio">
-            <div class="service-overlay">
-                <div class="service-card-foot">
-                    <p class="service-label">Fineline · Illustration · Script</p>
-                    <h3 class="service-title">Tattoo<br>Studio</h3>
-                    <p class="service-artist">Stephany Ribeiro — Resident Artist</p>
-                    <a href="https://stephanytattoo.com" class="service-cta" target="_blank">View portfolio →</a>
-                </div>
-            </div>
+
+    <!-- Panel 1: Tattoo -->
+    <div class="service-panel fade-up">
+        <div class="service-panel-img">
+            <img src="media/DSCF4917.jpg" alt="Estúdio de Tattoo" style="object-position: center 20%;">
+            <div class="service-panel-img-vignette"></div>
         </div>
-        <!-- Piercing Card -->
-        <div class="service-card fade-up delay-2">
-            <img src="media/DSCF4915.jpg" alt="Piercing Studio">
-            <div class="service-overlay">
-                <div class="service-card-foot">
-                    <p class="service-label">Ear · Facial · Body</p>
-                    <h3 class="service-title">Piercing<br>Studio</h3>
-                    <p class="service-artist">[Artist Name] — By reservation only</p>
-                    <a href="#contact" class="service-cta">Book a session →</a>
-                </div>
+        <div class="service-panel-info">
+            <span class="service-panel-ghost">01</span>
+            <p class="service-panel-label" data-i18n="tattoo-label">Fineline · Ilustração · Script</p>
+            <h2 class="service-panel-title" data-i18n="tattoo-title">Estúdio de<br>Tattoo</h2>
+            <div class="service-panel-rule"></div>
+            <p class="service-panel-desc" data-i18n="tattoo-desc">Arte permanente desenhada à medida — traço fino, detalhes delicados, peças que envelhecem contigo.</p>
+            <p class="service-panel-artist" data-i18n="tattoo-artist">Stephany Ribeiro — Artista Residente</p>
+            <div class="service-panel-actions">
+                <a href="book.html?service=tattoo" class="service-panel-cta" data-i18n="tattoo-cta">Reservar Sessão</a>
+                <a href="https://stephanytattoo.com" class="service-panel-link" target="_blank" data-i18n="tattoo-link">Ver portfólio →</a>
             </div>
         </div>
     </div>
-</section>
 
-<!-- ─── BOOKING CTA ──────────────────────────────────── -->
-<section id="book">
-    <div class="book-glow"></div>
-    <div class="book-inner">
-        <p class="book-eyebrow fade-up">Reserve a sua Sessão</p>
-        <div class="book-cards">
-
-            <!-- Tattoo card -->
-            <a href="book.html?service=tattoo" class="book-card fade-up delay-1">
-                <span class="book-card-num">01</span>
-                <span class="book-card-eyebrow">Fineline · Illustration · Script</span>
-                <h3 class="book-card-title">Tattoo<br>Studio</h3>
-                <p class="book-card-desc">Arte permanente desenhada à medida — traço fino, detalhes delicados, peças que envelhecem contigo.</p>
-                <p class="book-card-artist">Stephany Ribeiro — Artista Residente</p>
-                <span class="book-card-cta">Preencher formulário →</span>
-            </a>
-
-            <!-- Piercing card -->
-            <a href="book.html?service=piercing" class="book-card fade-up delay-2">
-                <span class="book-card-num">02</span>
-                <span class="book-card-eyebrow">Ear · Facial · Body</span>
-                <h3 class="book-card-title">Piercing<br>Studio</h3>
-                <p class="book-card-desc">Piercing profissional por marcação. Jóias de qualidade, cuidado meticuloso, resultados que duram.</p>
-                <p class="book-card-artist">Reserva exclusiva · Apenas por marcação</p>
-                <span class="book-card-cta">Preencher formulário →</span>
-            </a>
-
+    <!-- Panel 2: Piercing -->
+    <div class="service-panel service-panel--reverse fade-up delay-1">
+        <div class="service-panel-img">
+            <img src="media/DSCF4915.jpg" alt="Estúdio de Piercing" style="object-position: center 25%;">
+            <div class="service-panel-img-vignette"></div>
+        </div>
+        <div class="service-panel-info">
+            <span class="service-panel-ghost">02</span>
+            <p class="service-panel-label" data-i18n="piercing-label">Ouvido · Facial · Corpo</p>
+            <h2 class="service-panel-title" data-i18n="piercing-title">Estúdio de<br>Piercing</h2>
+            <div class="service-panel-rule"></div>
+            <p class="service-panel-desc" data-i18n="piercing-desc">Piercing profissional por marcação. Jóias de qualidade, cuidado meticuloso, resultados que duram.</p>
+            <p class="service-panel-artist" data-i18n="piercing-artist">[Nome da Artista] — Apenas por marcação</p>
+            <div class="service-panel-actions">
+                <a href="book.html?service=piercing" class="service-panel-cta" data-i18n="piercing-cta">Reservar Sessão</a>
+            </div>
         </div>
     </div>
 </section>
 
 <!-- ─── ARTISTS ───────────────────────────────────────── -->
 <section class="section" id="artists">
-    <p class="section-eyebrow fade-up">The Team</p>
+    <p class="section-eyebrow fade-up" data-i18n="artists-eyebrow">A Equipa</p>
     <div class="artists-grid">
         <!-- Stephany -->
         <div class="artist-card fade-up delay-1">
@@ -1289,59 +1311,59 @@
                 <img src="media/RJPHOTOGRAPHY-136.JPG" alt="Stephany Ribeiro" style="object-position: center 20%;">
             </div>
             <div class="artist-card-body">
-                <p class="artist-role">Tattoo Artist · Studio Founder</p>
+                <p class="artist-role" data-i18n="artist-role">Artista de Tattoo · Fundadora do Estúdio</p>
                 <h3 class="artist-name">Stephany Ribeiro</h3>
-                <p class="artist-bio">Specialist in fineline tattoos — delicate lines, botanical motifs, abstract shapes, and lyrical script. Every piece is custom-drawn to become a part of you.</p>
-                <a href="https://stephanytattoo.com" class="artist-link" target="_blank">View personal portfolio →</a>
+                <p class="artist-bio" data-i18n="artist-bio">Especialista em tattoos fineline — traços delicados, motivos botânicos, formas abstractas e lettering lírico. Cada peça é desenhada a partir do zero para se tornar parte de ti.</p>
+                <a href="https://stephanytattoo.com" class="artist-link" target="_blank" data-i18n="artist-link">Ver portfólio pessoal →</a>
             </div>
         </div>
         <!-- Career card -->
         <div class="career-card fade-up delay-2">
-            <span class="career-eyebrow">We're growing — find your home here.</span>
-            <h3 class="career-title">Join the<br>Atelier</h3>
-            <p class="career-body">LUMI Atelier is looking for artists who share our belief in slow, intentional craft. If you work with fineline, illustration, or botanical tattooing — we'd love to meet you.</p>
-            <a href="mailto:careers@lumiatelier.com" class="career-cta">Send an enquiry</a>
+            <span class="career-eyebrow" data-i18n="career-eyebrow">Estamos a crescer — encontra o teu lugar aqui.</span>
+            <h3 class="career-title" data-i18n="career-title">Junta-te ao<br>Atelier</h3>
+            <p class="career-body" data-i18n="career-body">O LUMI Atelier está à procura de artistas que partilhem a nossa crença em trabalho lento e intencional. Se trabalhas com fineline, ilustração ou tattoo botânica — adorávamos conhecer-te.</p>
+            <a href="mailto:careers@lumiatelier.com" class="career-cta" data-i18n="career-cta">Envia uma candidatura</a>
         </div>
     </div>
 </section>
 
 <!-- ─── ART COLLECTION ────────────────────────────────── -->
 <section class="section" id="art">
-    <p class="section-eyebrow fade-up">Art Collection</p>
+    <p class="section-eyebrow fade-up" data-i18n="art-eyebrow">Coleção de Arte</p>
     <div class="art-grid">
         <div class="art-slot fade-up delay-1">
             <img src="https://placehold.co/600x800/B09080/ECD9D0?text=+" alt="Art piece 1">
             <div class="art-glass">
-                <span class="art-glass-num">Edition No. 001</span>
+                <span class="art-glass-num" data-i18n="art-ed1-num">Edição Nº 001</span>
                 <div class="art-glass-dot"></div>
-                <span class="art-glass-label">First Drop</span>
+                <span class="art-glass-label" data-i18n="art-ed1-label">Primeiro Drop</span>
             </div>
         </div>
         <div class="art-slot fade-up delay-2">
             <img src="https://placehold.co/600x800/8C6248/D0B8AC?text=+" alt="Art piece 2">
             <div class="art-glass">
-                <span class="art-glass-num">Edition No. 002</span>
+                <span class="art-glass-num" data-i18n="art-ed2-num">Edição Nº 002</span>
                 <div class="art-glass-dot"></div>
-                <span class="art-glass-label">Reserved</span>
+                <span class="art-glass-label" data-i18n="art-ed2-label">Reservado</span>
             </div>
         </div>
         <div class="art-slot fade-up delay-3">
             <img src="https://placehold.co/600x800/A77049/ECD9D0?text=+" alt="Art piece 3">
             <div class="art-glass">
-                <span class="art-glass-num">Edition No. 003</span>
+                <span class="art-glass-num" data-i18n="art-ed3-num">Edição Nº 003</span>
                 <div class="art-glass-dot"></div>
-                <span class="art-glass-label">Reserved</span>
+                <span class="art-glass-label" data-i18n="art-ed3-label">Reservado</span>
             </div>
         </div>
     </div>
     <div class="art-footer">
-        <h3 class="art-footer-title fade-up">Limited editions. First drop coming soon.</h3>
-        <p class="art-footer-sub fade-up delay-1">Original art pieces by Stephany Ribeiro — available in numbered series.</p>
+        <h3 class="art-footer-title fade-up" data-i18n="art-footer-title">Edições limitadas. Primeiro drop em breve.</h3>
+        <p class="art-footer-sub fade-up delay-1" data-i18n="art-footer-sub">Peças de arte originais de Stephany Ribeiro — disponíveis em série numerada.</p>
         <form class="art-subscribe fade-up delay-2" id="artForm">
-            <input type="email" placeholder="Your email address" required aria-label="Email for art drop notification">
-            <button type="submit">Notify me</button>
+            <input type="email" data-i18n-placeholder="art-email-placeholder" placeholder="O teu endereço de email" required aria-label="Email">
+            <button type="submit" data-i18n="art-notify-btn">Notifica-me</button>
         </form>
-        <p class="art-subscribe-confirm" id="artConfirm">You're on the list. We'll be in touch.</p>
+        <p class="art-subscribe-confirm" id="artConfirm" data-i18n="art-confirm">Estás na lista. Entraremos em contacto.</p>
     </div>
 </section>
 
@@ -1349,35 +1371,35 @@
 <section id="jewelry">
     <div class="jewelry-glow"></div>
     <div class="jewelry-inner">
-        <p class="jewelry-eyebrow fade-up">A New Chapter</p>
+        <p class="jewelry-eyebrow fade-up" data-i18n="jewelry-eyebrow">Um Novo Capítulo</p>
         <div class="jewelry-rule-pair fade-up delay-1">
             <span class="jewelry-rule"></span>
             <span class="jewelry-dot"></span>
             <span class="jewelry-rule"></span>
         </div>
         <h2 class="jewelry-brand fade-up delay-1">[Brand Name]</h2>
-        <p class="jewelry-sub fade-up delay-2">Jewelry by LUMI</p>
-        <p class="jewelry-tagline fade-up delay-2">Wearable art, crafted in limited series. An extension of the permanent into the removable.</p>
+        <p class="jewelry-sub fade-up delay-2" data-i18n="jewelry-sub">Joalharia by LUMI</p>
+        <p class="jewelry-tagline fade-up delay-2" data-i18n="jewelry-tagline">Arte usável, criada em séries limitadas. Uma extensão do permanente no removível.</p>
         <form class="jewelry-subscribe fade-up delay-3" id="jewelryForm">
-            <input type="email" placeholder="Enter your email" required aria-label="Email for jewelry launch">
-            <button type="submit">Subscribe to Launch</button>
+            <input type="email" data-i18n-placeholder="jewelry-email-placeholder" placeholder="O teu email" required aria-label="Email">
+            <button type="submit" data-i18n="jewelry-subscribe-btn">Subscrever</button>
         </form>
-        <p class="jewelry-fine fade-up delay-4">Be first to know when we open pre-orders.</p>
-        <p class="jewelry-subscribe-confirm" id="jewelryConfirm">You're on the list — something beautiful is coming.</p>
+        <p class="jewelry-fine fade-up delay-4" data-i18n="jewelry-fine">Sê o primeiro a saber quando abrirmos as pré-encomendas.</p>
+        <p class="jewelry-subscribe-confirm" id="jewelryConfirm" data-i18n="jewelry-confirm">Estás na lista — algo belo está a caminho.</p>
     </div>
 </section>
 
 <!-- ─── CONTACT ───────────────────────────────────────── -->
 <section id="contact">
-    <p class="contact-eyebrow-dark fade-up">Find Us</p>
+    <p class="contact-eyebrow-dark fade-up" data-i18n="contact-eyebrow">Encontra-nos</p>
     <div class="contact-links">
         <a href="mailto:studio@lumiatelier.com" class="contact-link fade-up delay-1">
-            <span class="contact-link-sub">Email</span>
+            <span class="contact-link-sub" data-i18n="contact-email-sub">Email</span>
             studio@lumiatelier.com
         </a>
-        <a href="https://instagram.com/lumiatelier" class="contact-link fade-up delay-2" target="_blank">
-            <span class="contact-link-sub">Instagram</span>
-            @lumiatelier
+        <a href="https://instagram.com/lumi.atelier_" class="contact-link fade-up delay-2" target="_blank">
+            <span class="contact-link-sub" data-i18n="contact-ig-sub">Instagram</span>
+            @lumi.atelier_
         </a>
     </div>
 </section>
@@ -1386,11 +1408,190 @@
 <footer>
     <a href="#home" class="footer-logo">Lumi Atelier</a>
     <div class="footer-rule"></div>
-    <p class="footer-copy">&copy; 2025 LUMI Atelier. All rights reserved.</p>
-    <a href="https://stephanytattoo.com" class="footer-personal" target="_blank">Visit Stephany's Portfolio →</a>
+    <p class="footer-copy" data-i18n="footer-copy">&copy; 2025 LUMI Atelier. Todos os direitos reservados.</p>
+    <a href="https://stephanytattoo.com" class="footer-personal" target="_blank" data-i18n="footer-personal">Visitar o Portfólio da Stephany →</a>
 </footer>
 
 <script>
+    // ─── TRANSLATIONS ─────────────────────────────────
+    const translations = {
+        pt: {
+            'nav-studio': 'Estúdio',
+            'nav-services': 'Serviços',
+            'nav-artists': 'Artistas',
+            'nav-art': 'Arte',
+            'nav-jewelry': 'Joalharia',
+            'nav-contact': 'Contacto',
+            'nav-book': 'Reservar',
+
+            'hero-eyebrow': 'Venda do Pinheiro · Estúdio de Tattoo &amp; Piercing',
+            'hero-sub': 'Atelier',
+            'hero-tagline': 'Onde a luz encontra a pele.',
+            'hero-cta': 'Explorar os serviços',
+            'hero-scroll': 'Rolar',
+
+            'studio-eyebrow': 'O Atelier',
+            'studio-statement': 'Um santuário para <em>arte permanente</em> — criado com intenção, para durar uma vida.',
+            'studio-founded-label': 'Fundado',
+            'studio-founded-value': '2025 · Venda do Pinheiro, Portugal',
+            'studio-specs-label': 'Especialidades',
+            'studio-specs-value': 'Fineline Tattoo · Piercing',
+            'studio-phil-label': 'Filosofia',
+            'studio-phil-value': 'Cada marca que fazemos é uma colaboração entre artista e pele. Trabalhamos devagar, com cuidado — criando peças que envelhecem contigo.',
+
+            'services-eyebrow': 'Serviços',
+            'services-intro-note': 'Apenas por marcação',
+            'tattoo-label': 'Fineline · Ilustração · Script',
+            'tattoo-title': 'Estúdio de<br>Tattoo',
+            'tattoo-desc': 'Arte permanente desenhada à medida — traço fino, detalhes delicados, peças que envelhecem contigo.',
+            'tattoo-artist': 'Stephany Ribeiro — Artista Residente',
+            'tattoo-cta': 'Reservar Sessão',
+            'tattoo-link': 'Ver portfólio →',
+            'piercing-label': 'Ouvido · Facial · Corpo',
+            'piercing-title': 'Estúdio de<br>Piercing',
+            'piercing-desc': 'Piercing profissional por marcação. Jóias de qualidade, cuidado meticuloso, resultados que duram.',
+            'piercing-artist': '[Nome da Artista] — Apenas por marcação',
+            'piercing-cta': 'Reservar Sessão',
+
+            'artists-eyebrow': 'A Equipa',
+            'artist-role': 'Artista de Tattoo · Fundadora do Estúdio',
+            'artist-bio': 'Especialista em tattoos fineline — traços delicados, motivos botânicos, formas abstractas e lettering lírico. Cada peça é desenhada a partir do zero para se tornar parte de ti.',
+            'artist-link': 'Ver portfólio pessoal →',
+            'career-eyebrow': 'Estamos a crescer — encontra o teu lugar aqui.',
+            'career-title': 'Junta-te ao<br>Atelier',
+            'career-body': 'O LUMI Atelier está à procura de artistas que partilhem a nossa crença em trabalho lento e intencional. Se trabalhas com fineline, ilustração ou tattoo botânica — adorávamos conhecer-te.',
+            'career-cta': 'Envia uma candidatura',
+
+            'art-eyebrow': 'Coleção de Arte',
+            'art-ed1-num': 'Edição Nº 001',
+            'art-ed1-label': 'Primeiro Drop',
+            'art-ed2-num': 'Edição Nº 002',
+            'art-ed2-label': 'Reservado',
+            'art-ed3-num': 'Edição Nº 003',
+            'art-ed3-label': 'Reservado',
+            'art-footer-title': 'Edições limitadas. Primeiro drop em breve.',
+            'art-footer-sub': 'Peças de arte originais de Stephany Ribeiro — disponíveis em série numerada.',
+            'art-notify-btn': 'Notifica-me',
+            'art-confirm': 'Estás na lista. Entraremos em contacto.',
+            'art-email-placeholder': 'O teu endereço de email',
+
+            'jewelry-eyebrow': 'Um Novo Capítulo',
+            'jewelry-sub': 'Joalharia by LUMI',
+            'jewelry-tagline': 'Arte usável, criada em séries limitadas. Uma extensão do permanente no removível.',
+            'jewelry-subscribe-btn': 'Subscrever',
+            'jewelry-fine': 'Sê o primeiro a saber quando abrirmos as pré-encomendas.',
+            'jewelry-confirm': 'Estás na lista — algo belo está a caminho.',
+            'jewelry-email-placeholder': 'O teu email',
+
+            'contact-eyebrow': 'Encontra-nos',
+            'contact-email-sub': 'Email',
+            'contact-ig-sub': 'Instagram',
+
+            'footer-copy': '© 2025 LUMI Atelier. Todos os direitos reservados.',
+            'footer-personal': 'Visitar o Portfólio da Stephany →',
+        },
+        en: {
+            'nav-studio': 'Studio',
+            'nav-services': 'Services',
+            'nav-artists': 'Artists',
+            'nav-art': 'Art',
+            'nav-jewelry': 'Jewelry',
+            'nav-contact': 'Contact',
+            'nav-book': 'Book',
+
+            'hero-eyebrow': 'Venda do Pinheiro · Tattoo &amp; Piercing Studio',
+            'hero-sub': 'Atelier',
+            'hero-tagline': 'Where light meets skin.',
+            'hero-cta': 'Explore our services',
+            'hero-scroll': 'Scroll',
+
+            'studio-eyebrow': 'The Atelier',
+            'studio-statement': 'A sanctuary for <em>permanent art</em> — crafted with intention, worn for life.',
+            'studio-founded-label': 'Founded',
+            'studio-founded-value': '2025 · Venda do Pinheiro, Portugal',
+            'studio-specs-label': 'Specialities',
+            'studio-specs-value': 'Fineline Tattoo · Piercing',
+            'studio-phil-label': 'Philosophy',
+            'studio-phil-value': 'Every mark we make is a collaboration between artist and skin. We work slowly, with care — creating pieces that age with you.',
+
+            'services-eyebrow': 'Services',
+            'services-intro-note': 'By appointment only',
+            'tattoo-label': 'Fineline · Illustration · Script',
+            'tattoo-title': 'Tattoo<br>Studio',
+            'tattoo-desc': 'Permanent art drawn to order — fine lines, delicate details, pieces that age with you.',
+            'tattoo-artist': 'Stephany Ribeiro — Resident Artist',
+            'tattoo-cta': 'Book a Session',
+            'tattoo-link': 'View portfolio →',
+            'piercing-label': 'Ear · Facial · Body',
+            'piercing-title': 'Piercing<br>Studio',
+            'piercing-desc': 'Professional piercing by appointment. Quality jewelry, meticulous care, lasting results.',
+            'piercing-artist': '[Artist Name] — By appointment only',
+            'piercing-cta': 'Book a Session',
+
+            'artists-eyebrow': 'The Team',
+            'artist-role': 'Tattoo Artist · Studio Founder',
+            'artist-bio': 'Specialist in fineline tattoos — delicate lines, botanical motifs, abstract shapes, and lyrical script. Every piece is custom-drawn to become a part of you.',
+            'artist-link': 'View personal portfolio →',
+            'career-eyebrow': "We're growing — find your home here.",
+            'career-title': 'Join the<br>Atelier',
+            'career-body': "LUMI Atelier is looking for artists who share our belief in slow, intentional craft. If you work with fineline, illustration, or botanical tattooing — we'd love to meet you.",
+            'career-cta': 'Send an enquiry',
+
+            'art-eyebrow': 'Art Collection',
+            'art-ed1-num': 'Edition No. 001',
+            'art-ed1-label': 'First Drop',
+            'art-ed2-num': 'Edition No. 002',
+            'art-ed2-label': 'Reserved',
+            'art-ed3-num': 'Edition No. 003',
+            'art-ed3-label': 'Reserved',
+            'art-footer-title': 'Limited editions. First drop coming soon.',
+            'art-footer-sub': 'Original art pieces by Stephany Ribeiro — available in numbered series.',
+            'art-notify-btn': 'Notify me',
+            'art-confirm': "You're on the list. We'll be in touch.",
+            'art-email-placeholder': 'Your email address',
+
+            'jewelry-eyebrow': 'A New Chapter',
+            'jewelry-sub': 'Jewelry by LUMI',
+            'jewelry-tagline': 'Wearable art, crafted in limited series. An extension of the permanent into the removable.',
+            'jewelry-subscribe-btn': 'Subscribe to Launch',
+            'jewelry-fine': 'Be first to know when we open pre-orders.',
+            'jewelry-confirm': "You're on the list — something beautiful is coming.",
+            'jewelry-email-placeholder': 'Enter your email',
+
+            'contact-eyebrow': 'Find Us',
+            'contact-email-sub': 'Email',
+            'contact-ig-sub': 'Instagram',
+
+            'footer-copy': '© 2025 LUMI Atelier. All rights reserved.',
+            'footer-personal': "Visit Stephany's Portfolio →",
+        }
+    };
+
+    let currentLang = 'pt';
+
+    function setLang(lang) {
+        currentLang = lang;
+        document.documentElement.lang = lang;
+
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if (translations[lang][key] !== undefined) {
+                el.innerHTML = translations[lang][key];
+            }
+        });
+
+        document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+            const key = el.getAttribute('data-i18n-placeholder');
+            if (translations[lang][key] !== undefined) {
+                el.placeholder = translations[lang][key];
+            }
+        });
+
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.lang === lang);
+        });
+    }
+
     // ─── NAV SCROLL STATE ─────────────────────────────
     const nav = document.getElementById('nav');
     window.addEventListener('scroll', () => {
