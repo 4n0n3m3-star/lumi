@@ -549,7 +549,7 @@ nav.scrolled .nav-menu-btn:hover { color: var(--warm-brown); }
 }
 .service-card {
     position: relative;
-    height: 88vh;
+    height: 100vh;
     overflow: hidden;
 }
 .service-card img {
