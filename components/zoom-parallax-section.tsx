@@ -30,7 +30,7 @@ export default function ZoomParallaxSection() {
 			alt: 'LUMI Atelier — estúdio de piercing',
 		},
 		{
-			src: '/media/DSCF4304.jpg',
+			src: '/media/parallax-studio-detail.jpg',
 			alt: 'LUMI Atelier — espaço',
 		},
 		{
@@ -38,7 +38,7 @@ export default function ZoomParallaxSection() {
 			alt: 'Fine line tattoo detail',
 		},
 		{
-			src: '/media/parallax-studio-detail.jpg',
+			src: '/media/DSCF4304.jpg',
 			alt: 'LUMI Atelier — detalhe do espaço',
 		},
 		{
