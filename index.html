@@ -92,12 +92,16 @@
         nav.scrolled .nav-links a { color: var(--text-light); }
         nav.scrolled .nav-links a:hover { color: var(--warm-brown); }
 
-        /* Language Toggle */
+        /* ─── NAV RIGHT + LANG TOGGLE ────────────────── */
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
         .lang-toggle {
             display: flex;
             align-items: center;
             gap: 5px;
-            margin-left: 28px;
         }
         .lang-btn {
             background: none;
@@ -129,23 +133,20 @@
             background: none;
             border: none;
             cursor: pointer;
-            padding: 4px;
-            flex-direction: column;
-            gap: 5px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.62rem;
+            font-weight: 400;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: rgba(253, 250, 247, 0.75);
+            padding: 0;
+            transition: color 0.3s ease;
         }
-        .nav-menu-btn span {
-            display: block;
-            width: 24px;
-            height: 1px;
-            background: var(--cream-light);
-            transition: background 0.4s ease, transform 0.3s ease, opacity 0.3s ease;
-        }
-        nav.scrolled .nav-menu-btn span { background: var(--text); }
-        .nav-menu-btn.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
-        .nav-menu-btn.open span:nth-child(2) { opacity: 0; }
-        .nav-menu-btn.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+        .nav-menu-btn:hover { color: var(--cream-light); }
+        nav.scrolled .nav-menu-btn { color: var(--text-light); }
+        nav.scrolled .nav-menu-btn:hover { color: var(--warm-brown); }
 
-        /* Mobile Menu */
+        /* ─── MOBILE MENU ─────────────────────────────── */
         .mobile-menu {
             position: fixed;
             inset: 0;
@@ -153,28 +154,86 @@
             background: var(--ink);
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 40px;
+            padding: 24px 36px 44px;
             transform: translateY(-100%);
             transition: transform 0.55s cubic-bezier(0.76, 0, 0.24, 1);
+            pointer-events: none;
         }
-        .mobile-menu.open { transform: translateY(0); }
-        .mobile-menu a {
+        .mobile-menu.open { transform: translateY(0); pointer-events: all; }
+        .mobile-menu-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: auto;
+        }
+        .mobile-menu-brand {
             font-family: 'Tenor Sans', serif;
-            font-size: clamp(1.8rem, 5vw, 2.5rem);
-            letter-spacing: 0.15em;
+            font-size: 0.95rem;
+            letter-spacing: 0.22em;
             text-transform: uppercase;
             color: var(--cream);
             text-decoration: none;
+        }
+        .mobile-menu-close {
+            font-size: 0.62rem;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: rgba(236, 217, 208, 0.4);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 400;
+            padding: 0;
             transition: color 0.3s ease;
         }
-        .mobile-menu a:hover { color: var(--warm-brown); }
+        .mobile-menu-close:hover { color: var(--cream); }
+        .mobile-menu-links {
+            list-style: none;
+            padding: 0;
+            margin: auto 0;
+        }
+        .mobile-menu-links li { overflow: hidden; }
+        .mobile-menu-links a {
+            display: block;
+            font-family: 'Tenor Sans', serif;
+            font-size: clamp(2.2rem, 10vw, 3.8rem);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--cream);
+            text-decoration: none;
+            transition: color 0.25s ease;
+            line-height: 1.25;
+        }
+        .mobile-menu-links a:hover { color: var(--warm-brown); }
+        .mobile-menu-bottom {
+            border-top: 1px solid rgba(253, 250, 247, 0.07);
+            padding-top: 28px;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+        }
+        .mobile-menu-bottom-col span {
+            display: block;
+            font-size: 0.52rem;
+            letter-spacing: 0.32em;
+            text-transform: uppercase;
+            color: rgba(167, 112, 73, 0.55);
+            margin-bottom: 10px;
+        }
+        .mobile-menu-bottom-col a {
+            display: block;
+            font-size: 0.72rem;
+            letter-spacing: 0.05em;
+            color: rgba(236, 217, 208, 0.45);
+            text-decoration: none;
+            transition: color 0.25s ease;
+        }
+        .mobile-menu-bottom-col a:hover { color: var(--cream); }
         .lang-toggle--mobile {
             display: flex;
             align-items: center;
             gap: 8px;
-            margin-top: 8px;
         }
         .lang-toggle--mobile .lang-btn {
             color: rgba(236, 217, 208, 0.3);
@@ -1120,7 +1179,8 @@
             nav { padding: 24px 32px; }
             nav.scrolled { padding: 16px 32px; }
             .nav-links { display: none; }
-            .nav-menu-btn { display: flex; }
+            .nav-menu-btn { display: block; }
+            nav .lang-toggle:not(.lang-toggle--mobile) { display: none; }
             .section { padding: 80px 32px; }
             .services-intro { padding: 60px 32px 40px; }
             .services-intro-note { display: none; }
@@ -1168,18 +1228,37 @@
 <body>
 
 <!-- ─── MOBILE MENU ──────────────────────────────────── -->
-<div class="mobile-menu" id="mobileMenu">
-    <a href="#studio" onclick="closeMenu()" data-i18n="nav-studio">Estúdio</a>
-    <a href="#services" onclick="closeMenu()" data-i18n="nav-services">Serviços</a>
-    <a href="#artists" onclick="closeMenu()" data-i18n="nav-artists">Artistas</a>
-    <a href="#art" onclick="closeMenu()" data-i18n="nav-art">Arte</a>
-    <a href="#jewelry" onclick="closeMenu()" data-i18n="nav-jewelry">Joalharia</a>
-    <a href="#contact" onclick="closeMenu()" data-i18n="nav-contact">Contacto</a>
-    <a href="book.html" style="color:var(--warm-brown);" data-i18n="nav-book">Reservar</a>
-    <div class="lang-toggle lang-toggle--mobile">
-        <button class="lang-btn active" data-lang="pt" onclick="setLang('pt')">PT</button>
-        <span class="lang-sep">|</span>
-        <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+<div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+    <div class="mobile-menu-top">
+        <a href="#home" class="mobile-menu-brand" onclick="closeMenu()">Lumi Atelier</a>
+        <button class="mobile-menu-close" onclick="closeMenu()" data-i18n="nav-close">Fechar</button>
+    </div>
+    <ul class="mobile-menu-links">
+        <li><a href="#studio" onclick="closeMenu()" data-i18n="nav-studio">Estúdio</a></li>
+        <li><a href="#services" onclick="closeMenu()" data-i18n="nav-services">Serviços</a></li>
+        <li><a href="#artists" onclick="closeMenu()" data-i18n="nav-artists">Artistas</a></li>
+        <li><a href="#art" onclick="closeMenu()" data-i18n="nav-art">Arte</a></li>
+        <li><a href="#jewelry" onclick="closeMenu()" data-i18n="nav-jewelry">Joalharia</a></li>
+        <li><a href="#contact" onclick="closeMenu()" data-i18n="nav-contact">Contacto</a></li>
+        <li><a href="book.html" style="color:var(--warm-brown);" data-i18n="nav-book">Reservar</a></li>
+    </ul>
+    <div class="mobile-menu-bottom">
+        <div class="mobile-menu-bottom-col">
+            <span data-i18n="mobile-social">Redes Sociais</span>
+            <a href="https://instagram.com/lumi.atelier_" target="_blank">@lumi.atelier_</a>
+        </div>
+        <div class="mobile-menu-bottom-col">
+            <span data-i18n="mobile-contact">Contacto</span>
+            <a href="mailto:studio@lumiatelier.com">studio@lumiatelier.com</a>
+        </div>
+        <div class="mobile-menu-bottom-col">
+            <span data-i18n="mobile-lang">Idioma</span>
+            <div class="lang-toggle lang-toggle--mobile">
+                <button class="lang-btn active" data-lang="pt" onclick="setLang('pt')">PT</button>
+                <span class="lang-sep">|</span>
+                <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -1195,14 +1274,14 @@
         <li><a href="#contact" data-i18n="nav-contact">Contacto</a></li>
         <li><a href="book.html" style="color:var(--warm-brown);" data-i18n="nav-book">Reservar</a></li>
     </ul>
-    <div class="lang-toggle">
-        <button class="lang-btn active" data-lang="pt" onclick="setLang('pt')">PT</button>
-        <span class="lang-sep">|</span>
-        <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+    <div class="nav-right">
+        <div class="lang-toggle">
+            <button class="lang-btn active" data-lang="pt" onclick="setLang('pt')">PT</button>
+            <span class="lang-sep">|</span>
+            <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+        </div>
+        <button class="nav-menu-btn" id="menuBtn" aria-label="Menu" onclick="toggleMenu()" data-i18n="nav-menu">Menu</button>
     </div>
-    <button class="nav-menu-btn" id="menuBtn" aria-label="Menu" onclick="toggleMenu()">
-        <span></span><span></span><span></span>
-    </button>
 </nav>
 
 <!-- ─── HERO ─────────────────────────────────────────── -->
@@ -1423,6 +1502,11 @@
             'nav-jewelry': 'Joalharia',
             'nav-contact': 'Contacto',
             'nav-book': 'Reservar',
+            'nav-menu': 'Menu',
+            'nav-close': 'Fechar',
+            'mobile-social': 'Redes Sociais',
+            'mobile-contact': 'Contacto',
+            'mobile-lang': 'Idioma',
 
             'hero-eyebrow': 'Venda do Pinheiro · Estúdio de Tattoo &amp; Piercing',
             'hero-sub': 'Atelier',
@@ -1498,6 +1582,11 @@
             'nav-jewelry': 'Jewelry',
             'nav-contact': 'Contact',
             'nav-book': 'Book',
+            'nav-menu': 'Menu',
+            'nav-close': 'Close',
+            'mobile-social': 'Social',
+            'mobile-contact': 'Contact',
+            'mobile-lang': 'Language',
 
             'hero-eyebrow': 'Venda do Pinheiro · Tattoo &amp; Piercing Studio',
             'hero-sub': 'Atelier',
@@ -1604,12 +1693,12 @@
 
     function toggleMenu() {
         const open = mobileMenu.classList.toggle('open');
-        menuBtn.classList.toggle('open', open);
+        mobileMenu.setAttribute('aria-hidden', open ? 'false' : 'true');
         document.body.style.overflow = open ? 'hidden' : '';
     }
     function closeMenu() {
         mobileMenu.classList.remove('open');
-        menuBtn.classList.remove('open');
+        mobileMenu.setAttribute('aria-hidden', 'true');
         document.body.style.overflow = '';
     }
 
