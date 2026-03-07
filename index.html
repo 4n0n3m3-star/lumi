@@ -16,8 +16,8 @@
             --blush:       #E6CCBD;
             --rose-taupe:  #D0B8AC;
             --taupe:       #B09080;
-            --warm-brown:  #A77049;
-            --dark-brown:  #8C6248;
+            --warm-brown:  #C4956A;
+            --dark-brown:  #A77049;
             --text:        #2C1A0E;
             --text-light:  #7A5C48;
             --ink:         #1A0E06;
@@ -494,12 +494,12 @@
 
         /* ─── SERVICES + BOOKING (MERGED) ────────────── */
         #services {
-            background: var(--ink);
+            background: var(--cream-light);
             padding: 0;
         }
         .services-intro {
             padding: 80px 72px 52px;
-            border-bottom: 1px solid rgba(253, 250, 247, 0.04);
+            border-bottom: 1px solid rgba(44, 26, 14, 0.07);
             display: flex;
             align-items: flex-end;
             justify-content: space-between;
@@ -527,7 +527,7 @@
         .services-intro-note {
             font-size: 0.7rem;
             letter-spacing: 0.08em;
-            color: rgba(236, 217, 208, 0.2);
+            color: rgba(122, 92, 72, 0.55);
             font-style: italic;
             flex-shrink: 0;
         }
@@ -537,7 +537,7 @@
             display: grid;
             grid-template-columns: 55% 45%;
             min-height: 88vh;
-            border-top: 1px solid rgba(253, 250, 247, 0.04);
+            border-top: 1px solid rgba(44, 26, 14, 0.07);
         }
         .service-panel--reverse {
             grid-template-columns: 45% 55%;
@@ -561,21 +561,21 @@
         .service-panel-img-vignette {
             position: absolute;
             inset: 0;
-            background: linear-gradient(to bottom, transparent 55%, rgba(26,14,6,0.3) 100%);
+            background: linear-gradient(to bottom, transparent 55%, rgba(253,250,247,0.25) 100%);
             pointer-events: none;
         }
         /* Side fade toward info column */
         .service-panel:not(.service-panel--reverse) .service-panel-img-vignette {
-            background: linear-gradient(to bottom, transparent 55%, rgba(26,14,6,0.3) 100%),
-                        linear-gradient(to right, transparent 75%, rgba(26,14,6,0.45) 100%);
+            background: linear-gradient(to bottom, transparent 55%, rgba(253,250,247,0.25) 100%),
+                        linear-gradient(to right, transparent 75%, rgba(253,250,247,0.35) 100%);
         }
         .service-panel--reverse .service-panel-img-vignette {
-            background: linear-gradient(to bottom, transparent 55%, rgba(26,14,6,0.3) 100%),
-                        linear-gradient(to left, transparent 75%, rgba(26,14,6,0.45) 100%);
+            background: linear-gradient(to bottom, transparent 55%, rgba(253,250,247,0.25) 100%),
+                        linear-gradient(to left, transparent 75%, rgba(253,250,247,0.35) 100%);
         }
 
         .service-panel-info {
-            background: var(--ink);
+            background: var(--cream);
             padding: 72px 64px 72px 60px;
             display: flex;
             flex-direction: column;
@@ -591,7 +591,7 @@
             position: absolute;
             font-family: 'Tenor Sans', serif;
             font-size: clamp(7rem, 14vw, 12rem);
-            color: rgba(253, 250, 247, 0.025);
+            color: rgba(44, 26, 14, 0.04);
             line-height: 1;
             pointer-events: none;
             user-select: none;
@@ -610,25 +610,25 @@
             font-family: 'Tenor Sans', serif;
             font-size: clamp(2.4rem, 4.5vw, 4rem);
             letter-spacing: 0.06em;
-            color: var(--cream);
+            color: var(--text);
             line-height: 1.05;
         }
         .service-panel-rule {
             width: 32px;
             height: 1px;
-            background: rgba(208, 184, 172, 0.22);
+            background: rgba(176, 144, 128, 0.4);
         }
         .service-panel-desc {
             font-size: 0.84rem;
             line-height: 1.82;
-            color: rgba(236, 217, 208, 0.5);
+            color: var(--text-light);
             max-width: 340px;
         }
         .service-panel-artist {
             font-size: 0.58rem;
             letter-spacing: 0.25em;
             text-transform: uppercase;
-            color: rgba(167, 112, 73, 0.48);
+            color: rgba(167, 112, 73, 0.6);
         }
         .service-panel-actions {
             display: flex;
@@ -639,22 +639,24 @@
         .service-panel-cta {
             display: inline-block;
             padding: 14px 36px;
-            border: 1px solid rgba(167, 112, 73, 0.4);
+            border: 1px solid rgba(167, 112, 73, 0.5);
             font-family: 'Montserrat', sans-serif;
             font-weight: 400;
             font-size: 0.6rem;
             letter-spacing: 0.3em;
             text-transform: uppercase;
-            color: var(--cream);
+            color: var(--warm-brown);
             text-decoration: none;
             width: fit-content;
             transition: background 0.4s cubic-bezier(0.25,0.46,0.45,0.94),
                         border-color 0.4s cubic-bezier(0.25,0.46,0.45,0.94),
+                        color 0.4s cubic-bezier(0.25,0.46,0.45,0.94),
                         transform 0.3s cubic-bezier(0.25,0.46,0.45,0.94);
         }
         .service-panel-cta:hover {
-            background: rgba(167, 112, 73, 0.16);
-            border-color: rgba(167, 112, 73, 0.75);
+            background: var(--warm-brown);
+            border-color: var(--warm-brown);
+            color: var(--cream-light);
             transform: translateY(-2px);
         }
         .service-panel-link {
@@ -664,7 +666,7 @@
             font-size: 0.58rem;
             letter-spacing: 0.26em;
             text-transform: uppercase;
-            color: rgba(236, 217, 208, 0.28);
+            color: rgba(122, 92, 72, 0.45);
             text-decoration: none;
             width: fit-content;
             padding-bottom: 2px;
@@ -677,11 +679,11 @@
             bottom: 0; left: 0;
             width: 0;
             height: 1px;
-            background: rgba(236, 217, 208, 0.28);
+            background: rgba(122, 92, 72, 0.45);
             transition: width 0.4s cubic-bezier(0.25,0.46,0.45,0.94), background 0.3s ease;
         }
-        .service-panel-link:hover { color: rgba(236, 217, 208, 0.6); }
-        .service-panel-link:hover::after { width: 100%; background: rgba(236, 217, 208, 0.6); }
+        .service-panel-link:hover { color: var(--warm-brown); }
+        .service-panel-link:hover::after { width: 100%; background: var(--warm-brown); }
 
         /* ─── ARTISTS ────────────────────────────────── */
         #artists {
@@ -946,7 +948,7 @@
 
         /* ─── JEWELRY ────────────────────────────────── */
         #jewelry {
-            background: var(--ink);
+            background: #F0E5DC;
             padding: 160px 72px;
             text-align: center;
             position: relative;
@@ -956,7 +958,7 @@
             position: absolute;
             inset: 0;
             pointer-events: none;
-            background: radial-gradient(ellipse 60% 60% at 50% 50%, rgba(167,112,73,0.08) 0%, transparent 70%);
+            background: radial-gradient(ellipse 60% 60% at 50% 50%, rgba(167,112,73,0.12) 0%, transparent 70%);
         }
         .jewelry-inner {
             position: relative;
@@ -983,7 +985,7 @@
         .jewelry-rule {
             width: 60px;
             height: 1px;
-            background: rgba(208, 184, 172, 0.2);
+            background: rgba(176, 144, 128, 0.45);
         }
         .jewelry-dot {
             width: 4px;
@@ -995,7 +997,7 @@
             font-family: 'Tenor Sans', serif;
             font-size: clamp(3.5rem, 9vw, 8.5rem);
             letter-spacing: 0.1em;
-            color: var(--cream);
+            color: var(--text);
             line-height: 1;
             margin-bottom: 24px;
         }
@@ -1005,7 +1007,7 @@
             font-size: clamp(0.7rem, 1.4vw, 0.85rem);
             letter-spacing: 0.3em;
             text-transform: uppercase;
-            color: rgba(236, 217, 208, 0.4);
+            color: rgba(122, 92, 72, 0.6);
             margin-bottom: 48px;
         }
         .jewelry-tagline {
@@ -1013,7 +1015,7 @@
             font-weight: 300;
             font-size: clamp(0.85rem, 1.8vw, 1.05rem);
             letter-spacing: 0.06em;
-            color: rgba(236, 217, 208, 0.55);
+            color: var(--text-light);
             font-style: italic;
             margin-bottom: 56px;
             max-width: 480px;
@@ -1027,18 +1029,18 @@
         .jewelry-subscribe input {
             flex: 1;
             padding: 14px 22px;
-            background: rgba(253, 250, 247, 0.04);
-            border: 1px solid rgba(208, 184, 172, 0.2);
+            background: rgba(253, 250, 247, 0.6);
+            border: 1px solid rgba(176, 144, 128, 0.4);
             border-right: none;
             font-family: 'Montserrat', sans-serif;
             font-size: 0.75rem;
             letter-spacing: 0.06em;
-            color: var(--cream);
+            color: var(--text);
             outline: none;
             transition: border-color 0.3s ease;
         }
-        .jewelry-subscribe input:focus { border-color: rgba(167,112,73,0.5); }
-        .jewelry-subscribe input::placeholder { color: rgba(236,217,208,0.25); }
+        .jewelry-subscribe input:focus { border-color: rgba(167,112,73,0.6); }
+        .jewelry-subscribe input::placeholder { color: rgba(122, 92, 72, 0.4); }
         .jewelry-subscribe button {
             padding: 14px 30px;
             background: transparent;
@@ -1048,21 +1050,22 @@
             font-size: 0.6rem;
             letter-spacing: 0.24em;
             text-transform: uppercase;
-            color: var(--cream);
+            color: var(--warm-brown);
             cursor: pointer;
             white-space: nowrap;
-            transition: background 0.4s ease, border-color 0.4s ease, transform 0.3s ease;
+            transition: background 0.4s ease, border-color 0.4s ease, color 0.4s ease, transform 0.3s ease;
         }
         .jewelry-subscribe button:hover {
-            background: rgba(167, 112, 73, 0.2);
-            border-color: rgba(167, 112, 73, 0.8);
+            background: var(--warm-brown);
+            border-color: var(--warm-brown);
+            color: var(--cream-light);
             transform: translateY(-1px);
         }
         .jewelry-fine {
             margin-top: 20px;
             font-size: 0.65rem;
             letter-spacing: 0.1em;
-            color: rgba(236, 217, 208, 0.25);
+            color: rgba(122, 92, 72, 0.45);
         }
         .jewelry-subscribe-confirm {
             display: none;
@@ -1075,7 +1078,7 @@
 
         /* ─── CONTACT ────────────────────────────────── */
         #contact {
-            background: var(--ink);
+            background: var(--cream-light);
             padding: 120px 72px;
         }
         .contact-eyebrow-dark {
@@ -1101,7 +1104,7 @@
         .contact-rule {
             width: 100%;
             height: 1px;
-            background: rgba(253, 250, 247, 0.07);
+            background: rgba(44, 26, 14, 0.08);
             margin: 0;
         }
         .contact-links {
@@ -1114,14 +1117,14 @@
             font-family: 'Tenor Sans', serif;
             font-size: clamp(2rem, 5vw, 4.5rem);
             letter-spacing: 0.04em;
-            color: var(--cream);
+            color: var(--text);
             text-decoration: none;
             padding: 40px 0;
-            border-bottom: 1px solid rgba(253, 250, 247, 0.07);
+            border-bottom: 1px solid rgba(44, 26, 14, 0.08);
             position: relative;
             transition: color 0.4s ease, padding-left 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
         }
-        .contact-link:first-child { border-top: 1px solid rgba(253, 250, 247, 0.07); }
+        .contact-link:first-child { border-top: 1px solid rgba(44, 26, 14, 0.08); }
         .contact-link:hover {
             color: var(--warm-brown);
             padding-left: 20px;
@@ -1133,7 +1136,7 @@
             font-size: 0.6rem;
             letter-spacing: 0.3em;
             text-transform: uppercase;
-            color: rgba(236, 217, 208, 0.35);
+            color: rgba(122, 92, 72, 0.5);
             margin-bottom: 6px;
         }
 
@@ -1206,13 +1209,17 @@
         @media (max-width: 600px) {
             nav { padding: 20px 24px; }
             nav.scrolled { padding: 14px 24px; }
+            .hero-eyebrow { font-size: 0.48rem; letter-spacing: 0.18em; }
             .hero-name { font-size: clamp(5rem, 22vw, 8rem); }
             .section { padding: 64px 24px; }
+            .studio-statement { font-size: clamp(1.55rem, 5.5vw, 2rem); }
             .services-intro { padding: 48px 24px 32px; }
             .service-panel-info { padding: 40px 24px 48px; }
             .service-panel--reverse .service-panel-info { padding: 40px 24px 48px; }
             #jewelry { padding: 80px 24px; }
+            .jewelry-brand { font-size: clamp(2.4rem, 13vw, 4rem); }
             #contact { padding: 64px 24px; }
+            .contact-link { font-size: clamp(0.95rem, 4.2vw, 1.5rem); padding: 20px 0; word-break: break-all; }
             footer { padding: 40px 24px 36px; }
             .hero-scroll { display: none; }
             .art-grid { grid-template-columns: 1fr; }
@@ -1221,7 +1228,6 @@
             .jewelry-subscribe input,
             .art-subscribe input { border-right: 1px solid rgba(208,184,172,0.2); border-bottom: none; }
             .art-subscribe input { border-right: 1px solid var(--blush); }
-            .contact-link { font-size: clamp(1.6rem, 8vw, 2.5rem); padding: 28px 0; }
         }
     </style>
 </head>
