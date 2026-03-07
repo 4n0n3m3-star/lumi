@@ -855,7 +855,8 @@ footer {
 @media (max-width: 600px) {
     nav { padding: 20px 24px; }
     nav.scrolled { padding: 14px 24px; }
-    .hero-eyebrow { font-size: 0.5rem; letter-spacing: 0.16em; }
+    .hero-eyebrow { font-size: 0.42rem; letter-spacing: 0.12em; }
+    .hero-cta { font-size: 0.56rem; padding: 12px 28px; letter-spacing: 0.22em; }
     .hero-name { font-size: clamp(4.2rem, 20vw, 7rem); }
     .section { padding: 64px 24px; }
     .studio-statement { font-size: clamp(1.7rem, 5.8vw, 2.2rem); }
