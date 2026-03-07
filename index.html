@@ -1,0 +1,1451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUMI Atelier — Tattoo & Piercing Studio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tenor+Sans&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --cream-light: #FDFAF7;
+            --cream:       #ECD9D0;
+            --blush:       #E6CCBD;
+            --rose-taupe:  #D0B8AC;
+            --taupe:       #B09080;
+            --warm-brown:  #A77049;
+            --dark-brown:  #8C6248;
+            --text:        #2C1A0E;
+            --text-light:  #7A5C48;
+            --ink:         #1A0E06;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--cream-light);
+            color: var(--text);
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 300;
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* ─── GRAIN OVERLAY ──────────────────────────── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            pointer-events: none;
+            opacity: 0.025;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            background-repeat: repeat;
+            background-size: 128px 128px;
+        }
+
+        /* ─── NAV ─────────────────────────────────────── */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            padding: 32px 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: background 0.5s ease, padding 0.4s ease, border-color 0.5s ease;
+        }
+        nav.scrolled {
+            background: rgba(253, 250, 247, 0.92);
+            backdrop-filter: blur(12px);
+            padding: 18px 64px;
+            border-bottom: 1px solid var(--blush);
+        }
+        .nav-logo {
+            font-family: 'Tenor Sans', serif;
+            font-size: 0.95rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--cream-light);
+            text-decoration: none;
+            transition: color 0.4s ease;
+        }
+        nav.scrolled .nav-logo { color: var(--warm-brown); }
+        .nav-links {
+            display: flex;
+            gap: 44px;
+            list-style: none;
+            align-items: center;
+        }
+        .nav-links a {
+            font-size: 0.7rem;
+            letter-spacing: 0.24em;
+            text-transform: uppercase;
+            color: rgba(253, 250, 247, 0.75);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .nav-links a:hover { color: var(--cream-light); }
+        nav.scrolled .nav-links a { color: var(--text-light); }
+        nav.scrolled .nav-links a:hover { color: var(--warm-brown); }
+        .nav-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .nav-menu-btn span {
+            display: block;
+            width: 24px;
+            height: 1px;
+            background: var(--cream-light);
+            transition: background 0.4s ease, transform 0.3s ease, opacity 0.3s ease;
+        }
+        nav.scrolled .nav-menu-btn span { background: var(--text); }
+        .nav-menu-btn.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+        .nav-menu-btn.open span:nth-child(2) { opacity: 0; }
+        .nav-menu-btn.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            position: fixed;
+            inset: 0;
+            z-index: 99;
+            background: var(--ink);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+            transform: translateY(-100%);
+            transition: transform 0.55s cubic-bezier(0.76, 0, 0.24, 1);
+        }
+        .mobile-menu.open { transform: translateY(0); }
+        .mobile-menu a {
+            font-family: 'Tenor Sans', serif;
+            font-size: clamp(1.8rem, 5vw, 2.5rem);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--cream);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .mobile-menu a:hover { color: var(--warm-brown); }
+
+        /* ─── HERO ────────────────────────────────────── */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: var(--ink);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-glow {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background: radial-gradient(ellipse 70% 50% at 50% 55%, rgba(167,112,73,0.14) 0%, transparent 70%);
+            animation: glowPulse 6s ease-in-out infinite;
+        }
+        @keyframes glowPulse {
+            0%, 100% { opacity: 0.7; transform: scale(1); }
+            50%       { opacity: 1;   transform: scale(1.06); }
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+        }
+        .hero-eyebrow {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 200;
+            font-size: clamp(0.6rem, 1.2vw, 0.75rem);
+            letter-spacing: 0.48em;
+            text-transform: uppercase;
+            color: rgba(236, 217, 208, 0.45);
+            margin-bottom: 36px;
+        }
+        .hero-name {
+            font-family: 'Tenor Sans', serif;
+            font-size: clamp(7rem, 19vw, 17rem);
+            letter-spacing: 0.06em;
+            line-height: 0.9;
+            color: var(--cream);
+            position: relative;
+        }
+        .hero-rule {
+            width: 72px;
+            height: 1px;
+            background: rgba(208, 184, 172, 0.35);
+            margin: 28px auto;
+        }
+        .hero-sub {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 200;
+            font-size: clamp(0.65rem, 1.4vw, 0.8rem);
+            letter-spacing: 0.5em;
+            text-transform: uppercase;
+            color: rgba(236, 217, 208, 0.5);
+        }
+        .hero-tagline {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 300;
+            font-size: clamp(0.8rem, 1.6vw, 1rem);
+            letter-spacing: 0.12em;
+            color: rgba(236, 217, 208, 0.65);
+            margin-top: 48px;
+            font-style: italic;
+        }
+        .hero-cta {
+            margin-top: 52px;
+            display: inline-block;
+            padding: 14px 40px;
+            border: 1px solid rgba(167, 112, 73, 0.5);
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 400;
+            font-size: 0.65rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--cream);
+            text-decoration: none;
+            transition: background 0.4s cubic-bezier(0.25,0.46,0.45,0.94),
+                        border-color 0.4s cubic-bezier(0.25,0.46,0.45,0.94),
+                        transform 0.3s cubic-bezier(0.25,0.46,0.45,0.94);
+        }
+        .hero-cta:hover {
+            background: rgba(167, 112, 73, 0.18);
+            border-color: rgba(167, 112, 73, 0.8);
+            transform: translateY(-2px);
+        }
+        .hero-scroll {
+            position: absolute;
+            bottom: 48px;
+            right: 72px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            z-index: 2;
+        }
+        .hero-scroll-label {
+            font-size: 0.6rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: rgba(236, 217, 208, 0.35);
+            writing-mode: vertical-rl;
+        }
+        .hero-scroll-line {
+            width: 1px;
+            height: 44px;
+            background: linear-gradient(to bottom, rgba(208,184,172,0.5), transparent);
+            animation: scrollPulse 2.2s ease-in-out infinite;
+        }
+        @keyframes scrollPulse {
+            0%, 100% { opacity: 0.3; transform: scaleY(1); }
+            50%       { opacity: 1;   transform: scaleY(1.15); }
+        }
+
+        /* ─── SECTION SHARED ─────────────────────────── */
+        .section {
+            padding: 120px 72px;
+            position: relative;
+        }
+        .section-eyebrow {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 400;
+            font-size: 0.65rem;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .section-eyebrow::before {
+            content: '';
+            display: block;
+            width: 36px;
+            height: 1px;
+            background: var(--rose-taupe);
+            flex-shrink: 0;
+        }
+        .section-num {
+            position: absolute;
+            font-family: 'Tenor Sans', serif;
+            font-size: clamp(8rem, 18vw, 16rem);
+            color: rgba(44, 26, 14, 0.04);
+            line-height: 1;
+            pointer-events: none;
+            user-select: none;
+            top: 40px;
+            right: 60px;
+            letter-spacing: -0.04em;
+        }
+
+        /* fade-up animation */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .fade-up.delay-1 { transition-delay: 0.12s; }
+        .fade-up.delay-2 { transition-delay: 0.24s; }
+        .fade-up.delay-3 { transition-delay: 0.36s; }
+        .fade-up.delay-4 { transition-delay: 0.48s; }
+
+        /* ─── PARALLAX DIVIDER ──────────────────────── */
+        .parallax-divider {
+            height: 56vh;
+            position: relative;
+            overflow: hidden;
+        }
+        .parallax-divider-bg {
+            position: absolute;
+            inset: -25% 0;
+            background-image: url('media/DSCF4304.jpg');
+            background-size: cover;
+            background-position: center 57%;
+            will-change: transform;
+        }
+        .parallax-divider-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                to bottom,
+                rgba(26,14,6,0.18) 0%,
+                rgba(26,14,6,0.08) 50%,
+                rgba(26,14,6,0.22) 100%
+            );
+        }
+
+        /* ─── STUDIO ABOUT ──────────────────────────── */
+        #studio {
+            background: var(--cream-light);
+        }
+        .studio-inner {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+            margin-top: 56px;
+            align-items: start;
+        }
+        .studio-statement {
+            font-family: 'Tenor Sans', serif;
+            font-size: clamp(2rem, 4vw, 3.2rem);
+            line-height: 1.25;
+            letter-spacing: -0.01em;
+            color: var(--text);
+        }
+        .studio-statement em {
+            font-style: italic;
+            color: var(--warm-brown);
+        }
+        .studio-details {
+            display: flex;
+            flex-direction: column;
+            gap: 36px;
+            padding-top: 8px;
+        }
+        .studio-detail-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            padding-bottom: 36px;
+            border-bottom: 1px solid var(--blush);
+        }
+        .studio-detail-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        .studio-detail-label {
+            font-size: 0.62rem;
+            letter-spacing: 0.26em;
+            text-transform: uppercase;
+            color: var(--taupe);
+        }
+        .studio-detail-value {
+            font-family: 'Tenor Sans', serif;
+            font-size: 1.1rem;
+            letter-spacing: 0.04em;
+            color: var(--text);
+        }
+
+        /* ─── SERVICES ──────────────────────────────── */
+        #services {
+            background: var(--cream);
+            padding: 120px 0;
+        }
+        .services-header {
+            padding: 0 72px;
+            margin-bottom: 56px;
+        }
+        .services-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3px;
+        }
+        .service-card {
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: 3/4;
+            cursor: pointer;
+        }
+        .service-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 25%;
+            display: block;
+            transition: transform 0.8s cubic-bezier(0.25,0.46,0.45,0.94);
+        }
+        .service-card:hover img { transform: scale(1.04); }
+        .service-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(26, 14, 6, 0);
+            transition: background 0.45s cubic-bezier(0.25,0.46,0.45,0.94);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 48px 44px;
+        }
+        .service-card:hover .service-overlay {
+            background: rgba(26, 14, 6, 0.55);
+        }
+        .service-label {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 200;
+            font-size: 0.6rem;
+            letter-spacing: 0.38em;
+            text-transform: uppercase;
+            color: rgba(236, 217, 208, 0.7);
+            margin-bottom: 12px;
+            transition: opacity 0.4s ease;
+        }
+        .service-title {
+            font-family: 'Tenor Sans', serif;
+            font-size: clamp(1.6rem, 3vw, 2.4rem);
+            letter-spacing: 0.06em;
+            color: var(--cream-light);
+            line-height: 1.15;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 20px rgba(26,14,6,0.5);
+        }
+        .service-artist {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 300;
+            font-size: 0.75rem;
+            letter-spacing: 0.12em;
+            color: rgba(236, 217, 208, 0.7);
+            margin-bottom: 24px;
+        }
+        .service-cta {
+            display: inline-block;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 400;
+            font-size: 0.6rem;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: var(--cream);
+            text-decoration: none;
+            padding-bottom: 4px;
+            border-bottom: 1px solid rgba(236,217,208,0.4);
+            opacity: 0;
+            transform: translateY(8px);
+            transition: opacity 0.4s ease, transform 0.4s ease, border-color 0.3s ease;
+            width: fit-content;
+        }
+        .service-card:hover .service-cta {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .service-cta:hover { border-color: rgba(236,217,208,0.9); }
+        /* Always-visible state for the solid cream bg on card bottom */
+        .service-card-foot {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            padding: 32px 44px 36px;
+            background: linear-gradient(to top, rgba(26,14,6,0.95) 0%, rgba(26,14,6,0.7) 50%, transparent 100%);
+        }
+
+        /* ─── ARTISTS ────────────────────────────────── */
+        #artists {
+            background: var(--cream-light);
+        }
+        .artists-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            margin-top: 56px;
+        }
+        .artist-card {
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .artist-card-img {
+            width: 100%;
+            aspect-ratio: 4/5;
+            object-fit: cover;
+            display: block;
+            position: relative;
+        }
+        .artist-card-img-wrap {
+            position: relative;
+            overflow: hidden;
+        }
+        .artist-card-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.8s cubic-bezier(0.25,0.46,0.45,0.94);
+        }
+        .artist-card:hover .artist-card-img-wrap img { transform: scale(1.03); }
+        .artist-card-body {
+            padding: 28px 0 0;
+        }
+        .artist-role {
+            font-size: 0.62rem;
+            letter-spacing: 0.26em;
+            text-transform: uppercase;
+            color: var(--taupe);
+            margin-bottom: 8px;
+        }
+        .artist-name {
+            font-family: 'Tenor Sans', serif;
+            font-size: clamp(1.4rem, 2.5vw, 1.9rem);
+            letter-spacing: 0.04em;
+            color: var(--text);
+            margin-bottom: 12px;
+        }
+        .artist-bio {
+            font-size: 0.85rem;
+            line-height: 1.75;
+            color: var(--text-light);
+            margin-bottom: 20px;
+        }
+        .artist-link {
+            font-size: 0.62rem;
+            letter-spacing: 0.24em;
+            text-transform: uppercase;
+            color: var(--warm-brown);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+            padding-bottom: 2px;
+        }
+        .artist-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--warm-brown);
+            transition: width 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+        }
+        .artist-link:hover::after { width: 100%; }
+
+        /* Career card */
+        .career-card {
+            border: 1px dashed var(--rose-taupe);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 56px 48px;
+            gap: 20px;
+            min-height: 480px;
+            transition: border-color 0.4s ease, background 0.4s ease;
+        }
+        .career-card:hover {
+            border-color: var(--warm-brown);
+            background: rgba(167,112,73,0.03);
+        }
+        .career-eyebrow {
+            font-size: 0.6rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--taupe);
+        }
+        .career-title {
+            font-family: 'Tenor Sans', serif;
+            font-size: clamp(1.6rem, 2.8vw, 2.2rem);
+            letter-spacing: 0.03em;
+            color: var(--text);
+            line-height: 1.2;
+        }
+        .career-body {
+            font-size: 0.85rem;
+            line-height: 1.75;
+            color: var(--text-light);
+            max-width: 340px;
+        }
+        .career-cta {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 13px 36px;
+            border: 1px solid var(--rose-taupe);
+            font-size: 0.6rem;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: var(--text);
+            text-decoration: none;
+            transition: background 0.4s cubic-bezier(0.25,0.46,0.45,0.94),
+                        border-color 0.4s cubic-bezier(0.25,0.46,0.45,0.94),
+                        color 0.4s cubic-bezier(0.25,0.46,0.45,0.94),
+                        transform 0.3s cubic-bezier(0.25,0.46,0.45,0.94);
+        }
+        .career-cta:hover {
+            background: var(--warm-brown);
+            border-color: var(--warm-brown);
+            color: var(--cream-light);
+            transform: translateY(-2px);
+        }
+
+        /* ─── ART COLLECTION ────────────────────────── */
+        #art {
+            background: linear-gradient(180deg, #F3E8DF 0%, var(--cream-light) 100%);
+        }
+        .art-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3px;
+            margin-top: 56px;
+        }
+        .art-slot {
+            position: relative;
+            aspect-ratio: 3/4;
+            overflow: hidden;
+        }
+        .art-slot img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            filter: blur(10px) brightness(0.75) saturate(0.6);
+            transform: scale(1.08);
+        }
+        .art-glass {
+            position: absolute;
+            inset: 0;
+            backdrop-filter: blur(4px);
+            background: rgba(253, 250, 247, 0.08);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+        .art-glass-label {
+            font-family: 'Tenor Sans', serif;
+            font-size: clamp(0.9rem, 2vw, 1.3rem);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: rgba(236, 217, 208, 0.6);
+        }
+        .art-glass-num {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 200;
+            font-size: 0.55rem;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: rgba(236, 217, 208, 0.35);
+        }
+        .art-glass-dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: rgba(167, 112, 73, 0.5);
+        }
+        .art-footer {
+            margin-top: 64px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            text-align: center;
+        }
+        .art-footer-title {
+            font-family: 'Tenor Sans', serif;
+            font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+            letter-spacing: 0.04em;
+            color: var(--text);
+        }
+        .art-footer-sub {
+            font-size: 0.8rem;
+            letter-spacing: 0.08em;
+            color: var(--text-light);
+            font-style: italic;
+        }
+        .art-subscribe {
+            display: flex;
+            gap: 0;
+            margin-top: 20px;
+            max-width: 420px;
+            width: 100%;
+        }
+        .art-subscribe input {
+            flex: 1;
+            padding: 13px 20px;
+            border: 1px solid var(--blush);
+            border-right: none;
+            background: var(--cream-light);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.75rem;
+            letter-spacing: 0.06em;
+            color: var(--text);
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+        .art-subscribe input:focus { border-color: var(--rose-taupe); }
+        .art-subscribe input::placeholder { color: var(--taupe); }
+        .art-subscribe button {
+            padding: 13px 28px;
+            background: var(--text);
+            border: 1px solid var(--text);
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 400;
+            font-size: 0.6rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--cream-light);
+            cursor: pointer;
+            transition: background 0.4s ease, transform 0.3s ease;
+            white-space: nowrap;
+        }
+        .art-subscribe button:hover {
+            background: var(--warm-brown);
+            border-color: var(--warm-brown);
+            transform: translateY(-1px);
+        }
+        .art-subscribe-confirm {
+            display: none;
+            font-size: 0.75rem;
+            letter-spacing: 0.08em;
+            color: var(--warm-brown);
+            font-style: italic;
+        }
+
+        /* ─── JEWELRY ────────────────────────────────── */
+        #jewelry {
+            background: var(--ink);
+            padding: 160px 72px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .jewelry-glow {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background: radial-gradient(ellipse 60% 60% at 50% 50%, rgba(167,112,73,0.08) 0%, transparent 70%);
+        }
+        .jewelry-inner {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .jewelry-eyebrow {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 200;
+            font-size: 0.6rem;
+            letter-spacing: 0.5em;
+            text-transform: uppercase;
+            color: rgba(167, 112, 73, 0.7);
+            margin-bottom: 44px;
+        }
+        .jewelry-rule-pair {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 28px;
+        }
+        .jewelry-rule {
+            width: 60px;
+            height: 1px;
+            background: rgba(208, 184, 172, 0.2);
+        }
+        .jewelry-dot {
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: rgba(167, 112, 73, 0.5);
+        }
+        .jewelry-brand {
+            font-family: 'Tenor Sans', serif;
+            font-size: clamp(3.5rem, 9vw, 8.5rem);
+            letter-spacing: 0.1em;
+            color: var(--cream);
+            line-height: 1;
+            margin-bottom: 24px;
+        }
+        .jewelry-sub {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 200;
+            font-size: clamp(0.7rem, 1.4vw, 0.85rem);
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: rgba(236, 217, 208, 0.4);
+            margin-bottom: 48px;
+        }
+        .jewelry-tagline {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 300;
+            font-size: clamp(0.85rem, 1.8vw, 1.05rem);
+            letter-spacing: 0.06em;
+            color: rgba(236, 217, 208, 0.55);
+            font-style: italic;
+            margin-bottom: 56px;
+            max-width: 480px;
+        }
+        .jewelry-subscribe {
+            display: flex;
+            gap: 0;
+            max-width: 440px;
+            width: 100%;
+        }
+        .jewelry-subscribe input {
+            flex: 1;
+            padding: 14px 22px;
+            background: rgba(253, 250, 247, 0.04);
+            border: 1px solid rgba(208, 184, 172, 0.2);
+            border-right: none;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.75rem;
+            letter-spacing: 0.06em;
+            color: var(--cream);
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+        .jewelry-subscribe input:focus { border-color: rgba(167,112,73,0.5); }
+        .jewelry-subscribe input::placeholder { color: rgba(236,217,208,0.25); }
+        .jewelry-subscribe button {
+            padding: 14px 30px;
+            background: transparent;
+            border: 1px solid rgba(167, 112, 73, 0.5);
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 400;
+            font-size: 0.6rem;
+            letter-spacing: 0.24em;
+            text-transform: uppercase;
+            color: var(--cream);
+            cursor: pointer;
+            white-space: nowrap;
+            transition: background 0.4s ease, border-color 0.4s ease, transform 0.3s ease;
+        }
+        .jewelry-subscribe button:hover {
+            background: rgba(167, 112, 73, 0.2);
+            border-color: rgba(167, 112, 73, 0.8);
+            transform: translateY(-1px);
+        }
+        .jewelry-fine {
+            margin-top: 20px;
+            font-size: 0.65rem;
+            letter-spacing: 0.1em;
+            color: rgba(236, 217, 208, 0.25);
+        }
+        .jewelry-subscribe-confirm {
+            display: none;
+            font-size: 0.75rem;
+            letter-spacing: 0.08em;
+            color: rgba(167, 112, 73, 0.8);
+            font-style: italic;
+            margin-top: 20px;
+        }
+
+        /* ─── CONTACT ────────────────────────────────── */
+        #contact {
+            background: var(--ink);
+            padding: 120px 72px;
+        }
+        .contact-eyebrow-dark {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 200;
+            font-size: 0.6rem;
+            letter-spacing: 0.38em;
+            text-transform: uppercase;
+            color: rgba(167, 112, 73, 0.6);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 72px;
+        }
+        .contact-eyebrow-dark::before {
+            content: '';
+            display: block;
+            width: 36px;
+            height: 1px;
+            background: rgba(167,112,73,0.3);
+            flex-shrink: 0;
+        }
+        .contact-rule {
+            width: 100%;
+            height: 1px;
+            background: rgba(253, 250, 247, 0.07);
+            margin: 0;
+        }
+        .contact-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+        .contact-link {
+            display: block;
+            font-family: 'Tenor Sans', serif;
+            font-size: clamp(2rem, 5vw, 4.5rem);
+            letter-spacing: 0.04em;
+            color: var(--cream);
+            text-decoration: none;
+            padding: 40px 0;
+            border-bottom: 1px solid rgba(253, 250, 247, 0.07);
+            position: relative;
+            transition: color 0.4s ease, padding-left 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+        }
+        .contact-link:first-child { border-top: 1px solid rgba(253, 250, 247, 0.07); }
+        .contact-link:hover {
+            color: var(--warm-brown);
+            padding-left: 20px;
+        }
+        .contact-link-sub {
+            display: block;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 200;
+            font-size: 0.6rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: rgba(236, 217, 208, 0.35);
+            margin-bottom: 6px;
+        }
+
+        /* ─── FOOTER ────────────────────────────────── */
+        footer {
+            background: #130a03;
+            padding: 56px 72px 48px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            border-top: 1px solid rgba(44, 26, 14, 0.5);
+        }
+        .footer-logo {
+            font-family: 'Tenor Sans', serif;
+            font-size: 1rem;
+            letter-spacing: 0.24em;
+            text-transform: uppercase;
+            color: rgba(236, 217, 208, 0.5);
+            text-decoration: none;
+        }
+        .footer-rule {
+            width: 36px;
+            height: 1px;
+            background: rgba(208, 184, 172, 0.15);
+        }
+        .footer-copy {
+            font-size: 0.65rem;
+            letter-spacing: 0.12em;
+            color: rgba(236, 217, 208, 0.2);
+        }
+        .footer-personal {
+            font-size: 0.65rem;
+            letter-spacing: 0.1em;
+            color: rgba(167, 112, 73, 0.5);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .footer-personal:hover { color: rgba(167, 112, 73, 0.85); }
+
+        /* ─── BOOKING CTA ────────────────────────────── */
+        #book {
+            background: var(--ink);
+            padding: 120px 72px;
+            position: relative;
+            overflow: hidden;
+        }
+        .book-glow {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background: radial-gradient(ellipse 55% 55% at 50% 50%, rgba(167,112,73,0.07) 0%, transparent 70%);
+        }
+        .book-inner {
+            position: relative;
+            z-index: 2;
+        }
+        .book-eyebrow {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 200;
+            font-size: 0.6rem;
+            letter-spacing: 0.5em;
+            text-transform: uppercase;
+            color: rgba(167, 112, 73, 0.65);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 52px;
+        }
+        .book-eyebrow::before {
+            content: '';
+            display: block;
+            width: 36px;
+            height: 1px;
+            background: rgba(167,112,73,0.3);
+            flex-shrink: 0;
+        }
+        .book-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3px;
+        }
+        .book-card {
+            position: relative;
+            background: rgba(253,250,247,0.03);
+            border: 1px solid rgba(208,184,172,0.1);
+            padding: 56px 52px 52px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            transition: border-color 0.4s ease, background 0.4s ease;
+            text-decoration: none;
+        }
+        .book-card:hover {
+            border-color: rgba(167,112,73,0.35);
+            background: rgba(167,112,73,0.04);
+        }
+        .book-card-num {
+            font-family: 'Tenor Sans', serif;
+            font-size: clamp(5rem, 10vw, 8rem);
+            letter-spacing: -0.04em;
+            color: rgba(253,250,247,0.04);
+            line-height: 1;
+            position: absolute;
+            top: 28px;
+            right: 40px;
+            pointer-events: none;
+            user-select: none;
+        }
+        .book-card-eyebrow {
+            font-size: 0.55rem;
+            letter-spacing: 0.4em;
+            text-transform: uppercase;
+            color: rgba(167, 112, 73, 0.55);
+        }
+        .book-card-title {
+            font-family: 'Tenor Sans', serif;
+            font-size: clamp(2rem, 4vw, 3.2rem);
+            letter-spacing: 0.06em;
+            color: var(--cream);
+            line-height: 1.1;
+        }
+        .book-card-desc {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 300;
+            font-size: 0.82rem;
+            line-height: 1.75;
+            color: rgba(236, 217, 208, 0.5);
+            max-width: 320px;
+        }
+        .book-card-artist {
+            font-size: 0.6rem;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: rgba(167, 112, 73, 0.5);
+            margin-top: 4px;
+        }
+        .book-card-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.62rem;
+            letter-spacing: 0.26em;
+            text-transform: uppercase;
+            color: var(--cream);
+            margin-top: 12px;
+            padding-bottom: 3px;
+            border-bottom: 1px solid rgba(236,217,208,0.2);
+            width: fit-content;
+            transition: border-color 0.3s ease, color 0.3s ease;
+        }
+        .book-card:hover .book-card-cta {
+            color: var(--warm-brown);
+            border-color: rgba(167,112,73,0.5);
+        }
+
+        /* ─── RESPONSIVE ────────────────────────────── */
+        @media (max-width: 900px) {
+            nav { padding: 24px 32px; }
+            nav.scrolled { padding: 16px 32px; }
+            .nav-links { display: none; }
+            .nav-menu-btn { display: flex; }
+            .section { padding: 80px 32px; }
+            #services { padding: 80px 0; }
+            .services-header { padding: 0 32px; }
+            #jewelry { padding: 100px 32px; }
+            #contact { padding: 80px 32px; }
+            footer { padding: 48px 32px 40px; }
+            .hero-scroll { right: 32px; }
+            .studio-inner { grid-template-columns: 1fr; gap: 48px; }
+            .artists-grid { grid-template-columns: 1fr; gap: 24px; }
+            .art-grid { grid-template-columns: 1fr 1fr; }
+            .career-card { min-height: auto; padding: 48px 36px; }
+            #book { padding: 80px 32px; }
+            .book-cards { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 600px) {
+            nav { padding: 20px 24px; }
+            nav.scrolled { padding: 14px 24px; }
+            .hero-name { font-size: clamp(5rem, 22vw, 8rem); }
+            .section { padding: 64px 24px; }
+            #services { padding: 64px 0; }
+            .services-header { padding: 0 24px; }
+            .services-grid { grid-template-columns: 1fr; }
+            #jewelry { padding: 80px 24px; }
+            #contact { padding: 64px 24px; }
+            footer { padding: 40px 24px 36px; }
+            .hero-scroll { display: none; }
+            .art-grid { grid-template-columns: 1fr; }
+            .jewelry-subscribe,
+            .art-subscribe { flex-direction: column; }
+            .jewelry-subscribe input,
+            .art-subscribe input { border-right: 1px solid rgba(208,184,172,0.2); border-bottom: none; }
+            .art-subscribe input { border-right: 1px solid var(--blush); }
+            .contact-link { font-size: clamp(1.6rem, 8vw, 2.5rem); padding: 28px 0; }
+            #book { padding: 64px 24px; }
+            .book-card { padding: 40px 32px 36px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ─── MOBILE MENU ──────────────────────────────────── -->
+<div class="mobile-menu" id="mobileMenu">
+    <a href="#studio" onclick="closeMenu()">Studio</a>
+    <a href="#services" onclick="closeMenu()">Services</a>
+    <a href="#artists" onclick="closeMenu()">Artists</a>
+    <a href="#art" onclick="closeMenu()">Art</a>
+    <a href="#jewelry" onclick="closeMenu()">Jewelry</a>
+    <a href="#contact" onclick="closeMenu()">Contact</a>
+    <a href="book.html" style="color:var(--warm-brown);">Book</a>
+</div>
+
+<!-- ─── NAV ─────────────────────────────────────────── -->
+<nav id="nav">
+    <a href="#home" class="nav-logo">Lumi Atelier</a>
+    <ul class="nav-links">
+        <li><a href="#studio">Studio</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#artists">Artists</a></li>
+        <li><a href="#art">Art</a></li>
+        <li><a href="#jewelry">Jewelry</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="book.html" style="color:var(--warm-brown);">Book</a></li>
+    </ul>
+    <button class="nav-menu-btn" id="menuBtn" aria-label="Menu" onclick="toggleMenu()">
+        <span></span><span></span><span></span>
+    </button>
+</nav>
+
+<!-- ─── HERO ─────────────────────────────────────────── -->
+<section class="hero" id="home">
+    <div class="hero-glow"></div>
+    <div class="hero-content">
+        <p class="hero-eyebrow fade-up">Venda do Pinheiro · Tattoo &amp; Piercing Studio</p>
+        <h1 class="hero-name fade-up delay-1">LUMI</h1>
+        <div class="hero-rule fade-up delay-2"></div>
+        <p class="hero-sub fade-up delay-2">Atelier</p>
+        <p class="hero-tagline fade-up delay-3">Where light meets skin.</p>
+        <a href="#services" class="hero-cta fade-up delay-4">Explore our services</a>
+    </div>
+    <div class="hero-scroll">
+        <span class="hero-scroll-label">Scroll</span>
+        <div class="hero-scroll-line"></div>
+    </div>
+</section>
+
+<!-- ─── PARALLAX DIVIDER ─────────────────────────────── -->
+<div class="parallax-divider">
+    <div class="parallax-divider-bg" id="parallaxBg"></div>
+    <div class="parallax-divider-overlay"></div>
+</div>
+
+<!-- ─── STUDIO ABOUT ──────────────────────────────────── -->
+<section class="section" id="studio">
+    <p class="section-eyebrow fade-up">The Atelier</p>
+    <div class="studio-inner">
+        <div class="fade-up delay-1">
+            <h2 class="studio-statement">
+                A sanctuary for <em>permanent art</em> — crafted with intention, worn for life.
+            </h2>
+        </div>
+        <div class="studio-details fade-up delay-2">
+            <div class="studio-detail-item">
+                <span class="studio-detail-label">Founded</span>
+                <span class="studio-detail-value">2025 · Venda do Pinheiro, Portugal</span>
+            </div>
+            <div class="studio-detail-item">
+                <span class="studio-detail-label">Specialities</span>
+                <span class="studio-detail-value">Fineline Tattoo · Piercing</span>
+            </div>
+            <div class="studio-detail-item">
+                <span class="studio-detail-label">Philosophy</span>
+                <span class="studio-detail-value" style="font-family:'Montserrat',sans-serif;font-size:0.85rem;font-weight:300;line-height:1.75;color:var(--text-light);">Every mark we make is a collaboration between artist and skin. We work slowly, with care — creating pieces that age with you.</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── SERVICES ─────────────────────────────────────── -->
+<section id="services">
+    <div class="services-header">
+        <p class="section-eyebrow fade-up">Services</p>
+    </div>
+    <div class="services-grid">
+        <!-- Tattoo Card -->
+        <div class="service-card fade-up">
+            <img src="media/DSCF4917.jpg" alt="Tattoo Studio">
+            <div class="service-overlay">
+                <div class="service-card-foot">
+                    <p class="service-label">Fineline · Illustration · Script</p>
+                    <h3 class="service-title">Tattoo<br>Studio</h3>
+                    <p class="service-artist">Stephany Ribeiro — Resident Artist</p>
+                    <a href="https://stephanytattoo.com" class="service-cta" target="_blank">View portfolio →</a>
+                </div>
+            </div>
+        </div>
+        <!-- Piercing Card -->
+        <div class="service-card fade-up delay-2">
+            <img src="media/DSCF4915.jpg" alt="Piercing Studio">
+            <div class="service-overlay">
+                <div class="service-card-foot">
+                    <p class="service-label">Ear · Facial · Body</p>
+                    <h3 class="service-title">Piercing<br>Studio</h3>
+                    <p class="service-artist">[Artist Name] — By reservation only</p>
+                    <a href="#contact" class="service-cta">Book a session →</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ─── BOOKING CTA ──────────────────────────────────── -->
+<section id="book">
+    <div class="book-glow"></div>
+    <div class="book-inner">
+        <p class="book-eyebrow fade-up">Reserve a sua Sessão</p>
+        <div class="book-cards">
+
+            <!-- Tattoo card -->
+            <a href="book.html?service=tattoo" class="book-card fade-up delay-1">
+                <span class="book-card-num">01</span>
+                <span class="book-card-eyebrow">Fineline · Illustration · Script</span>
+                <h3 class="book-card-title">Tattoo<br>Studio</h3>
+                <p class="book-card-desc">Arte permanente desenhada à medida — traço fino, detalhes delicados, peças que envelhecem contigo.</p>
+                <p class="book-card-artist">Stephany Ribeiro — Artista Residente</p>
+                <span class="book-card-cta">Preencher formulário →</span>
+            </a>
+
+            <!-- Piercing card -->
+            <a href="book.html?service=piercing" class="book-card fade-up delay-2">
+                <span class="book-card-num">02</span>
+                <span class="book-card-eyebrow">Ear · Facial · Body</span>
+                <h3 class="book-card-title">Piercing<br>Studio</h3>
+                <p class="book-card-desc">Piercing profissional por marcação. Jóias de qualidade, cuidado meticuloso, resultados que duram.</p>
+                <p class="book-card-artist">Reserva exclusiva · Apenas por marcação</p>
+                <span class="book-card-cta">Preencher formulário →</span>
+            </a>
+
+        </div>
+    </div>
+</section>
+
+<!-- ─── ARTISTS ───────────────────────────────────────── -->
+<section class="section" id="artists">
+    <p class="section-eyebrow fade-up">The Team</p>
+    <div class="artists-grid">
+        <!-- Stephany -->
+        <div class="artist-card fade-up delay-1">
+            <div class="artist-card-img-wrap" style="aspect-ratio:4/5;">
+                <img src="media/RJPHOTOGRAPHY-136.JPG" alt="Stephany Ribeiro" style="object-position: center 20%;">
+            </div>
+            <div class="artist-card-body">
+                <p class="artist-role">Tattoo Artist · Studio Founder</p>
+                <h3 class="artist-name">Stephany Ribeiro</h3>
+                <p class="artist-bio">Specialist in fineline tattoos — delicate lines, botanical motifs, abstract shapes, and lyrical script. Every piece is custom-drawn to become a part of you.</p>
+                <a href="https://stephanytattoo.com" class="artist-link" target="_blank">View personal portfolio →</a>
+            </div>
+        </div>
+        <!-- Career card -->
+        <div class="career-card fade-up delay-2">
+            <span class="career-eyebrow">We're growing — find your home here.</span>
+            <h3 class="career-title">Join the<br>Atelier</h3>
+            <p class="career-body">LUMI Atelier is looking for artists who share our belief in slow, intentional craft. If you work with fineline, illustration, or botanical tattooing — we'd love to meet you.</p>
+            <a href="mailto:careers@lumiatelier.com" class="career-cta">Send an enquiry</a>
+        </div>
+    </div>
+</section>
+
+<!-- ─── ART COLLECTION ────────────────────────────────── -->
+<section class="section" id="art">
+    <p class="section-eyebrow fade-up">Art Collection</p>
+    <div class="art-grid">
+        <div class="art-slot fade-up delay-1">
+            <img src="https://placehold.co/600x800/B09080/ECD9D0?text=+" alt="Art piece 1">
+            <div class="art-glass">
+                <span class="art-glass-num">Edition No. 001</span>
+                <div class="art-glass-dot"></div>
+                <span class="art-glass-label">First Drop</span>
+            </div>
+        </div>
+        <div class="art-slot fade-up delay-2">
+            <img src="https://placehold.co/600x800/8C6248/D0B8AC?text=+" alt="Art piece 2">
+            <div class="art-glass">
+                <span class="art-glass-num">Edition No. 002</span>
+                <div class="art-glass-dot"></div>
+                <span class="art-glass-label">Reserved</span>
+            </div>
+        </div>
+        <div class="art-slot fade-up delay-3">
+            <img src="https://placehold.co/600x800/A77049/ECD9D0?text=+" alt="Art piece 3">
+            <div class="art-glass">
+                <span class="art-glass-num">Edition No. 003</span>
+                <div class="art-glass-dot"></div>
+                <span class="art-glass-label">Reserved</span>
+            </div>
+        </div>
+    </div>
+    <div class="art-footer">
+        <h3 class="art-footer-title fade-up">Limited editions. First drop coming soon.</h3>
+        <p class="art-footer-sub fade-up delay-1">Original art pieces by Stephany Ribeiro — available in numbered series.</p>
+        <form class="art-subscribe fade-up delay-2" id="artForm">
+            <input type="email" placeholder="Your email address" required aria-label="Email for art drop notification">
+            <button type="submit">Notify me</button>
+        </form>
+        <p class="art-subscribe-confirm" id="artConfirm">You're on the list. We'll be in touch.</p>
+    </div>
+</section>
+
+<!-- ─── JEWELRY ───────────────────────────────────────── -->
+<section id="jewelry">
+    <div class="jewelry-glow"></div>
+    <div class="jewelry-inner">
+        <p class="jewelry-eyebrow fade-up">A New Chapter</p>
+        <div class="jewelry-rule-pair fade-up delay-1">
+            <span class="jewelry-rule"></span>
+            <span class="jewelry-dot"></span>
+            <span class="jewelry-rule"></span>
+        </div>
+        <h2 class="jewelry-brand fade-up delay-1">[Brand Name]</h2>
+        <p class="jewelry-sub fade-up delay-2">Jewelry by LUMI</p>
+        <p class="jewelry-tagline fade-up delay-2">Wearable art, crafted in limited series. An extension of the permanent into the removable.</p>
+        <form class="jewelry-subscribe fade-up delay-3" id="jewelryForm">
+            <input type="email" placeholder="Enter your email" required aria-label="Email for jewelry launch">
+            <button type="submit">Subscribe to Launch</button>
+        </form>
+        <p class="jewelry-fine fade-up delay-4">Be first to know when we open pre-orders.</p>
+        <p class="jewelry-subscribe-confirm" id="jewelryConfirm">You're on the list — something beautiful is coming.</p>
+    </div>
+</section>
+
+<!-- ─── CONTACT ───────────────────────────────────────── -->
+<section id="contact">
+    <p class="contact-eyebrow-dark fade-up">Find Us</p>
+    <div class="contact-links">
+        <a href="mailto:studio@lumiatelier.com" class="contact-link fade-up delay-1">
+            <span class="contact-link-sub">Email</span>
+            studio@lumiatelier.com
+        </a>
+        <a href="https://instagram.com/lumiatelier" class="contact-link fade-up delay-2" target="_blank">
+            <span class="contact-link-sub">Instagram</span>
+            @lumiatelier
+        </a>
+    </div>
+</section>
+
+<!-- ─── FOOTER ────────────────────────────────────────── -->
+<footer>
+    <a href="#home" class="footer-logo">Lumi Atelier</a>
+    <div class="footer-rule"></div>
+    <p class="footer-copy">&copy; 2025 LUMI Atelier. All rights reserved.</p>
+    <a href="https://stephanytattoo.com" class="footer-personal" target="_blank">Visit Stephany's Portfolio →</a>
+</footer>
+
+<script>
+    // ─── NAV SCROLL STATE ─────────────────────────────
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+        nav.classList.toggle('scrolled', window.scrollY > 60);
+    }, { passive: true });
+
+    // ─── MOBILE MENU ──────────────────────────────────
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    function toggleMenu() {
+        const open = mobileMenu.classList.toggle('open');
+        menuBtn.classList.toggle('open', open);
+        document.body.style.overflow = open ? 'hidden' : '';
+    }
+    function closeMenu() {
+        mobileMenu.classList.remove('open');
+        menuBtn.classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
+    // ─── FADE-UP INTERSECTION OBSERVER ───────────────
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                e.target.classList.add('visible');
+                observer.unobserve(e.target);
+            }
+        });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    // ─── PARALLAX DIVIDER ────────────────────────────
+    const parallaxBg = document.getElementById('parallaxBg');
+    if (parallaxBg) {
+        window.addEventListener('scroll', () => {
+            const rect = parallaxBg.parentElement.getBoundingClientRect();
+            const progress = -rect.top / (window.innerHeight + rect.height);
+            parallaxBg.style.transform = `translateY(${progress * 28}%)`;
+        }, { passive: true });
+    }
+
+    // ─── EMAIL FORMS ──────────────────────────────────
+    document.getElementById('artForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        this.style.display = 'none';
+        document.getElementById('artConfirm').style.display = 'block';
+    });
+
+    document.getElementById('jewelryForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        this.style.display = 'none';
+        document.getElementById('jewelryConfirm').style.display = 'block';
+    });
+</script>
+</body>
+</html>

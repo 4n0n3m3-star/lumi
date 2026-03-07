@@ -1,0 +1,1266 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LUMI Atelier — Reservar Sessão</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tenor+Sans&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --cream-light: #FDFAF7;
+            --cream:       #ECD9D0;
+            --blush:       #E6CCBD;
+            --rose-taupe:  #D0B8AC;
+            --taupe:       #B09080;
+            --warm-brown:  #A77049;
+            --dark-brown:  #8C6248;
+            --text:        #2C1A0E;
+            --text-light:  #7A5C48;
+            --ink:         #1A0E06;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--cream-light);
+            color: var(--text);
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 300;
+            line-height: 1.7;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ─── GRAIN OVERLAY ──────────────────────────── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            pointer-events: none;
+            opacity: 0.025;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+            background-repeat: repeat;
+            background-size: 128px 128px;
+        }
+
+        /* ─── NAV ─────────────────────────────────────── */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            padding: 28px 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(253,250,247,0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--blush);
+        }
+        .nav-back {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 400;
+            font-size: 0.62rem;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: var(--text-light);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: color 0.3s ease;
+        }
+        .nav-back:hover { color: var(--warm-brown); }
+        .nav-back svg { width: 14px; height: 14px; }
+        .nav-brand {
+            font-family: 'Tenor Sans', serif;
+            font-size: 0.9rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--text);
+            text-decoration: none;
+        }
+        .nav-brand:hover { color: var(--warm-brown); transition: color 0.3s ease; }
+
+        /* ─── PAGE ────────────────────────────────────── */
+        .page {
+            padding: 140px 72px 100px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .eyebrow {
+            font-size: 0.65rem;
+            letter-spacing: 0.35em;
+            text-transform: uppercase;
+            color: var(--text-light);
+            display: block;
+            margin-bottom: 24px;
+        }
+        .rule {
+            width: 100%;
+            height: 1px;
+            background: var(--blush);
+            margin-bottom: 52px;
+        }
+        .page-title {
+            font-family: 'Tenor Sans', serif;
+            font-size: clamp(2rem, 3.5vw, 4rem);
+            font-weight: 300;
+            line-height: 1.15;
+            color: var(--text);
+            margin-bottom: 52px;
+        }
+
+        /* ─── SERVICE SELECTOR ────────────────────────── */
+        .service-selector {
+            margin-bottom: 52px;
+        }
+        .service-selector-label {
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--text);
+            display: block;
+            margin-bottom: 16px;
+        }
+        .service-pills {
+            display: flex;
+            gap: 12px;
+        }
+        .service-radio { display: none; }
+        .service-pill {
+            padding: 10px 28px;
+            border: 1px solid var(--rose-taupe);
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.68rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--text-light);
+            transition: color 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+            user-select: none;
+        }
+        .service-radio:checked + .service-pill {
+            border-color: var(--warm-brown);
+            color: var(--warm-brown);
+            background: rgba(167,112,73,0.06);
+        }
+        .service-pill:hover { color: var(--warm-brown); border-color: var(--warm-brown); }
+
+        /* ─── FORM INTRO ──────────────────────────────── */
+        .form-intro {
+            font-size: 0.84rem;
+            font-weight: 400;
+            line-height: 1.75;
+            color: var(--text);
+            margin-bottom: 8px;
+        }
+        .form-intro-sub {
+            font-size: 0.72rem;
+            color: var(--text-light);
+            margin-bottom: 48px;
+        }
+
+        /* ─── FORM ────────────────────────────────────── */
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .form-group label {
+            font-size: 0.65rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--text);
+        }
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid var(--rose-taupe);
+            padding: 10px 0;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.84rem;
+            font-weight: 300;
+            color: var(--text);
+            outline: none;
+            transition: border-color 0.3s ease;
+            -webkit-appearance: none;
+        }
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus { border-color: var(--warm-brown); }
+        .form-group input::placeholder,
+        .form-group textarea::placeholder { color: var(--rose-taupe); }
+        .form-group textarea { resize: none; height: 120px; }
+        .form-submit { margin-top: 12px; }
+
+        .btn {
+            display: inline-block;
+            padding: 16px 48px;
+            border: 1px solid var(--warm-brown);
+            color: var(--warm-brown);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.65rem;
+            font-weight: 400;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            text-decoration: none;
+            cursor: pointer;
+            background: transparent;
+            transition: background 0.4s cubic-bezier(0.25,0.46,0.45,0.94),
+                        color 0.4s cubic-bezier(0.25,0.46,0.45,0.94),
+                        border-color 0.4s cubic-bezier(0.25,0.46,0.45,0.94),
+                        transform 0.3s cubic-bezier(0.25,0.46,0.45,0.94);
+        }
+        .btn:hover {
+            background: var(--warm-brown);
+            color: var(--cream-light);
+            transform: translateY(-2px);
+        }
+        .btn-filled {
+            background: var(--warm-brown);
+            color: var(--cream-light);
+            border-color: var(--warm-brown);
+        }
+        .btn-filled:hover {
+            background: var(--dark-brown);
+            border-color: var(--dark-brown);
+            transform: translateY(-2px);
+        }
+        .btn:disabled {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        /* ─── RADIO PILLS ──────────────────────────────── */
+        .radio-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 6px 0 10px;
+            border-bottom: 1px solid var(--rose-taupe);
+        }
+        .radio-option { display: none; }
+        .radio-pill {
+            padding: 6px 14px;
+            border: 1px solid var(--rose-taupe);
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.62rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--text-light);
+            transition: color 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+            user-select: none;
+        }
+        .radio-option:checked + .radio-pill {
+            border-color: var(--warm-brown);
+            color: var(--warm-brown);
+            background: rgba(167,112,73,0.06);
+        }
+        .radio-pill:hover { color: var(--warm-brown); border-color: var(--warm-brown); }
+
+        /* ─── CHECKBOX GROUP ─────────────────────────── */
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 6px 0 10px;
+            border-bottom: 1px solid var(--rose-taupe);
+        }
+        .checkbox-option { display: none; }
+        .checkbox-option:checked + .radio-pill {
+            border-color: var(--warm-brown);
+            color: var(--warm-brown);
+            background: rgba(167,112,73,0.06);
+        }
+
+        /* ─── FORM HINT ──────────────────────────────── */
+        .form-hint {
+            font-size: 0.58rem;
+            letter-spacing: 0.12em;
+            color: var(--rose-taupe);
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        /* ─── FIRST TIME BOX ─────────────────────────── */
+        .first-time-box {
+            background: rgba(167,112,73,0.05);
+            border: 1px solid var(--blush);
+            padding: 24px 28px;
+            display: none;
+        }
+        .first-time-box.visible { display: block; }
+        .first-time-box-title {
+            font-family: 'Tenor Sans', serif;
+            font-size: 0.88rem;
+            letter-spacing: 0.06em;
+            color: var(--warm-brown);
+            margin-bottom: 12px;
+        }
+        .first-time-box p {
+            font-size: 0.78rem;
+            line-height: 1.8;
+            color: var(--text-light);
+        }
+
+        /* ─── CONDITIONAL FIELDS ─────────────────────── */
+        .conditional-field { display: none; }
+        .conditional-field.visible { display: flex; flex-direction: column; gap: 10px; }
+
+        /* ─── FILE INPUT ─────────────────────────────── */
+        .file-input { display: none; }
+        .file-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--rose-taupe);
+            cursor: pointer;
+            font-size: 0.72rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--text-light);
+            transition: color 0.3s ease, border-color 0.3s ease;
+            width: 100%;
+        }
+        .file-label:hover { color: var(--warm-brown); border-color: var(--warm-brown); }
+        .file-hint {
+            font-size: 0.58rem;
+            letter-spacing: 0.12em;
+            color: var(--rose-taupe);
+            text-transform: uppercase;
+            margin-top: 6px;
+        }
+
+        /* ─── CONSENT BLOCK ──────────────────────────── */
+        .consent-section-title {
+            font-size: 0.58rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--text-light);
+            padding-top: 16px;
+            border-top: 1px solid var(--blush);
+        }
+        .consent-block {
+            border: 1px solid var(--blush);
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+        }
+        .consent-text {
+            max-height: 220px;
+            overflow-y: auto;
+            padding: 20px 24px;
+            font-size: 0.72rem;
+            line-height: 1.85;
+            color: var(--text-light);
+            border-bottom: 1px solid var(--blush);
+        }
+        .consent-text ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .consent-text li::before {
+            content: '—';
+            margin-right: 8px;
+            color: var(--rose-taupe);
+        }
+        .consent-check {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 16px 24px;
+            cursor: pointer;
+        }
+        .consent-check input[type="checkbox"] {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 14px;
+            height: 14px;
+            min-width: 14px;
+            border: 1px solid var(--rose-taupe);
+            margin-top: 2px;
+            cursor: pointer;
+            transition: background 0.2s ease, border-color 0.2s ease;
+        }
+        .consent-check input[type="checkbox"]:checked {
+            background: var(--warm-brown);
+            border-color: var(--warm-brown);
+        }
+        .consent-check span {
+            font-size: 0.68rem;
+            line-height: 1.7;
+            color: var(--text-light);
+            letter-spacing: 0.04em;
+        }
+
+        /* ─── SERVICE SECTIONS ───────────────────────── */
+        .service-fields {
+            display: none;
+            flex-direction: column;
+            gap: 32px;
+        }
+        .service-fields.visible { display: flex; }
+
+        /* ─── FOOTER LINKS ───────────────────────────── */
+        .links-section {
+            background: var(--ink);
+            padding: 0 72px;
+            text-align: center;
+        }
+        .links-item { padding: 88px 0; }
+        .links-rule {
+            width: 100%;
+            height: 1px;
+            background: rgba(253,250,247,0.1);
+        }
+        .links-label {
+            display: block;
+            font-size: 0.68rem;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            color: var(--blush);
+            margin-bottom: 20px;
+        }
+        .links-link {
+            font-family: 'Tenor Sans', serif;
+            font-size: clamp(2.2rem, 5vw, 7.5rem);
+            font-weight: 300;
+            color: var(--cream-light);
+            text-decoration: none;
+            line-height: 1;
+            position: relative;
+            display: inline-block;
+        }
+        .links-link::after {
+            content: '';
+            position: absolute;
+            bottom: 4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--cream-light);
+            transition: width 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .links-link:hover::after { width: 100%; }
+
+        /* ─── FOOTER ──────────────────────────────────── */
+        footer {
+            background: #130a03;
+            padding: 56px 72px 48px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            border-top: 1px solid rgba(44, 26, 14, 0.5);
+        }
+        .footer-logo {
+            font-family: 'Tenor Sans', serif;
+            font-size: 1rem;
+            letter-spacing: 0.24em;
+            text-transform: uppercase;
+            color: rgba(236, 217, 208, 0.5);
+            text-decoration: none;
+        }
+        .footer-rule {
+            width: 36px;
+            height: 1px;
+            background: rgba(208, 184, 172, 0.15);
+        }
+        .footer-copy {
+            font-size: 0.65rem;
+            letter-spacing: 0.12em;
+            color: rgba(236, 217, 208, 0.2);
+        }
+
+        /* ─── RESPONSIVE ──────────────────────────────── */
+        @media (max-width: 900px) {
+            nav { padding: 24px 32px; }
+            .page { padding: 120px 32px 80px; }
+            .links-section { padding: 0 32px; }
+        }
+        @media (max-width: 600px) {
+            nav { padding: 20px 24px; }
+            .page { padding: 110px 24px 72px; }
+            .form-row { grid-template-columns: 1fr; }
+            .links-section { padding: 0 24px; }
+            .links-item { padding: 56px 0; }
+            .links-link { font-size: clamp(1.4rem, 6vw, 2.4rem); }
+            footer { padding: 40px 24px 36px; }
+            .service-pills { flex-direction: column; }
+            .service-pill { text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+<nav>
+    <a href="/" class="nav-back">
+        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.2">
+            <path d="M10 7H4M4 7L7 4M4 7L7 10"/>
+        </svg>
+        <span data-i18n="nav-back">Voltar</span>
+    </a>
+    <a href="/" class="nav-brand">LUMI Atelier</a>
+</nav>
+
+<main class="page">
+    <span class="eyebrow" data-i18n="page-eyebrow">Reservar Sessão</span>
+    <div class="rule"></div>
+    <h1 class="page-title" data-i18n="page-title">Formulário de admissão — vamos trabalhar juntos.</h1>
+
+    <!-- ─── SERVICE SELECTOR ─────────────────────────── -->
+    <div class="service-selector">
+        <span class="service-selector-label" data-i18n="service-label">Que serviço pretendes?</span>
+        <div class="service-pills">
+            <input type="radio" name="service_type" id="svc-tattoo" value="tattoo" class="service-radio" checked>
+            <label for="svc-tattoo" class="service-pill" data-i18n="svc-tattoo">Tatuagem</label>
+            <input type="radio" name="service_type" id="svc-piercing" value="piercing" class="service-radio">
+            <label for="svc-piercing" class="service-pill" data-i18n="svc-piercing">Piercing</label>
+        </div>
+    </div>
+
+    <!-- ─── FORM INTRO ────────────────────────────────── -->
+    <p class="form-intro" data-i18n="form-intro">Preenche este formulário com os detalhes da tua sessão. Leva apenas alguns minutos e ajuda-nos a proporcionar-te a melhor experiência possível.</p>
+    <p class="form-intro-sub" data-i18n="form-intro-sub">Todas as informações são confidenciais.</p>
+
+    <form class="contact-form" id="contact-form" action="https://api.web3forms.com/submit" method="POST">
+        <input type="hidden" name="access_key" value="b9a7bfaa-cca2-49d3-b412-005cc8c09000">
+        <input type="hidden" name="redirect" value="false">
+        <input type="hidden" name="service" id="form-service" value="tattoo">
+
+        <!-- ─── COMMON FIELDS ─────────────────────────── -->
+        <!-- Nome + Telemóvel -->
+        <div class="form-row">
+            <div class="form-group">
+                <label for="name" data-i18n="label-name">Nome Completo</label>
+                <input type="text" id="name" name="name" placeholder="O teu nome" data-i18n-ph="ph-name" required>
+            </div>
+            <div class="form-group">
+                <label for="phone" data-i18n="label-phone">Telemóvel</label>
+                <input type="tel" id="phone" name="phone" placeholder="+351 912 345 678" data-i18n-ph="ph-phone">
+            </div>
+        </div>
+
+        <!-- Email + Cidade -->
+        <div class="form-row">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="teu@email.com" required>
+            </div>
+            <div class="form-group">
+                <label for="city" data-i18n="label-city">Cidade</label>
+                <input type="text" id="city" name="city" placeholder="Lisboa" data-i18n-ph="ph-city">
+            </div>
+        </div>
+
+        <!-- ─── TATTOO FIELDS ──────────────────────────── -->
+        <div class="service-fields visible" id="tattoo-fields">
+
+            <!-- Ideia -->
+            <div class="form-group">
+                <label for="idea" data-i18n="label-idea">A tua ideia</label>
+                <textarea id="idea" name="idea" placeholder="Descreve a tua ideia de tatuagem, inspiração, referências..." data-i18n-ph="ph-idea"></textarea>
+            </div>
+
+            <!-- Zona do corpo -->
+            <div class="form-group">
+                <label data-i18n="label-zone">Zona do corpo</label>
+                <div class="radio-group">
+                    <input type="radio" name="zone" id="zone-braco" value="Braço" class="radio-option">
+                    <label for="zone-braco" class="radio-pill" data-i18n="zone-braco">Braço</label>
+                    <input type="radio" name="zone" id="zone-antebraco" value="Antebraço" class="radio-option">
+                    <label for="zone-antebraco" class="radio-pill" data-i18n="zone-antebraco">Antebraço</label>
+                    <input type="radio" name="zone" id="zone-perna" value="Perna" class="radio-option">
+                    <label for="zone-perna" class="radio-pill" data-i18n="zone-perna">Perna</label>
+                    <input type="radio" name="zone" id="zone-costas" value="Costas" class="radio-option">
+                    <label for="zone-costas" class="radio-pill" data-i18n="zone-costas">Costas</label>
+                    <input type="radio" name="zone" id="zone-peito" value="Peito / Costelas" class="radio-option">
+                    <label for="zone-peito" class="radio-pill" data-i18n="zone-peito">Peito / Costelas</label>
+                    <input type="radio" name="zone" id="zone-pescoco" value="Pescoço" class="radio-option">
+                    <label for="zone-pescoco" class="radio-pill" data-i18n="zone-pescoco">Pescoço</label>
+                    <input type="radio" name="zone" id="zone-tornozelo" value="Tornozelo / Pulso" class="radio-option">
+                    <label for="zone-tornozelo" class="radio-pill" data-i18n="zone-tornozelo">Tornozelo / Pulso</label>
+                    <input type="radio" name="zone" id="zone-mao" value="Mão / Pé" class="radio-option">
+                    <label for="zone-mao" class="radio-pill" data-i18n="zone-mao">Mão / Pé</label>
+                    <input type="radio" name="zone" id="zone-outro" value="Outro" class="radio-option">
+                    <label for="zone-outro" class="radio-pill" data-i18n="zone-outro">Outro</label>
+                </div>
+            </div>
+
+            <!-- Condicional: outra zona -->
+            <div class="form-group conditional-field" id="zone-outro-field">
+                <label for="zone-custom" data-i18n="label-zone-custom">Especifica a zona</label>
+                <input type="text" id="zone-custom" name="zone_custom" placeholder="Ex: costelas, nuca..." data-i18n-ph="ph-zone-custom">
+            </div>
+
+            <!-- Tamanho -->
+            <div class="form-group" style="max-width:220px;">
+                <label for="size" data-i18n="label-size">Tamanho aproximado (cm)</label>
+                <input type="number" id="size" name="size" min="1" max="100" placeholder="Ex: 8" data-i18n-ph="ph-size">
+            </div>
+
+            <!-- Primeira tatuagem? -->
+            <div class="form-group">
+                <label data-i18n="label-first">É a tua primeira tatuagem?</label>
+                <div class="radio-group">
+                    <input type="radio" name="first_tattoo" id="first-sim" value="Sim" class="radio-option">
+                    <label for="first-sim" class="radio-pill" data-i18n="first-sim">Sim</label>
+                    <input type="radio" name="first_tattoo" id="first-nao" value="Não" class="radio-option">
+                    <label for="first-nao" class="radio-pill" data-i18n="first-nao">Não</label>
+                </div>
+            </div>
+
+            <!-- Info box primeira tatuagem -->
+            <div class="first-time-box" id="first-tattoo-box">
+                <p class="first-time-box-title" data-i18n="first-tattoo-title">Dica para a primeira tatuagem</p>
+                <p data-i18n="first-tattoo-text">Bem-vindo ao clube! As primeiras tatuagens são muito especiais. Toma uma refeição sólida 1 a 2 horas antes da sessão, mantém-te hidratado e evita álcool no dia anterior. Vamos fazer o máximo para te sentires confortável e em paz. ❤</p>
+            </div>
+
+            <!-- Dúvidas primeira sessão -->
+            <div class="form-group conditional-field" id="first-concerns-field">
+                <label for="concerns" data-i18n="label-concerns">Alguma dúvida ou preocupação sobre a tua primeira sessão?</label>
+                <textarea id="concerns" name="concerns" placeholder="Partilha as tuas dúvidas..." data-i18n-ph="ph-concerns"></textarea>
+            </div>
+
+            <!-- Imagens de referência -->
+            <div class="form-group">
+                <label for="references" data-i18n="label-references">Imagens de referência</label>
+                <input type="file" id="references" name="attachment" accept="image/*" multiple class="file-input">
+                <label for="references" class="file-label">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                    <span data-i18n="label-references-btn">Selecionar imagens</span>
+                </label>
+                <span class="file-hint" data-i18n="label-references-hint">PNG, JPG, WEBP — podes selecionar várias</span>
+            </div>
+
+            <!-- Horário preferencial -->
+            <div class="form-group">
+                <label data-i18n="label-schedule">Horário preferencial</label>
+                <span class="form-hint" data-i18n="label-schedule-hint">Podes selecionar vários</span>
+                <div class="checkbox-group">
+                    <input type="checkbox" name="schedule" id="sch-manha-semana" value="Manhãs durante a semana" class="checkbox-option">
+                    <label for="sch-manha-semana" class="radio-pill" data-i18n="sch-manha-semana">Manhãs (semana)</label>
+                    <input type="checkbox" name="schedule" id="sch-tarde-semana" value="Tardes durante a semana" class="checkbox-option">
+                    <label for="sch-tarde-semana" class="radio-pill" data-i18n="sch-tarde-semana">Tardes (semana)</label>
+                    <input type="checkbox" name="schedule" id="sch-manha-fds" value="Manhãs durante o fim-de-semana" class="checkbox-option">
+                    <label for="sch-manha-fds" class="radio-pill" data-i18n="sch-manha-fds">Manhãs (fim de semana)</label>
+                    <input type="checkbox" name="schedule" id="sch-tarde-fds" value="Tardes durante o fim-de-semana" class="checkbox-option">
+                    <label for="sch-tarde-fds" class="radio-pill" data-i18n="sch-tarde-fds">Tardes (fim de semana)</label>
+                </div>
+            </div>
+
+            <!-- Saúde -->
+            <div class="form-group">
+                <label for="health" data-i18n="label-health">Avaliação Médica e de Saúde</label>
+                <span class="form-hint" data-i18n="label-health-hint">Descreve qualquer alergia, condição de saúde ou pele, gravidez ou amamentação.</span>
+                <textarea id="health" name="health" placeholder="Ex: sou alérgica a látex, tenho pele atópica..." data-i18n-ph="ph-health"></textarea>
+            </div>
+
+            <!-- Notas -->
+            <div class="form-group">
+                <label for="notes-tattoo" data-i18n="label-notes">Algum pedido especial ou observação?</label>
+                <textarea id="notes-tattoo" name="notes" placeholder="Qualquer detalhe adicional que queiras partilhar..." data-i18n-ph="ph-notes"></textarea>
+            </div>
+
+            <!-- Consentimentos tattoo -->
+            <p class="consent-section-title" data-i18n="consent-section">Consentimentos</p>
+
+            <div class="form-group">
+                <label data-i18n="consent1-label">Consentimento para tatuagem e isenção de responsabilidade — LUMI Atelier</label>
+                <div class="consent-block">
+                    <div class="consent-text">
+                        <ul>
+                            <li data-i18n="c1-1">Tenho pelo menos 18 anos de idade (ou o meu pai/mãe/tutor está presente e também consentiu, caso eu tenha menos de 18 anos).</li>
+                            <li data-i18n="c1-2">Respondi com sinceridade a todas as perguntas sobre saúde e medicina neste formulário. Informarei imediatamente o tatuador sobre quaisquer alterações ou novas informações.</li>
+                            <li data-i18n="c1-3">A tatuagem envolve alterações permanentes no meu corpo e acarreta riscos, incluindo infeção, reação alérgica à tinta, cicatrizes, formação de quelóides, migração/desbotamento da tinta e cicatrização prolongada. Aceito estes riscos na íntegra.</li>
+                            <li data-i18n="c1-4">Aprovo o esboço, a localização, o tamanho e qualquer texto. Compreendo que não há garantias quanto à aparência final, à cor ou ao resultado da cicatrização.</li>
+                            <li data-i18n="c1-5">Comprometo-me a seguir rigorosamente todas as instruções de cuidados pós-tratamento. Compreendo que cuidados inadequados são da minha responsabilidade.</li>
+                            <li data-i18n="c1-6">Isento e exonero LUMI Atelier, os seus proprietários, artistas e funcionários de todas as reclamações e responsabilidades resultantes do procedimento, na medida permitida por lei.</li>
+                            <li data-i18n="c1-7">Tive oportunidade de fazer perguntas e decidi prosseguir.</li>
+                        </ul>
+                    </div>
+                    <label class="consent-check">
+                        <input type="checkbox" name="consent_tattoo" id="consent-tattoo-check">
+                        <span data-i18n="consent1-agree">Li e aceito os termos acima.</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label data-i18n="consent2-label">Consentimento de marketing</label>
+                <div class="consent-block">
+                    <div class="consent-text">
+                        <p data-i18n="c2-text">Autorizo que o LUMI Atelier tire e utilize fotografias da minha tatuagem para fins de portfólio, redes sociais e marketing (posso solicitar que o meu rosto seja desfocado ou optar por não participar a qualquer momento).</p>
+                    </div>
+                    <label class="consent-check">
+                        <input type="checkbox" name="consent_marketing_tattoo">
+                        <span data-i18n="consent2-agree">Aceito e autorizo a utilização das imagens.</span>
+                    </label>
+                </div>
+            </div>
+
+        </div><!-- /tattoo-fields -->
+
+        <!-- ─── PIERCING FIELDS ─────────────────────────── -->
+        <div class="service-fields" id="piercing-fields">
+
+            <!-- Tipo de piercing -->
+            <div class="form-group">
+                <label data-i18n="label-piercing-type">Tipo de piercing</label>
+                <div class="radio-group">
+                    <input type="radio" name="piercing_type" id="pt-orelha" value="Orelha" class="radio-option">
+                    <label for="pt-orelha" class="radio-pill" data-i18n="pt-orelha">Orelha</label>
+                    <input type="radio" name="piercing_type" id="pt-facial" value="Facial" class="radio-option">
+                    <label for="pt-facial" class="radio-pill" data-i18n="pt-facial">Facial</label>
+                    <input type="radio" name="piercing_type" id="pt-corpo" value="Corpo" class="radio-option">
+                    <label for="pt-corpo" class="radio-pill" data-i18n="pt-corpo">Corpo</label>
+                </div>
+            </div>
+
+            <!-- Localização específica -->
+            <div class="form-group">
+                <label for="piercing-location" data-i18n="label-piercing-location">Localização específica</label>
+                <textarea id="piercing-location" name="piercing_location" placeholder="Ex: cartilagem, tragus, helix, septo, narina, umbigo..." data-i18n-ph="ph-piercing-location"></textarea>
+            </div>
+
+            <!-- Primeiro piercing? -->
+            <div class="form-group">
+                <label data-i18n="label-first-piercing">É o teu primeiro piercing?</label>
+                <div class="radio-group">
+                    <input type="radio" name="first_piercing" id="fp-sim" value="Sim" class="radio-option">
+                    <label for="fp-sim" class="radio-pill" data-i18n="fp-sim">Sim</label>
+                    <input type="radio" name="first_piercing" id="fp-nao" value="Não" class="radio-option">
+                    <label for="fp-nao" class="radio-pill" data-i18n="fp-nao">Não</label>
+                </div>
+            </div>
+
+            <!-- Info box primeiro piercing -->
+            <div class="first-time-box" id="first-piercing-box">
+                <p class="first-time-box-title" data-i18n="first-piercing-title">Dica para o primeiro piercing</p>
+                <p data-i18n="first-piercing-text">Bem-vindo a esta experiência! Toma uma refeição antes da sessão e mantém-te hidratado. Usa roupa confortável que permita acesso fácil à zona. Não hesites em partilhar qualquer dúvida — estamos aqui para te deixar à vontade. ❤</p>
+            </div>
+
+            <!-- Material de jóia -->
+            <div class="form-group">
+                <label data-i18n="label-jewelry">Material de jóia preferido</label>
+                <div class="radio-group">
+                    <input type="radio" name="jewelry_material" id="jm-titanio" value="Titânio" class="radio-option">
+                    <label for="jm-titanio" class="radio-pill" data-i18n="jm-titanio">Titânio</label>
+                    <input type="radio" name="jewelry_material" id="jm-ouro" value="Ouro" class="radio-option">
+                    <label for="jm-ouro" class="radio-pill" data-i18n="jm-ouro">Ouro</label>
+                    <input type="radio" name="jewelry_material" id="jm-prata" value="Prata" class="radio-option">
+                    <label for="jm-prata" class="radio-pill" data-i18n="jm-prata">Prata</label>
+                    <input type="radio" name="jewelry_material" id="jm-sem-pref" value="Sem preferência" class="radio-option">
+                    <label for="jm-sem-pref" class="radio-pill" data-i18n="jm-sem-pref">Sem preferência</label>
+                </div>
+            </div>
+
+            <!-- Horário preferencial (piercing) -->
+            <div class="form-group">
+                <label data-i18n="label-schedule">Horário preferencial</label>
+                <span class="form-hint" data-i18n="label-schedule-hint">Podes selecionar vários</span>
+                <div class="checkbox-group">
+                    <input type="checkbox" name="schedule_p" id="sch-p-manha-semana" value="Manhãs durante a semana" class="checkbox-option">
+                    <label for="sch-p-manha-semana" class="radio-pill">Manhãs (semana)</label>
+                    <input type="checkbox" name="schedule_p" id="sch-p-tarde-semana" value="Tardes durante a semana" class="checkbox-option">
+                    <label for="sch-p-tarde-semana" class="radio-pill">Tardes (semana)</label>
+                    <input type="checkbox" name="schedule_p" id="sch-p-manha-fds" value="Manhãs durante o fim-de-semana" class="checkbox-option">
+                    <label for="sch-p-manha-fds" class="radio-pill">Manhãs (fim de semana)</label>
+                    <input type="checkbox" name="schedule_p" id="sch-p-tarde-fds" value="Tardes durante o fim-de-semana" class="checkbox-option">
+                    <label for="sch-p-tarde-fds" class="radio-pill">Tardes (fim de semana)</label>
+                </div>
+            </div>
+
+            <!-- Saúde (piercing) -->
+            <div class="form-group">
+                <label for="health-piercing" data-i18n="label-health">Avaliação Médica e de Saúde</label>
+                <span class="form-hint" data-i18n="label-health-hint">Descreve qualquer alergia, condição de pele ou saúde, gravidez ou amamentação.</span>
+                <textarea id="health-piercing" name="health_piercing" placeholder="Ex: sou alérgico a níquel, tenho pele sensível..." data-i18n-ph="ph-health-piercing"></textarea>
+            </div>
+
+            <!-- Notas (piercing) -->
+            <div class="form-group">
+                <label for="notes-piercing" data-i18n="label-notes">Algum pedido especial ou observação?</label>
+                <textarea id="notes-piercing" name="notes_piercing" placeholder="Qualquer detalhe adicional..." data-i18n-ph="ph-notes"></textarea>
+            </div>
+
+            <!-- Consentimentos piercing -->
+            <p class="consent-section-title" data-i18n="consent-section">Consentimentos</p>
+
+            <div class="form-group">
+                <label data-i18n="consent-piercing-label">Consentimento para piercing e isenção de responsabilidade — LUMI Atelier</label>
+                <div class="consent-block">
+                    <div class="consent-text">
+                        <ul>
+                            <li>Tenho pelo menos 18 anos de idade (ou o meu pai/mãe/tutor está presente e consentiu, caso eu tenha menos de 18 anos).</li>
+                            <li>Respondi com sinceridade a todas as perguntas de saúde. Informarei imediatamente a artista sobre qualquer alteração.</li>
+                            <li>O piercing envolve perfuração do corpo e acarreta riscos, incluindo infeção, reação alérgica à jóia, rejeição, migração e cicatrização prolongada. Aceito estes riscos na íntegra.</li>
+                            <li>Comprometo-me a seguir rigorosamente todas as instruções de cuidados pós-piercing. Cuidados inadequados são da minha responsabilidade.</li>
+                            <li>Isento e exonero LUMI Atelier, os seus proprietários, artistas e funcionários de todas as reclamações e responsabilidades resultantes do procedimento, na medida permitida por lei.</li>
+                            <li>Tive oportunidade de fazer perguntas e decidi prosseguir.</li>
+                        </ul>
+                    </div>
+                    <label class="consent-check">
+                        <input type="checkbox" name="consent_piercing" id="consent-piercing-check">
+                        <span>Li e aceito os termos acima.</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label data-i18n="consent2-label">Consentimento de marketing</label>
+                <div class="consent-block">
+                    <div class="consent-text">
+                        <p>Autorizo que o LUMI Atelier tire e utilize fotografias do meu piercing para fins de portfólio, redes sociais e marketing (posso solicitar que o meu rosto seja desfocado ou optar por não participar a qualquer momento).</p>
+                    </div>
+                    <label class="consent-check">
+                        <input type="checkbox" name="consent_marketing_piercing">
+                        <span data-i18n="consent2-agree">Aceito e autorizo a utilização das imagens.</span>
+                    </label>
+                </div>
+            </div>
+
+        </div><!-- /piercing-fields -->
+
+        <div class="form-submit">
+            <button type="submit" class="btn btn-filled" id="submit-btn" data-i18n="submit">Enviar Pedido</button>
+        </div>
+    </form>
+</main>
+
+<!-- ─── FOOTER LINKS ───────────────────────────────────── -->
+<section class="links-section">
+    <div class="links-item">
+        <span class="links-label">Contacto direto ↗</span>
+        <a href="mailto:studio@lumiatelier.com" class="links-link">studio@lumiatelier.com</a>
+    </div>
+    <div class="links-rule"></div>
+    <div class="links-item">
+        <span class="links-label">Instagram ↗</span>
+        <a href="https://instagram.com/lumi.atelier_" target="_blank" rel="noopener" class="links-link">@lumi.atelier_</a>
+    </div>
+</section>
+
+<footer>
+    <a href="/" class="footer-logo">Lumi Atelier</a>
+    <div class="footer-rule"></div>
+    <p class="footer-copy">&copy; 2025 LUMI Atelier. All rights reserved.</p>
+</footer>
+
+<script>
+    // ─── i18n ──────────────────────────────────────────
+    const i18n = {
+        pt: {
+            'nav-back': 'Voltar',
+            'page-eyebrow': 'Reservar Sessão',
+            'page-title': 'Formulário de admissão — vamos trabalhar juntos.',
+            'service-label': 'Que serviço pretendes?',
+            'svc-tattoo': 'Tatuagem', 'svc-piercing': 'Piercing',
+            'form-intro': 'Preenche este formulário com os detalhes da tua sessão. Leva apenas alguns minutos e ajuda-nos a proporcionar-te a melhor experiência possível.',
+            'form-intro-sub': 'Todas as informações são confidenciais.',
+            'label-name': 'Nome Completo', 'ph-name': 'O teu nome',
+            'label-phone': 'Telemóvel', 'ph-phone': '+351 912 345 678',
+            'label-city': 'Cidade', 'ph-city': 'Lisboa',
+            'label-idea': 'A tua ideia', 'ph-idea': 'Descreve a tua ideia de tatuagem, inspiração, referências...',
+            'label-zone': 'Zona do corpo',
+            'zone-braco': 'Braço', 'zone-antebraco': 'Antebraço', 'zone-perna': 'Perna',
+            'zone-costas': 'Costas', 'zone-peito': 'Peito / Costelas', 'zone-pescoco': 'Pescoço',
+            'zone-tornozelo': 'Tornozelo / Pulso', 'zone-mao': 'Mão / Pé', 'zone-outro': 'Outro',
+            'label-zone-custom': 'Especifica a zona', 'ph-zone-custom': 'Ex: costelas, nuca...',
+            'label-size': 'Tamanho aproximado (cm)', 'ph-size': 'Ex: 8',
+            'label-first': 'É a tua primeira tatuagem?', 'first-sim': 'Sim', 'first-nao': 'Não',
+            'first-tattoo-title': 'Dica para a primeira tatuagem',
+            'first-tattoo-text': 'Bem-vindo ao clube! As primeiras tatuagens são muito especiais. Toma uma refeição sólida 1 a 2 horas antes da sessão, mantém-te hidratado e evita álcool no dia anterior. Vamos fazer o máximo para te sentires confortável e em paz. ❤',
+            'label-concerns': 'Alguma dúvida sobre a tua primeira sessão?', 'ph-concerns': 'Partilha as tuas dúvidas...',
+            'label-references': 'Imagens de referência', 'label-references-btn': 'Selecionar imagens', 'label-references-hint': 'PNG, JPG, WEBP — podes selecionar várias',
+            'label-schedule': 'Horário preferencial', 'label-schedule-hint': 'Podes selecionar vários',
+            'sch-manha-semana': 'Manhãs (semana)', 'sch-tarde-semana': 'Tardes (semana)',
+            'sch-manha-fds': 'Manhãs (fim de semana)', 'sch-tarde-fds': 'Tardes (fim de semana)',
+            'label-health': 'Avaliação Médica e de Saúde', 'label-health-hint': 'Descreve qualquer alergia, condição de saúde ou pele, gravidez ou amamentação.',
+            'ph-health': 'Ex: sou alérgica a látex, tenho pele atópica...', 'ph-health-piercing': 'Ex: sou alérgico a níquel, tenho pele sensível...',
+            'label-notes': 'Algum pedido especial ou observação?', 'ph-notes': 'Qualquer detalhe adicional...',
+            'label-piercing-type': 'Tipo de piercing',
+            'pt-orelha': 'Orelha', 'pt-facial': 'Facial', 'pt-corpo': 'Corpo',
+            'label-piercing-location': 'Localização específica', 'ph-piercing-location': 'Ex: cartilagem, tragus, helix, septo, narina, umbigo...',
+            'label-first-piercing': 'É o teu primeiro piercing?', 'fp-sim': 'Sim', 'fp-nao': 'Não',
+            'first-piercing-title': 'Dica para o primeiro piercing',
+            'first-piercing-text': 'Bem-vindo a esta experiência! Toma uma refeição antes da sessão e mantém-te hidratado. Usa roupa confortável que permita acesso fácil à zona. Não hesites em partilhar qualquer dúvida — estamos aqui para te deixar à vontade. ❤',
+            'label-jewelry': 'Material de jóia preferido',
+            'jm-titanio': 'Titânio', 'jm-ouro': 'Ouro', 'jm-prata': 'Prata', 'jm-sem-pref': 'Sem preferência',
+            'consent-section': 'Consentimentos',
+            'consent1-label': 'Consentimento para tatuagem e isenção de responsabilidade — LUMI Atelier',
+            'c1-1': 'Tenho pelo menos 18 anos de idade (ou o meu pai/mãe/tutor está presente e também consentiu).',
+            'c1-2': 'Respondi com sinceridade a todas as perguntas sobre saúde.',
+            'c1-3': 'A tatuagem envolve alterações permanentes no meu corpo e aceito os riscos inerentes.',
+            'c1-4': 'Aprovo o esboço, a localização e o tamanho.',
+            'c1-5': 'Comprometo-me a seguir todas as instruções de cuidados pós-tratamento.',
+            'c1-6': 'Isento LUMI Atelier de todas as reclamações resultantes do procedimento.',
+            'c1-7': 'Tive oportunidade de fazer perguntas e decidi prosseguir.',
+            'consent1-agree': 'Li e aceito os termos acima.',
+            'consent-piercing-label': 'Consentimento para piercing e isenção de responsabilidade — LUMI Atelier',
+            'consent2-label': 'Consentimento de marketing',
+            'c2-text': 'Autorizo que o LUMI Atelier tire e utilize fotografias para fins de portfólio, redes sociais e marketing.',
+            'consent2-agree': 'Aceito e autorizo a utilização das imagens.',
+            'submit': 'Enviar Pedido',
+            'sending': 'A enviar…', 'sent': 'Pedido Enviado ✓', 'error': 'Erro — Tenta Novamente',
+        },
+        en: {
+            'nav-back': 'Back',
+            'page-eyebrow': 'Book your Session',
+            'page-title': 'Intake form — let\'s work together.',
+            'service-label': 'Which service are you booking?',
+            'svc-tattoo': 'Tattoo', 'svc-piercing': 'Piercing',
+            'form-intro': 'Fill in this form with your session details. It takes just a few minutes and helps us give you the best possible experience.',
+            'form-intro-sub': 'All information is confidential.',
+            'label-name': 'Full Name', 'ph-name': 'Your name',
+            'label-phone': 'Phone', 'ph-phone': '+351 912 345 678',
+            'label-city': 'City', 'ph-city': 'Lisbon',
+            'label-idea': 'Your idea', 'ph-idea': 'Describe your tattoo idea, inspiration, references...',
+            'label-zone': 'Body placement',
+            'zone-braco': 'Arm', 'zone-antebraco': 'Forearm', 'zone-perna': 'Leg',
+            'zone-costas': 'Back', 'zone-peito': 'Chest / Ribs', 'zone-pescoco': 'Neck',
+            'zone-tornozelo': 'Ankle / Wrist', 'zone-mao': 'Hand / Foot', 'zone-outro': 'Other',
+            'label-zone-custom': 'Specify placement', 'ph-zone-custom': 'E.g: ribs, nape...',
+            'label-size': 'Approximate size (cm)', 'ph-size': 'E.g: 8',
+            'label-first': 'Is this your first tattoo?', 'first-sim': 'Yes', 'first-nao': 'No',
+            'first-tattoo-title': 'First tattoo tip',
+            'first-tattoo-text': 'Welcome to the club! First tattoos are very special. Have a solid meal 1–2 hours before, stay hydrated and avoid alcohol the day before. We\'ll do our best to make you feel comfortable and at ease. ❤',
+            'label-concerns': 'Any doubts about your first session?', 'ph-concerns': 'Share your questions...',
+            'label-references': 'Reference images', 'label-references-btn': 'Select images', 'label-references-hint': 'PNG, JPG, WEBP — you can select multiple',
+            'label-schedule': 'Preferred schedule', 'label-schedule-hint': 'You can select multiple',
+            'sch-manha-semana': 'Weekday mornings', 'sch-tarde-semana': 'Weekday afternoons',
+            'sch-manha-fds': 'Weekend mornings', 'sch-tarde-fds': 'Weekend afternoons',
+            'label-health': 'Medical & Health Assessment', 'label-health-hint': 'Describe any allergies, skin or health conditions, pregnancy, or breastfeeding.',
+            'ph-health': 'E.g: latex allergy, atopic skin...', 'ph-health-piercing': 'E.g: nickel allergy, sensitive skin...',
+            'label-notes': 'Any special requests or notes?', 'ph-notes': 'Any additional details...',
+            'label-piercing-type': 'Piercing type',
+            'pt-orelha': 'Ear', 'pt-facial': 'Facial', 'pt-corpo': 'Body',
+            'label-piercing-location': 'Specific location', 'ph-piercing-location': 'E.g: cartilage, tragus, helix, septum, nostril, navel...',
+            'label-first-piercing': 'Is this your first piercing?', 'fp-sim': 'Yes', 'fp-nao': 'No',
+            'first-piercing-title': 'First piercing tip',
+            'first-piercing-text': 'Welcome to this experience! Have a meal before your session and stay hydrated. Wear comfortable clothing that allows easy access to the area. Don\'t hesitate to share any questions — we\'re here to put you at ease. ❤',
+            'label-jewelry': 'Preferred jewelry material',
+            'jm-titanio': 'Titanium', 'jm-ouro': 'Gold', 'jm-prata': 'Silver', 'jm-sem-pref': 'No preference',
+            'consent-section': 'Consents',
+            'consent1-label': 'Tattoo consent and liability waiver — LUMI Atelier',
+            'c1-1': 'I am at least 18 years of age (or my parent/guardian is present and has consented).',
+            'c1-2': 'I have truthfully answered all health questions.',
+            'c1-3': 'Tattooing involves permanent changes to my body and I accept the inherent risks.',
+            'c1-4': 'I approve the design, placement and size.',
+            'c1-5': 'I commit to following all aftercare instructions.',
+            'c1-6': 'I release LUMI Atelier from all claims resulting from the procedure.',
+            'c1-7': 'I have had the opportunity to ask questions and chosen to proceed.',
+            'consent1-agree': 'I have read and agree to the terms above.',
+            'consent-piercing-label': 'Piercing consent and liability waiver — LUMI Atelier',
+            'consent2-label': 'Marketing consent',
+            'c2-text': 'I authorise LUMI Atelier to take and use photographs for portfolio, social media and marketing purposes.',
+            'consent2-agree': 'I accept and authorise the use of my images.',
+            'submit': 'Send Request',
+            'sending': 'Sending…', 'sent': 'Request Sent ✓', 'error': 'Error — Try Again',
+        }
+    };
+
+    let currentLang = localStorage.getItem('lang') || 'pt';
+
+    function applyLang(lang) {
+        const t = i18n[lang];
+        document.documentElement.lang = lang;
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const v = t[el.dataset.i18n]; if (v !== undefined) el.innerHTML = v;
+        });
+        document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+            const v = t[el.dataset.i18nPh]; if (v !== undefined) el.placeholder = v;
+        });
+        currentLang = lang;
+        localStorage.setItem('lang', lang);
+    }
+
+    // ─── SERVICE SWITCHING ─────────────────────────────
+    const tattooFields = document.getElementById('tattoo-fields');
+    const piercingFields = document.getElementById('piercing-fields');
+    const formServiceInput = document.getElementById('form-service');
+    const consentTattooCheck = document.getElementById('consent-tattoo-check');
+    const consentPiercingCheck = document.getElementById('consent-piercing-check');
+
+    function switchService(service) {
+        const isTattoo = service === 'tattoo';
+        tattooFields.classList.toggle('visible', isTattoo);
+        piercingFields.classList.toggle('visible', !isTattoo);
+        formServiceInput.value = service;
+
+        // Update required consent
+        if (consentTattooCheck) consentTattooCheck.required = isTattoo;
+        if (consentPiercingCheck) consentPiercingCheck.required = !isTattoo;
+
+        // Update form subject
+        const subjectEl = document.querySelector('input[name="subject"]');
+        if (subjectEl) {
+            subjectEl.value = isTattoo
+                ? 'Nova Marcação — Tatuagem · LUMI Atelier'
+                : 'Nova Marcação — Piercing · LUMI Atelier';
+        }
+    }
+
+    document.querySelectorAll('input[name="service_type"]').forEach(radio => {
+        radio.addEventListener('change', function() { switchService(this.value); });
+    });
+
+    // Pre-select from URL param
+    const urlParams = new URLSearchParams(window.location.search);
+    const serviceParam = urlParams.get('service');
+    if (serviceParam === 'piercing') {
+        document.getElementById('svc-piercing').checked = true;
+        switchService('piercing');
+    } else {
+        switchService('tattoo');
+    }
+
+    // ─── CONDITIONAL: ZONA OUTRO ──────────────────────
+    document.querySelectorAll('input[name="zone"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+            document.getElementById('zone-outro-field').classList.toggle('visible', this.value === 'Outro');
+        });
+    });
+
+    // ─── CONDITIONAL: PRIMEIRA TATUAGEM ──────────────
+    document.querySelectorAll('input[name="first_tattoo"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+            const isFirst = this.value === 'Sim';
+            document.getElementById('first-tattoo-box').classList.toggle('visible', isFirst);
+            document.getElementById('first-concerns-field').classList.toggle('visible', isFirst);
+        });
+    });
+
+    // ─── CONDITIONAL: PRIMEIRO PIERCING ──────────────
+    document.querySelectorAll('input[name="first_piercing"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+            document.getElementById('first-piercing-box').classList.toggle('visible', this.value === 'Sim');
+        });
+    });
+
+    // ─── FILE INPUT FEEDBACK ──────────────────────────
+    const refInput = document.getElementById('references');
+    if (refInput) {
+        refInput.addEventListener('change', function() {
+            const label = document.querySelector('.file-label span');
+            const hint = document.querySelector('.file-hint');
+            if (!this.files.length) return;
+            label.textContent = this.files.length === 1
+                ? this.files[0].name
+                : `${this.files.length} ${currentLang === 'pt' ? 'ficheiros selecionados' : 'files selected'}`;
+            hint.textContent = Array.from(this.files).map(f => f.name).join(', ');
+        });
+    }
+
+    // ─── CLOUDINARY UPLOAD ────────────────────────────
+    const CLOUDINARY_CLOUD = 'drlwglj6i';
+    const CLOUDINARY_PRESET = 'lumiatelier';
+
+    async function uploadToCloudinary(file) {
+        const fd = new FormData();
+        fd.append('file', file);
+        fd.append('upload_preset', CLOUDINARY_PRESET);
+        const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/image/upload`, { method: 'POST', body: fd });
+        const data = await res.json();
+        if (!data.secure_url) throw new Error('Upload failed: ' + (data.error?.message || 'unknown'));
+        return data.secure_url;
+    }
+
+    // ─── FORM SUBMISSION ──────────────────────────────
+    document.getElementById('contact-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const form = e.target;
+        const btn = document.getElementById('submit-btn');
+        const t = i18n[currentLang];
+        btn.disabled = true;
+
+        const fd = new FormData(form);
+        const get = k => fd.get(k) || '—';
+        const service = formServiceInput.value;
+        const isTattoo = service === 'tattoo';
+
+        let imageUrls = [];
+
+        if (isTattoo) {
+            const files = form.querySelector('#references').files;
+            if (files.length > 0) {
+                btn.textContent = currentLang === 'pt' ? 'A carregar imagens...' : 'Uploading images...';
+                try {
+                    imageUrls = await Promise.all(Array.from(files).map(uploadToCloudinary));
+                } catch {
+                    btn.textContent = t['error'];
+                    btn.disabled = false;
+                    return;
+                }
+            }
+        }
+
+        btn.textContent = t['sending'];
+
+        let message;
+        if (isTattoo) {
+            const zone = get('zone');
+            const zoneCustom = fd.get('zone_custom');
+            const firstTattoo = get('first_tattoo');
+            const schedules = fd.getAll('schedule');
+            const refLines = imageUrls.length ? imageUrls.map((url, i) => `Imagem ${i + 1}: ${url}`) : ['—'];
+            message = [
+                '━━━ CLIENTE ━━━',
+                `Nome:        ${get('name')}`,
+                `Email:       ${get('email')}`,
+                `Telemóvel:   ${get('phone')}`,
+                `Cidade:      ${get('city')}`,
+                '',
+                '━━━ TATUAGEM ━━━',
+                `Ideia:       ${get('idea')}`,
+                `Zona:        ${zone}${zoneCustom ? ' — ' + zoneCustom : ''}`,
+                `Tamanho:     ${get('size')} cm`,
+                `1ª tatuagem: ${firstTattoo}`,
+                ...(firstTattoo === 'Sim' && fd.get('concerns') ? [`Dúvidas:     ${fd.get('concerns')}`] : []),
+                '',
+                '━━━ DISPONIBILIDADE ━━━',
+                `Horário:     ${schedules.length ? schedules.join(', ') : '—'}`,
+                '',
+                '━━━ SAÚDE ━━━',
+                `Saúde:       ${get('health')}`,
+                '',
+                '━━━ OBSERVAÇÕES ━━━',
+                get('notes'),
+                '',
+                '━━━ REFERÊNCIAS ━━━',
+                ...refLines,
+                '',
+                '━━━ CONSENTIMENTOS ━━━',
+                `Tatuagem:    ${fd.get('consent_tattoo') ? 'Aceite' : 'Não aceite'}`,
+                `Marketing:   ${fd.get('consent_marketing_tattoo') ? 'Aceite' : 'Não aceite'}`,
+            ].join('\n');
+        } else {
+            const schedulesP = fd.getAll('schedule_p');
+            message = [
+                '━━━ CLIENTE ━━━',
+                `Nome:        ${get('name')}`,
+                `Email:       ${get('email')}`,
+                `Telemóvel:   ${get('phone')}`,
+                `Cidade:      ${get('city')}`,
+                '',
+                '━━━ PIERCING ━━━',
+                `Tipo:        ${get('piercing_type')}`,
+                `Localização: ${get('piercing_location')}`,
+                `1º piercing: ${get('first_piercing')}`,
+                `Jóia:        ${get('jewelry_material')}`,
+                '',
+                '━━━ DISPONIBILIDADE ━━━',
+                `Horário:     ${schedulesP.length ? schedulesP.join(', ') : '—'}`,
+                '',
+                '━━━ SAÚDE ━━━',
+                `Saúde:       ${get('health_piercing')}`,
+                '',
+                '━━━ OBSERVAÇÕES ━━━',
+                get('notes_piercing'),
+                '',
+                '━━━ CONSENTIMENTOS ━━━',
+                `Piercing:    ${fd.get('consent_piercing') ? 'Aceite' : 'Não aceite'}`,
+                `Marketing:   ${fd.get('consent_marketing_piercing') ? 'Aceite' : 'Não aceite'}`,
+            ].join('\n');
+        }
+
+        // Minimal web3forms payload
+        const payload = new FormData();
+        payload.append('access_key', fd.get('access_key'));
+        payload.append('subject', isTattoo ? `Nova Marcação Tattoo — ${get('name')}` : `Nova Marcação Piercing — ${get('name')}`);
+        payload.append('from_name', get('name'));
+        payload.append('email', fd.get('email') || '');
+        payload.append('redirect', 'false');
+        payload.append('message', message);
+
+        try {
+            const res = await fetch(form.action, { method: 'POST', body: payload, headers: { Accept: 'application/json' } });
+            const data = await res.json();
+            if (data.success) {
+                btn.textContent = t['sent'];
+                btn.style.background = 'var(--dark-brown)';
+
+                // Confirmation email to client
+                fetch('/api/confirm', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name: get('name'), email: fd.get('email') || '', service, lang: currentLang }),
+                }).catch(() => {});
+
+                // Google Sheets logging
+                const sheetPayload = isTattoo ? {
+                    service: 'tattoo',
+                    name: get('name'), email: fd.get('email') || '', phone: get('phone'), city: get('city'),
+                    zone: get('zone') + (fd.get('zone_custom') ? ' — ' + fd.get('zone_custom') : ''),
+                    size: get('size'), first_tattoo: get('first_tattoo'),
+                    schedule: fd.getAll('schedule').join(', ') || '—',
+                    idea: get('idea'), health: get('health'), notes: get('notes'),
+                    references: imageUrls.join(', ') || '—',
+                    consent_tattoo: fd.get('consent_tattoo') ? 'Aceite' : 'Não aceite',
+                    consent_marketing: fd.get('consent_marketing_tattoo') ? 'Aceite' : 'Não aceite',
+                    lang: currentLang,
+                } : {
+                    service: 'piercing',
+                    name: get('name'), email: fd.get('email') || '', phone: get('phone'), city: get('city'),
+                    piercing_type: get('piercing_type'), piercing_location: get('piercing_location'),
+                    first_piercing: get('first_piercing'), jewelry_material: get('jewelry_material'),
+                    schedule: fd.getAll('schedule_p').join(', ') || '—',
+                    health: get('health_piercing'), notes: get('notes_piercing'),
+                    consent_piercing: fd.get('consent_piercing') ? 'Aceite' : 'Não aceite',
+                    consent_marketing: fd.get('consent_marketing_piercing') ? 'Aceite' : 'Não aceite',
+                    lang: currentLang,
+                };
+
+                fetch('/api/sheet', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(sheetPayload),
+                }).catch(() => {});
+
+                form.reset();
+                // Re-apply service state
+                switchService(service);
+                if (refInput) {
+                    const labelSpan = document.querySelector('.file-label span');
+                    if (labelSpan) labelSpan.textContent = i18n[currentLang]['label-references-btn'];
+                    const hint = document.querySelector('.file-hint');
+                    if (hint) hint.textContent = i18n[currentLang]['label-references-hint'];
+                }
+            } else {
+                throw new Error(data.message);
+            }
+        } catch {
+            btn.textContent = t['error'];
+            btn.disabled = false;
+        }
+    });
+
+    // Apply language on load
+    applyLang(currentLang);
+</script>
+</body>
+</html>
