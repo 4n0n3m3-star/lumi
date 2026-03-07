@@ -841,7 +841,7 @@ footer {
     nav .lang-toggle:not(.lang-toggle--mobile) { display: none; }
     .section { padding: 80px 32px; }
     .services-grid { display: flex; flex-direction: column; gap: 0; }
-    .service-card { height: 70vw; min-height: 360px; width: 100%; }
+    .service-card { height: 90vw; min-height: 480px; width: 100%; }
     .service-card-content { padding: 36px 32px; }
     #contact { padding: 80px 32px; }
     footer { padding: 48px 32px 40px; }
