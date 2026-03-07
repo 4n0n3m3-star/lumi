@@ -3,9 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LUMI Atelier — Estúdio de Tattoo & Piercing</title>
+    <title>LUMI Atelier — Estúdio de Tattoo & Piercing em Venda do Pinheiro</title>
+    <meta name="description" content="LUMI Atelier — estúdio de tattoo fineline e piercing em Venda do Pinheiro, Portugal. Apenas por marcação. Arte permanente criada com intenção.">
+    <meta name="theme-color" content="#1A0E06">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="LUMI Atelier — Tattoo & Piercing">
+    <meta property="og:description" content="Estúdio de tattoo fineline e piercing em Venda do Pinheiro. Onde a luz encontra a pele.">
+    <meta property="og:url" content="https://lumiatelierpt.com">
+    <meta property="og:image" content="https://lumiatelierpt.com/media/DSCF4917.jpg">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="canonical" href="https://lumiatelierpt.com">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Tenor+Sans&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -277,7 +287,7 @@
         .hero-eyebrow {
             font-family: 'Montserrat', sans-serif;
             font-weight: 200;
-            font-size: clamp(0.6rem, 1.2vw, 0.75rem);
+            font-size: clamp(0.68rem, 1.2vw, 0.85rem);
             letter-spacing: 0.48em;
             text-transform: uppercase;
             color: rgba(236, 217, 208, 0.45);
@@ -291,12 +301,6 @@
             color: var(--cream);
             position: relative;
         }
-        .hero-rule {
-            width: 72px;
-            height: 1px;
-            background: rgba(208, 184, 172, 0.35);
-            margin: 28px auto;
-        }
         .hero-sub {
             font-family: 'Montserrat', sans-serif;
             font-weight: 200;
@@ -304,6 +308,9 @@
             letter-spacing: 0.5em;
             text-transform: uppercase;
             color: rgba(236, 217, 208, 0.5);
+            position: absolute;
+            bottom: -1.6rem;
+            right: -0.5em;
         }
         .hero-tagline {
             font-family: 'Montserrat', sans-serif;
@@ -548,157 +555,115 @@
             flex-shrink: 0;
         }
 
-        /* Service Panel */
-        .service-panel {
+        /* Service Cards */
+        .services-grid {
             display: grid;
-            grid-template-columns: 55% 45%;
-            min-height: 44vh;
+            grid-template-columns: 1fr 1fr;
         }
-        .service-panel--reverse {
-            grid-template-columns: 45% 55%;
-        }
-        .service-panel--reverse .service-panel-img { order: 2; }
-        .service-panel--reverse .service-panel-info { order: 1; }
-
-        .service-panel-img {
+        .service-card {
             position: relative;
+            height: 88vh;
             overflow: hidden;
         }
-        .service-panel-img img {
+        .service-card img {
+            position: absolute;
+            inset: 0;
             width: 100%;
             height: 100%;
             object-fit: cover;
-            object-position: center 25%;
+            object-position: center;
             display: block;
             transition: transform 1.1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
-        .service-panel:hover .service-panel-img img { transform: scale(1.04); }
-        .service-panel-img-vignette {
+        .service-card:hover img { transform: scale(1.04); }
+        .service-card-overlay {
             position: absolute;
             inset: 0;
-            background: linear-gradient(to bottom, transparent 55%, rgba(253,250,247,0.25) 100%);
+            background: linear-gradient(to top, rgba(26,14,6,0.78) 0%, rgba(26,14,6,0.25) 55%, rgba(26,14,6,0.08) 100%);
             pointer-events: none;
         }
-        /* Side fade toward info column */
-        .service-panel:not(.service-panel--reverse) .service-panel-img-vignette {
-            background: linear-gradient(to bottom, transparent 55%, rgba(253,250,247,0.25) 100%),
-                        linear-gradient(to right, transparent 75%, rgba(253,250,247,0.35) 100%);
-        }
-        .service-panel--reverse .service-panel-img-vignette {
-            background: linear-gradient(to bottom, transparent 55%, rgba(253,250,247,0.25) 100%),
-                        linear-gradient(to left, transparent 75%, rgba(253,250,247,0.35) 100%);
-        }
-
-        .service-panel-info {
-            background: var(--cream);
-            padding: 48px 64px 48px 60px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            gap: 22px;
-            position: relative;
-            overflow: hidden;
-        }
-        .service-panel--reverse .service-panel-info {
-            padding: 48px 60px 48px 64px;
-        }
-        .service-panel-ghost {
+        .service-card-content {
             position: absolute;
-            font-family: 'Tenor Sans', serif;
-            font-size: clamp(7rem, 14vw, 12rem);
-            color: rgba(44, 26, 14, 0.04);
-            line-height: 1;
-            pointer-events: none;
-            user-select: none;
-            bottom: 20px;
-            right: 36px;
-            letter-spacing: -0.04em;
-        }
-
-        .service-panel-label {
-            font-size: 0.58rem;
-            letter-spacing: 0.4em;
-            text-transform: uppercase;
-            color: rgba(167, 112, 73, 0.65);
-        }
-        .service-panel-title {
-            font-family: 'Tenor Sans', serif;
-            font-size: clamp(2.4rem, 4.5vw, 4rem);
-            letter-spacing: 0.06em;
-            color: var(--text);
-            line-height: 1.05;
-        }
-        .service-panel-rule {
-            width: 32px;
-            height: 1px;
-            background: rgba(176, 144, 128, 0.4);
-        }
-        .service-panel-desc {
-            font-size: 0.84rem;
-            line-height: 1.82;
-            color: var(--text-light);
-            max-width: 340px;
-        }
-        .service-panel-artist {
-            font-size: 0.58rem;
-            letter-spacing: 0.25em;
-            text-transform: uppercase;
-            color: rgba(167, 112, 73, 0.6);
-        }
-        .service-panel-actions {
+            bottom: 0; left: 0; right: 0;
+            padding: 48px 52px;
             display: flex;
             flex-direction: column;
             gap: 14px;
-            margin-top: 6px;
         }
-        .service-panel-cta {
-            display: inline-block;
-            padding: 14px 36px;
-            border: 1px solid rgba(167, 112, 73, 0.5);
+        .service-card-label {
             font-family: 'Montserrat', sans-serif;
+            font-size: 0.65rem;
             font-weight: 400;
-            font-size: 0.6rem;
-            letter-spacing: 0.3em;
+            letter-spacing: 0.38em;
             text-transform: uppercase;
-            color: var(--warm-brown);
-            text-decoration: none;
-            width: fit-content;
-            transition: background 0.4s cubic-bezier(0.25,0.46,0.45,0.94),
-                        border-color 0.4s cubic-bezier(0.25,0.46,0.45,0.94),
-                        color 0.4s cubic-bezier(0.25,0.46,0.45,0.94),
-                        transform 0.3s cubic-bezier(0.25,0.46,0.45,0.94);
+            color: rgba(236,217,208,0.85);
         }
-        .service-panel-cta:hover {
-            background: var(--warm-brown);
-            border-color: var(--warm-brown);
+        .service-card-title {
+            font-family: 'Tenor Sans', serif;
+            font-size: clamp(2.2rem, 3.5vw, 3.2rem);
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
             color: var(--cream-light);
-            transform: translateY(-2px);
+            line-height: 1.05;
         }
-        .service-panel-link {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.58rem;
+        .service-card-desc {
+            font-size: 0.84rem;
+            line-height: 1.75;
+            color: rgba(236,217,208,0.88);
+            max-width: 320px;
+        }
+        .service-card-artist {
+            font-size: 0.62rem;
             letter-spacing: 0.26em;
             text-transform: uppercase;
-            color: rgba(122, 92, 72, 0.45);
+            color: rgba(236,217,208,0.65);
+        }
+        .service-card-actions {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+            margin-top: 8px;
+        }
+        .service-card-cta {
+            display: inline-block;
+            padding: 13px 32px;
+            border: 1px solid rgba(236,217,208,0.45);
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 400;
+            font-size: 0.58rem;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            color: var(--cream-light);
             text-decoration: none;
-            width: fit-content;
-            padding-bottom: 2px;
+            transition: background 0.4s cubic-bezier(0.25,0.46,0.45,0.94),
+                        border-color 0.4s cubic-bezier(0.25,0.46,0.45,0.94),
+                        transform 0.3s cubic-bezier(0.25,0.46,0.45,0.94);
+        }
+        .service-card-cta:hover {
+            background: rgba(236,217,208,0.15);
+            border-color: rgba(236,217,208,0.75);
+            transform: translateY(-2px);
+        }
+        .service-card-link {
+            font-size: 0.55rem;
+            letter-spacing: 0.26em;
+            text-transform: uppercase;
+            color: rgba(236,217,208,0.45);
+            text-decoration: none;
             position: relative;
+            padding-bottom: 2px;
             transition: color 0.3s ease;
         }
-        .service-panel-link::after {
+        .service-card-link::after {
             content: '';
             position: absolute;
             bottom: 0; left: 0;
-            width: 0;
-            height: 1px;
-            background: rgba(122, 92, 72, 0.45);
-            transition: width 0.4s cubic-bezier(0.25,0.46,0.45,0.94), background 0.3s ease;
+            width: 0; height: 1px;
+            background: rgba(236,217,208,0.6);
+            transition: width 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
         }
-        .service-panel-link:hover { color: var(--warm-brown); }
-        .service-panel-link:hover::after { width: 100%; background: var(--warm-brown); }
+        .service-card-link:hover { color: var(--cream-light); }
+        .service-card-link:hover::after { width: 100%; }
 
         /* ─── ARTISTS ────────────────────────────────── */
         #artists {
@@ -1094,66 +1059,24 @@
         /* ─── CONTACT ────────────────────────────────── */
         #contact {
             background: var(--cream-light);
-            padding: 120px 72px;
-        }
-        .contact-eyebrow-dark {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 200;
-            font-size: 0.6rem;
-            letter-spacing: 0.38em;
-            text-transform: uppercase;
-            color: rgba(167, 112, 73, 0.6);
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            margin-bottom: 72px;
-        }
-        .contact-eyebrow-dark::before {
-            content: '';
-            display: block;
-            width: 36px;
-            height: 1px;
-            background: rgba(167,112,73,0.3);
-            flex-shrink: 0;
-        }
-        .contact-rule {
-            width: 100%;
-            height: 1px;
-            background: rgba(44, 26, 14, 0.08);
-            margin: 0;
+            padding: 80px 72px;
+            border-top: 1px solid rgba(44, 26, 14, 0.08);
+            border-bottom: 1px solid rgba(44, 26, 14, 0.08);
         }
         .contact-links {
             display: flex;
-            flex-direction: column;
-            gap: 0;
+            justify-content: space-between;
+            align-items: center;
         }
         .contact-link {
-            display: block;
             font-family: 'Tenor Sans', serif;
-            font-size: clamp(2rem, 5vw, 4.5rem);
-            letter-spacing: 0.04em;
+            font-size: clamp(1.1rem, 2vw, 1.6rem);
+            letter-spacing: 0.06em;
             color: var(--text);
             text-decoration: none;
-            padding: 40px 0;
-            border-bottom: 1px solid rgba(44, 26, 14, 0.08);
-            position: relative;
-            transition: color 0.4s ease, padding-left 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
+            transition: color 0.3s ease;
         }
-        .contact-link:first-child { border-top: 1px solid rgba(44, 26, 14, 0.08); }
-        .contact-link:hover {
-            color: var(--warm-brown);
-            padding-left: 20px;
-        }
-        .contact-link-sub {
-            display: block;
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 200;
-            font-size: 0.6rem;
-            letter-spacing: 0.3em;
-            text-transform: uppercase;
-            color: rgba(122, 92, 72, 0.5);
-            margin-bottom: 6px;
-        }
+        .contact-link:hover { color: var(--warm-brown); }
 
         /* ─── FOOTER ────────────────────────────────── */
         footer {
@@ -1202,16 +1125,9 @@
             .section { padding: 80px 32px; }
             .services-intro { padding: 60px 32px 40px; }
             .services-intro-note { display: none; }
-            .service-panel {
-                grid-template-columns: 1fr;
-                min-height: auto;
-            }
-            .service-panel--reverse { grid-template-columns: 1fr; }
-            .service-panel--reverse .service-panel-img { order: 0; }
-            .service-panel--reverse .service-panel-info { order: 0; }
-            .service-panel-img { height: 55vw; min-height: 280px; }
-            .service-panel-info { padding: 52px 36px 56px; }
-            .service-panel--reverse .service-panel-info { padding: 52px 36px 56px; }
+            .services-grid { grid-template-columns: 1fr; }
+            .service-card { height: 65vw; min-height: 320px; }
+            .service-card-content { padding: 36px 32px; }
             #jewelry { padding: 100px 32px; }
             #contact { padding: 80px 32px; }
             footer { padding: 48px 32px 40px; }
@@ -1232,12 +1148,12 @@
             .section { padding: 64px 24px; }
             .studio-statement { font-size: clamp(1.55rem, 5.5vw, 2rem); }
             .services-intro { padding: 48px 24px 32px; }
-            .service-panel-info { padding: 40px 24px 48px; }
-            .service-panel--reverse .service-panel-info { padding: 40px 24px 48px; }
+            .service-card-content { padding: 28px 24px; }
             #jewelry { padding: 80px 24px; }
             .jewelry-brand { font-size: clamp(2.4rem, 13vw, 4rem); }
             #contact { padding: 64px 24px; }
-            .contact-link { font-size: clamp(0.95rem, 4.2vw, 1.5rem); padding: 20px 0; word-break: break-all; }
+            .contact-links { flex-direction: column; gap: 24px; align-items: flex-start; }
+            .contact-link { font-size: clamp(0.9rem, 4vw, 1.2rem); word-break: break-all; }
             footer { padding: 40px 24px 36px; }
             .hero-scroll { display: none; }
             .art-grid { grid-template-columns: 1fr; }
@@ -1305,10 +1221,7 @@
     <div class="hero-content">
         <p class="hero-eyebrow fade-up" data-i18n="hero-eyebrow">Venda do Pinheiro · Estúdio de Tattoo &amp; Piercing</p>
         <h1 class="hero-name fade-up delay-1">LUMI</h1>
-        <div class="hero-rule fade-up delay-2"></div>
-        <p class="hero-sub fade-up delay-2" data-i18n="hero-sub">Atelier</p>
-        <p class="hero-tagline fade-up delay-3" data-i18n="hero-tagline">Onde a luz encontra a pele.</p>
-        <a href="#services" class="hero-cta fade-up delay-4" data-i18n="hero-cta">Explorar os serviços</a>
+<a href="#services" class="hero-cta fade-up delay-4" data-i18n="hero-cta">Explorar os serviços</a>
     </div>
     <div class="hero-scroll">
         <span class="hero-scroll-label" data-i18n="hero-scroll">Rolar</span>
@@ -1338,42 +1251,36 @@
 
 <!-- ─── SERVICES + BOOKING (MERGED) ──────────────────── -->
 <section id="services">
-    <div class="services-intro">
-        <p class="services-eyebrow fade-up" data-i18n="services-eyebrow">Serviços</p>
-        <span class="services-intro-note fade-up delay-1" data-i18n="services-intro-note">Apenas por marcação</span>
-    </div>
 
-    <!-- Panel 1: Tattoo -->
-    <div class="service-panel fade-up">
-        <div class="service-panel-img">
-            <img src="media/DSCF4917.jpg" alt="Estúdio de Tattoo" style="object-position: center 20%;">
-            <div class="service-panel-img-vignette"></div>
-        </div>
-        <div class="service-panel-info">
-            <p class="service-panel-label" data-i18n="tattoo-label">Fineline · Ilustração · Script</p>
-            <h2 class="service-panel-title" data-i18n="tattoo-title">Estúdio de<br>Tattoo</h2>
-            <p class="service-panel-desc" data-i18n="tattoo-desc">Arte permanente desenhada à medida — traço fino, detalhes delicados, peças que envelhecem contigo.</p>
-            <p class="service-panel-artist" data-i18n="tattoo-artist">Stephany Ribeiro — Artista Residente</p>
-            <div class="service-panel-actions">
-                <a href="book.html?service=tattoo" class="service-panel-cta" data-i18n="tattoo-cta">Reservar Sessão</a>
-                <a href="https://stephanytattoo.com" class="service-panel-link" target="_blank" data-i18n="tattoo-link">Ver portfólio →</a>
+    <div class="services-grid">
+        <!-- Card 1: Tattoo -->
+        <div class="service-card fade-up">
+            <img src="media/DSCF4917.jpg" alt="Estúdio de Tattoo" style="object-position: center 20%;" loading="eager" decoding="async" fetchpriority="high">
+            <div class="service-card-overlay"></div>
+            <div class="service-card-content">
+                <p class="service-card-label" data-i18n="tattoo-label">Fineline · Ilustração · Script</p>
+                <h2 class="service-card-title" data-i18n="tattoo-title">Tattoo</h2>
+                <p class="service-card-desc" data-i18n="tattoo-desc">Arte permanente desenhada à medida — traço fino, detalhes delicados, peças que envelhecem contigo.</p>
+                <p class="service-card-artist" data-i18n="tattoo-artist">Stephany Ribeiro — Artista Residente</p>
+                <div class="service-card-actions">
+                    <a href="book.html?service=tattoo" class="service-card-cta" data-i18n="tattoo-cta">Reservar Sessão</a>
+                    <a href="https://stephanytattoo.com" class="service-card-link" target="_blank" data-i18n="tattoo-link">Ver portfólio →</a>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- Panel 2: Piercing -->
-    <div class="service-panel service-panel--reverse fade-up delay-1">
-        <div class="service-panel-img">
-            <img src="media/DSCF4915.jpg" alt="Estúdio de Piercing" style="object-position: center 25%;">
-            <div class="service-panel-img-vignette"></div>
-        </div>
-        <div class="service-panel-info">
-            <p class="service-panel-label" data-i18n="piercing-label">Ouvido · Facial · Corpo</p>
-            <h2 class="service-panel-title" data-i18n="piercing-title">Estúdio de<br>Piercing</h2>
-            <p class="service-panel-desc" data-i18n="piercing-desc">Piercing profissional por marcação. Jóias de qualidade, cuidado meticuloso, resultados que duram.</p>
-            <p class="service-panel-artist" data-i18n="piercing-artist">[Nome da Artista] — Apenas por marcação</p>
-            <div class="service-panel-actions">
-                <a href="book.html?service=piercing" class="service-panel-cta" data-i18n="piercing-cta">Reservar Sessão</a>
+        <!-- Card 2: Piercing -->
+        <div class="service-card fade-up delay-1">
+            <img src="media/DSCF4915.jpg" alt="Estúdio de Piercing" style="object-position: center 25%;" loading="lazy" decoding="async">
+            <div class="service-card-overlay"></div>
+            <div class="service-card-content">
+                <p class="service-card-label" data-i18n="piercing-label">Ouvido · Facial · Corpo</p>
+                <h2 class="service-card-title" data-i18n="piercing-title">Piercing</h2>
+                <p class="service-card-desc" data-i18n="piercing-desc">Piercing profissional por marcação. Jóias de qualidade, cuidado meticuloso, resultados que duram.</p>
+                <p class="service-card-artist" data-i18n="piercing-artist">[Nome da Artista] — Apenas por marcação</p>
+                <div class="service-card-actions">
+                    <a href="book.html?service=piercing" class="service-card-cta" data-i18n="piercing-cta">Reservar Sessão</a>
+                </div>
             </div>
         </div>
     </div>
@@ -1384,7 +1291,7 @@
     <p class="section-eyebrow fade-up" data-i18n="art-eyebrow">Coleção de Arte</p>
     <div class="art-grid">
         <div class="art-slot fade-up delay-1">
-            <img src="https://placehold.co/600x800/B09080/ECD9D0?text=+" alt="Art piece 1">
+            <img src="https://placehold.co/600x800/B09080/ECD9D0?text=+" alt="Art piece 1" loading="lazy" decoding="async" width="600" height="800">
             <div class="art-glass">
                 <span class="art-glass-num" data-i18n="art-ed1-num">Edição Nº 001</span>
                 <div class="art-glass-dot"></div>
@@ -1392,7 +1299,7 @@
             </div>
         </div>
         <div class="art-slot fade-up delay-2">
-            <img src="https://placehold.co/600x800/8C6248/D0B8AC?text=+" alt="Art piece 2">
+            <img src="https://placehold.co/600x800/8C6248/D0B8AC?text=+" alt="Art piece 2" loading="lazy" decoding="async" width="600" height="800">
             <div class="art-glass">
                 <span class="art-glass-num" data-i18n="art-ed2-num">Edição Nº 002</span>
                 <div class="art-glass-dot"></div>
@@ -1400,7 +1307,7 @@
             </div>
         </div>
         <div class="art-slot fade-up delay-3">
-            <img src="https://placehold.co/600x800/A77049/ECD9D0?text=+" alt="Art piece 3">
+            <img src="https://placehold.co/600x800/A77049/ECD9D0?text=+" alt="Art piece 3" loading="lazy" decoding="async" width="600" height="800">
             <div class="art-glass">
                 <span class="art-glass-num" data-i18n="art-ed3-num">Edição Nº 003</span>
                 <div class="art-glass-dot"></div>
@@ -1420,6 +1327,7 @@
 </section>
 
 <!-- ─── JEWELRY ───────────────────────────────────────── -->
+<!-- JEWELRY SECTION — hidden, restore when ready
 <section id="jewelry">
     <div class="jewelry-glow"></div>
     <div class="jewelry-inner">
@@ -1440,19 +1348,13 @@
         <p class="jewelry-subscribe-confirm" id="jewelryConfirm" data-i18n="jewelry-confirm">Estás na lista — algo belo está a caminho.</p>
     </div>
 </section>
+-->
 
 <!-- ─── CONTACT ───────────────────────────────────────── -->
 <section id="contact">
-    <p class="contact-eyebrow-dark fade-up" data-i18n="contact-eyebrow">Encontra-nos</p>
     <div class="contact-links">
-        <a href="mailto:studio@lumiatelier.com" class="contact-link fade-up delay-1">
-            <span class="contact-link-sub" data-i18n="contact-email-sub">Email</span>
-            studio@lumiatelier.com
-        </a>
-        <a href="https://instagram.com/lumi.atelier_" class="contact-link fade-up delay-2" target="_blank">
-            <span class="contact-link-sub" data-i18n="contact-ig-sub">Instagram</span>
-            @lumi.atelier_
-        </a>
+        <a href="mailto:studio@lumiatelier.com" class="contact-link fade-up">studio@lumiatelier.com</a>
+        <a href="https://instagram.com/lumi.atelier_" class="contact-link fade-up delay-1" target="_blank">@lumi.atelier_</a>
     </div>
 </section>
 
@@ -1499,13 +1401,13 @@
             'services-eyebrow': 'Serviços',
             'services-intro-note': 'Apenas por marcação',
             'tattoo-label': 'Fineline · Ilustração · Script',
-            'tattoo-title': 'Estúdio de<br>Tattoo',
+            'tattoo-title': 'Tattoo',
             'tattoo-desc': 'Arte permanente desenhada à medida — traço fino, detalhes delicados, peças que envelhecem contigo.',
             'tattoo-artist': 'Stephany Ribeiro — Artista Residente',
             'tattoo-cta': 'Reservar Sessão',
             'tattoo-link': 'Ver portfólio →',
             'piercing-label': 'Ouvido · Facial · Corpo',
-            'piercing-title': 'Estúdio de<br>Piercing',
+            'piercing-title': 'Piercing',
             'piercing-desc': 'Piercing profissional por marcação. Jóias de qualidade, cuidado meticuloso, resultados que duram.',
             'piercing-artist': '[Nome da Artista] — Apenas por marcação',
             'piercing-cta': 'Reservar Sessão',
@@ -1579,13 +1481,13 @@
             'services-eyebrow': 'Services',
             'services-intro-note': 'By appointment only',
             'tattoo-label': 'Fineline · Illustration · Script',
-            'tattoo-title': 'Tattoo<br>Studio',
+            'tattoo-title': 'Tattoo',
             'tattoo-desc': 'Permanent art drawn to order — fine lines, delicate details, pieces that age with you.',
             'tattoo-artist': 'Stephany Ribeiro — Resident Artist',
             'tattoo-cta': 'Book a Session',
             'tattoo-link': 'View portfolio →',
             'piercing-label': 'Ear · Facial · Body',
-            'piercing-title': 'Piercing<br>Studio',
+            'piercing-title': 'Piercing',
             'piercing-desc': 'Professional piercing by appointment. Quality jewelry, meticulous care, lasting results.',
             'piercing-artist': '[Artist Name] — By appointment only',
             'piercing-cta': 'Book a Session',
