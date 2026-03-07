@@ -841,7 +841,7 @@ footer {
     nav .lang-toggle:not(.lang-toggle--mobile) { display: none; }
     .section { padding: 80px 32px; }
     .services-grid { grid-template-columns: 1fr; }
-    .service-card { height: 65vw; min-height: 320px; }
+    .service-card { height: 70vw; min-height: 360px; }
     .service-card-content { padding: 36px 32px; }
     #contact { padding: 80px 32px; }
     footer { padding: 48px 32px 40px; }
@@ -855,13 +855,18 @@ footer {
 @media (max-width: 600px) {
     nav { padding: 20px 24px; }
     nav.scrolled { padding: 14px 24px; }
-    .hero-eyebrow { font-size: 0.48rem; letter-spacing: 0.18em; }
-    .hero-name { font-size: clamp(5rem, 22vw, 8rem); }
+    .hero-eyebrow { font-size: 0.5rem; letter-spacing: 0.16em; }
+    .hero-name { font-size: clamp(4.2rem, 20vw, 7rem); }
     .section { padding: 64px 24px; }
-    .studio-statement { font-size: clamp(1.55rem, 5.5vw, 2rem); }
+    .studio-statement { font-size: clamp(1.7rem, 5.8vw, 2.2rem); }
+    .studio-detail-value { font-size: 1rem; }
+    .service-card-title { font-size: 1.75rem; }
+    .service-card-content { padding: 28px 24px; }
+    .service-card-desc { font-size: 0.78rem; max-width: none; }
+    .art-glass-label { font-size: clamp(0.95rem, 3vw, 1.2rem); }
     #contact { padding: 64px 24px; }
     .contact-links { flex-direction: column; gap: 24px; align-items: flex-start; }
-    .contact-link { font-size: clamp(0.9rem, 4vw, 1.2rem); word-break: break-all; }
+    .contact-link { font-size: clamp(0.95rem, 4vw, 1.2rem); word-break: break-all; }
     footer { padding: 40px 24px 36px; }
     .hero-scroll { display: none; }
     .art-grid { grid-template-columns: 1fr; }
