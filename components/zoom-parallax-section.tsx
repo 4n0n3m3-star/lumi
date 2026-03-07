@@ -22,7 +22,7 @@ export default function ZoomParallaxSection() {
 
 	const images = [
 		{
-			src: '/media/DSCF4917.jpg',
+			src: '/media/parallax-piercing-detail.jpg',
 			alt: 'LUMI Atelier — estúdio de tattoo',
 		},
 		{
@@ -42,7 +42,7 @@ export default function ZoomParallaxSection() {
 			alt: 'LUMI Atelier — detalhe do espaço',
 		},
 		{
-			src: '/media/parallax-piercing-detail.jpg',
+			src: '/media/DSCF4917.jpg',
 			alt: 'LUMI Atelier — detalhe de piercing',
 		},
 		{
