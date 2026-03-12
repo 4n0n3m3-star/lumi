@@ -397,11 +397,11 @@ nav.scrolled .nav-menu-btn:hover { color: var(--warm-brown); }
     white-space: nowrap;
     will-change: transform, opacity;
 }
-#loader-left  { right: calc(50% + 20vw); transform: translateY(-50%); }
-#loader-right { left:  calc(50% + 20vw); transform: translateY(-50%); }
+#loader-left  { right: calc(50% + 28vw); transform: translateY(-50%); }
+#loader-right { left:  calc(50% + 28vw); transform: translateY(-50%); }
 #loader-percent {
     position: absolute;
-    top: calc(50% + 38px);
+    top: calc(50% + 72px);
     left: 50%;
     transform: translateX(-50%);
     font-family: 'Montserrat', sans-serif;
@@ -440,10 +440,9 @@ nav.scrolled .nav-menu-btn:hover { color: var(--warm-brown); }
     line-height: 0.88;
     white-space: nowrap;
     opacity: 0;
-    transform: translateY(-28px);
-    transition: opacity 0.65s ease, transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: opacity 0.45s ease;
 }
-.hero-main-title.revealed { opacity: 1; transform: translateY(0); }
+.hero-main-title.revealed { opacity: 1; }
 .hero-divider {
     display: none;
 }

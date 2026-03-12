@@ -102,6 +102,7 @@ export default function Home() {
   const [loaderTitleBig, setLoaderTitleBig] = useState(false);
   const [loaderOut, setLoaderOut] = useState(false);
   const [loaderDone, setLoaderDone] = useState(false);
+  const [heroTitleReady, setHeroTitleReady] = useState(false);
 
   const t = translations[lang];
 
@@ -155,8 +156,8 @@ export default function Home() {
         setLoaderLabelsVisible(false);
         // Grow title
         setTimeout(() => setLoaderTitleBig(true), 260);
-        // Slide loader up
-        setTimeout(() => setLoaderOut(true), 980);
+        // Reveal hero title + slide loader up simultaneously
+        setTimeout(() => { setLoaderOut(true); setHeroTitleReady(true); }, 980);
         // Reveal hero
         setTimeout(() => {
           document.body.style.overflow = '';
@@ -235,7 +236,7 @@ export default function Home() {
       {/* ─── HERO ─────────────────────────────────────── */}
       <section className="hero" id="home">
         <div className="hero-title-section">
-          <h1 className={`hero-main-title${heroRevealed ? ' revealed' : ''}`}>LUMI ATELIER</h1>
+          <h1 className={`hero-main-title${(heroRevealed || heroTitleReady) ? ' revealed' : ''}`}>LUMI ATELIER</h1>
         </div>
         <div className="hero-divider"></div>
         <div className="hero-bottom">
@@ -255,7 +256,6 @@ export default function Home() {
           <div className={`hero-bottom-right${heroRevealed ? ' revealed' : ''}`}>
             <p className="hero-right-desc">
               Minimalista. Intencional. Eterna.<br/>
-              <br/>
               exclusivamente à sua medida.<br/>
               Apenas por marcação.
             </p>
