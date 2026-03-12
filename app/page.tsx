@@ -240,10 +240,8 @@ export default function Home() {
         <div className="hero-divider"></div>
         <div className="hero-bottom">
           <div className={`hero-bottom-left${heroRevealed ? ' revealed' : ''}`}>
-            <span className="hero-left-line">Fineline Tattoo</span>
-            <span className="hero-left-line">Piercing Sutil</span>
-            <span className="hero-left-line">Arte Permanente</span>
             <span className="hero-left-line">Creative Studio</span>
+            <span className="hero-left-line">Arte Permanente</span>
             <span className="hero-left-line italic">Criado com intenção.</span>
           </div>
           <div className={`hero-bottom-images${heroRevealed ? ' revealed' : ''}`}>
@@ -256,11 +254,8 @@ export default function Home() {
           </div>
           <div className={`hero-bottom-right${heroRevealed ? ' revealed' : ''}`}>
             <p className="hero-right-desc">
-              Não fazemos tatuagens.<br/>
-              Criamos arte que ganha vida na pele.<br/>
               Minimalista. Intencional. Eterna.<br/>
               <br/>
-              Tatuagens e piercings desenhados<br/>
               exclusivamente à sua medida.<br/>
               Apenas por marcação.
             </p>
