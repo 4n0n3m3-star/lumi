@@ -63,9 +63,9 @@
             top: 0; left: 0; right: 0;
             z-index: 100;
             padding: 32px 64px;
-            display: flex;
+            display: grid;
+            grid-template-columns: 1fr auto 1fr;
             align-items: center;
-            justify-content: space-between;
             transition: background 0.5s ease, padding 0.4s ease, border-color 0.5s ease;
         }
         nav.scrolled {
@@ -74,16 +74,21 @@
             padding: 18px 64px;
             border-bottom: 1px solid var(--blush);
         }
-        .nav-logo {
-            font-family: 'Tenor Sans', serif;
-            font-size: 0.95rem;
-            letter-spacing: 0.22em;
-            text-transform: uppercase;
+        .nav-left {
+            display: flex;
+            align-items: center;
+        }
+        .nav-center-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
             color: var(--text);
             text-decoration: none;
-            transition: color 0.4s ease;
+            transition: color 0.4s ease, opacity 0.3s ease;
         }
-        nav.scrolled .nav-logo { color: var(--warm-brown); }
+        .nav-center-icon svg { width: 28px; height: 28px; }
+        .nav-center-icon:hover { opacity: 0.55; }
+        nav.scrolled .nav-center-icon { color: var(--warm-brown); }
         .nav-links {
             display: flex;
             gap: 44px;
@@ -106,6 +111,7 @@
         .nav-right {
             display: flex;
             align-items: center;
+            justify-content: flex-end;
             gap: 20px;
         }
         .lang-toggle {
@@ -352,27 +358,32 @@
         .hero-left-line {
             display: block;
             font-family: 'Tenor Sans', serif;
-            font-size: clamp(1.4rem, 2.6vw, 2.6rem);
+            font-size: clamp(0.9rem, 1.5vw, 1.5rem);
             letter-spacing: 0.04em;
             text-transform: uppercase;
             color: var(--text);
-            line-height: 1.18;
+            line-height: 1.25;
         }
         .hero-left-line.italic {
             font-style: italic;
             color: var(--text-light);
         }
-        .hero-bottom-image {
-            width: clamp(200px, 26vw, 420px);
+        .hero-bottom-images {
+            display: flex;
+            gap: 10px;
             flex-shrink: 0;
             margin: 0 clamp(24px, 4vw, 64px);
             align-self: flex-end;
-            overflow: hidden;
             opacity: 0;
             transform: translateY(32px);
             transition: opacity 0.7s ease 0.1s, transform 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.1s;
         }
-        .hero-bottom-image.revealed { opacity: 1; transform: translateY(0); }
+        .hero-bottom-images.revealed { opacity: 1; transform: translateY(0); }
+        .hero-bottom-image {
+            width: clamp(120px, 15vw, 230px);
+            flex-shrink: 0;
+            overflow: hidden;
+        }
         .hero-bottom-image img {
             width: 100%;
             aspect-ratio: 2/3;
@@ -393,35 +404,33 @@
         .hero-right-desc {
             font-family: 'Montserrat', sans-serif;
             font-weight: 300;
-            font-size: 1rem;
-            letter-spacing: 0.1em;
-            line-height: 1.85;
+            font-size: 0.78rem;
+            letter-spacing: 0.08em;
+            line-height: 1.9;
             color: var(--text-light);
-            text-transform: uppercase;
-            max-width: 320px;
+            max-width: 300px;
             margin-left: auto;
             margin-bottom: 28px;
         }
         .hero-cta {
             display: inline-block;
             padding: 13px 32px;
-            border: 1px solid rgba(66, 54, 46, 0.35);
+            background: var(--text);
+            border: 1px solid var(--text);
             font-family: 'Montserrat', sans-serif;
             font-weight: 400;
             font-size: 0.6rem;
             letter-spacing: 0.28em;
             text-transform: uppercase;
-            color: var(--text);
+            color: var(--cream-light);
             text-decoration: none;
             transition: background 0.4s cubic-bezier(0.25,0.46,0.45,0.94),
                         border-color 0.4s cubic-bezier(0.25,0.46,0.45,0.94),
-                        color 0.4s cubic-bezier(0.25,0.46,0.45,0.94),
                         transform 0.3s cubic-bezier(0.25,0.46,0.45,0.94);
         }
         .hero-cta:hover {
-            background: var(--text);
-            border-color: var(--text);
-            color: var(--cream-light);
+            background: var(--ink);
+            border-color: var(--ink);
             transform: translateY(-2px);
         }
         .hero-scroll {
@@ -1295,19 +1304,22 @@
 
 <!-- ─── NAV ─────────────────────────────────────────── -->
 <nav id="nav">
-    <a href="#home" class="nav-logo">Lumi Atelier</a>
-    <ul class="nav-links">
-        <li><a href="#services" data-i18n="nav-services">Serviços</a></li>
-        <li><a href="#art" data-i18n="nav-art">Arte</a></li>
-        <li><a href="book.html" style="color:var(--warm-brown);" data-i18n="nav-book">Reservar</a></li>
-        <li><a href="artists.html" data-i18n="nav-artists">Artistas</a></li>
-    </ul>
+    <div class="nav-left">
+        <ul class="nav-links">
+            <li><a href="#services" data-i18n="nav-services">Serviços</a></li>
+            <li><a href="#art" data-i18n="nav-art">Arte</a></li>
+        </ul>
+    </div>
+    <a href="#home" class="nav-center-icon">
+        <svg viewBox="0 0 100 100" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M50 2 Q57 43 98 50 Q57 57 50 98 Q43 57 2 50 Q43 43 50 2 Z" />
+        </svg>
+    </a>
     <div class="nav-right">
-        <div class="lang-toggle">
-            <button class="lang-btn active" data-lang="pt" onclick="setLang('pt')">PT</button>
-            <span class="lang-sep">|</span>
-            <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
-        </div>
+        <ul class="nav-links">
+            <li><a href="book.html" style="color:var(--warm-brown);" data-i18n="nav-book">Reservar</a></li>
+            <li><a href="artists.html" data-i18n="nav-artists">Artistas</a></li>
+        </ul>
         <button class="nav-menu-btn" id="menuBtn" aria-label="Menu" onclick="toggleMenu()" data-i18n="nav-menu">Menu</button>
     </div>
 </nav>
@@ -1321,14 +1333,29 @@
     <div class="hero-bottom">
         <div class="hero-bottom-left" id="heroLeft">
             <span class="hero-left-line">Fineline Tattoo</span>
+            <span class="hero-left-line">Piercing Sutil</span>
             <span class="hero-left-line">Arte Permanente</span>
+            <span class="hero-left-line">Creative Studio</span>
             <span class="hero-left-line italic">Criado com intenção.</span>
         </div>
-        <div class="hero-bottom-image" id="heroImage">
-            <img src="media/DSCF4917.jpg" alt="Lumi Atelier" loading="eager" decoding="async">
+        <div class="hero-bottom-images" id="heroImage">
+            <div class="hero-bottom-image">
+                <img src="media/DSCF4917.jpg" alt="Lumi Atelier" loading="eager" decoding="async">
+            </div>
+            <div class="hero-bottom-image">
+                <img src="media/DSCF4915.jpg" alt="Lumi Atelier" loading="eager" decoding="async">
+            </div>
         </div>
         <div class="hero-bottom-right" id="heroRight">
-            <p class="hero-right-desc">Arte permanente desenhada à medida — apenas por marcação.</p>
+            <p class="hero-right-desc">
+                Não fazemos tatuagens.<br>
+                Criamos arte que ganha vida na pele.<br>
+                Minimalista. Intencional. Eterna.<br>
+                <br>
+                Tatuagens e piercings desenhados<br>
+                exclusivamente à sua medida.<br>
+                Apenas por marcação.
+            </p>
             <a href="book.html" class="hero-cta" data-i18n="hero-cta">Reservar Sessão ↗</a>
         </div>
     </div>

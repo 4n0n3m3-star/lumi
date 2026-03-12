@@ -212,19 +212,22 @@ export default function Home() {
 
       {/* ─── NAV ─────────────────────────────────────── */}
       <nav id="nav" className={scrolled ? 'scrolled' : ''}>
-        <a href="#home" className="nav-logo">Lumi Atelier</a>
-        <ul className="nav-links">
-          <li><a href="#services">{t['nav-services']}</a></li>
-          <li><a href="#art">{t['nav-art']}</a></li>
-          <li><a href="book.html" style={{ color: 'var(--warm-brown)' }}>{t['nav-book']}</a></li>
-          <li><a href="artists.html">{t['nav-artists']}</a></li>
-        </ul>
+        <div className="nav-left">
+          <ul className="nav-links">
+            <li><a href="#services">{t['nav-services']}</a></li>
+            <li><a href="#art">{t['nav-art']}</a></li>
+          </ul>
+        </div>
+        <a href="#home" className="nav-center-icon">
+          <svg viewBox="0 0 100 100" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M50 2 Q57 43 98 50 Q57 57 50 98 Q43 57 2 50 Q43 43 50 2 Z" />
+          </svg>
+        </a>
         <div className="nav-right">
-          <div className="lang-toggle">
-            <button className={`lang-btn${lang === 'pt' ? ' active' : ''}`} onClick={() => setLang('pt')}>PT</button>
-            <span className="lang-sep">|</span>
-            <button className={`lang-btn${lang === 'en' ? ' active' : ''}`} onClick={() => setLang('en')}>EN</button>
-          </div>
+          <ul className="nav-links">
+            <li><a href="book.html" style={{ color: 'var(--warm-brown)' }}>{t['nav-book']}</a></li>
+            <li><a href="artists.html">{t['nav-artists']}</a></li>
+          </ul>
           <button className="nav-menu-btn" aria-label="Menu" onClick={() => setMenuOpen(true)}>{t['nav-menu']}</button>
         </div>
       </nav>
@@ -238,14 +241,29 @@ export default function Home() {
         <div className="hero-bottom">
           <div className={`hero-bottom-left${heroRevealed ? ' revealed' : ''}`}>
             <span className="hero-left-line">Fineline Tattoo</span>
+            <span className="hero-left-line">Piercing Sutil</span>
             <span className="hero-left-line">Arte Permanente</span>
+            <span className="hero-left-line">Creative Studio</span>
             <span className="hero-left-line italic">Criado com intenção.</span>
           </div>
-          <div className={`hero-bottom-image${heroRevealed ? ' revealed' : ''}`}>
-            <img src="/media/DSCF4917.jpg" alt="Lumi Atelier" loading="eager" />
+          <div className={`hero-bottom-images${heroRevealed ? ' revealed' : ''}`}>
+            <div className="hero-bottom-image">
+              <img src="/media/DSCF4917.jpg" alt="Lumi Atelier" loading="eager" />
+            </div>
+            <div className="hero-bottom-image">
+              <img src="/media/DSCF4915.jpg" alt="Lumi Atelier" loading="eager" />
+            </div>
           </div>
           <div className={`hero-bottom-right${heroRevealed ? ' revealed' : ''}`}>
-            <p className="hero-right-desc">Arte permanente desenhada à medida — apenas por marcação.</p>
+            <p className="hero-right-desc">
+              Não fazemos tatuagens.<br/>
+              Criamos arte que ganha vida na pele.<br/>
+              Minimalista. Intencional. Eterna.<br/>
+              <br/>
+              Tatuagens e piercings desenhados<br/>
+              exclusivamente à sua medida.<br/>
+              Apenas por marcação.
+            </p>
             <a href="book.html" className="hero-cta">{t['hero-cta']}</a>
           </div>
         </div>
