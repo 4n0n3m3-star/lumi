@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LUMI Atelier — Estúdio de Tattoo & Piercing em Venda do Pinheiro</title>
     <meta name="description" content="LUMI Atelier — estúdio de tattoo fineline e piercing em Venda do Pinheiro, Portugal. Apenas por marcação. Arte permanente criada com intenção.">
-    <meta name="theme-color" content="#1A0E06">
+    <meta name="theme-color" content="#1A1512">
     <meta property="og:type" content="website">
     <meta property="og:title" content="LUMI Atelier — Tattoo & Piercing">
     <meta property="og:description" content="Estúdio de tattoo fineline e piercing em Venda do Pinheiro. Onde a luz encontra a pele.">
@@ -21,16 +21,16 @@
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
-            --cream-light: #FDFAF7;
-            --cream:       #ECD9D0;
-            --blush:       #E6CCBD;
-            --rose-taupe:  #D0B8AC;
-            --taupe:       #B09080;
-            --warm-brown:  #C4956A;
-            --dark-brown:  #A77049;
-            --text:        #2C1A0E;
-            --text-light:  #7A5C48;
-            --ink:         #1A0E06;
+            --cream-light: #F8F7F7;
+            --cream:       #D2CCC4;
+            --blush:       #D2CCC4;
+            --rose-taupe:  #A8917F;
+            --taupe:       #706156;
+            --warm-brown:  #A8917F;
+            --dark-brown:  #706156;
+            --text:        #42362E;
+            --text-light:  #706156;
+            --ink:         #1A1512;
         }
 
         html { scroll-behavior: smooth; }
@@ -69,7 +69,7 @@
             transition: background 0.5s ease, padding 0.4s ease, border-color 0.5s ease;
         }
         nav.scrolled {
-            background: rgba(253, 250, 247, 0.92);
+            background: rgba(248, 247, 247, 0.94);
             backdrop-filter: blur(12px);
             padding: 18px 64px;
             border-bottom: 1px solid var(--blush);
@@ -79,7 +79,7 @@
             font-size: 0.95rem;
             letter-spacing: 0.22em;
             text-transform: uppercase;
-            color: var(--cream-light);
+            color: var(--text);
             text-decoration: none;
             transition: color 0.4s ease;
         }
@@ -94,11 +94,11 @@
             font-size: 0.7rem;
             letter-spacing: 0.24em;
             text-transform: uppercase;
-            color: rgba(253, 250, 247, 0.75);
+            color: var(--text-light);
             text-decoration: none;
             transition: color 0.3s ease;
         }
-        .nav-links a:hover { color: var(--cream-light); }
+        .nav-links a:hover { color: var(--text); }
         nav.scrolled .nav-links a { color: var(--text-light); }
         nav.scrolled .nav-links a:hover { color: var(--warm-brown); }
 
@@ -122,18 +122,18 @@
             font-weight: 400;
             letter-spacing: 0.24em;
             text-transform: uppercase;
-            color: rgba(253, 250, 247, 0.3);
+            color: rgba(66, 54, 46, 0.4);
             padding: 2px 0;
             transition: color 0.3s ease;
         }
-        .lang-btn.active { color: rgba(253, 250, 247, 0.8); }
-        .lang-btn:hover:not(.active) { color: rgba(253, 250, 247, 0.6); }
+        .lang-btn.active { color: var(--text); }
+        .lang-btn:hover:not(.active) { color: var(--text-light); }
         nav.scrolled .lang-btn { color: var(--taupe); }
         nav.scrolled .lang-btn.active { color: var(--warm-brown); }
         nav.scrolled .lang-btn:hover:not(.active) { color: var(--text-light); }
         .lang-sep {
             font-size: 0.5rem;
-            color: rgba(253, 250, 247, 0.18);
+            color: rgba(66, 54, 46, 0.2);
             pointer-events: none;
         }
         nav.scrolled .lang-sep { color: var(--blush); }
@@ -148,11 +148,11 @@
             font-weight: 400;
             letter-spacing: 0.28em;
             text-transform: uppercase;
-            color: rgba(253, 250, 247, 0.75);
+            color: var(--text-light);
             padding: 0;
             transition: color 0.3s ease;
         }
-        .nav-menu-btn:hover { color: var(--cream-light); }
+        .nav-menu-btn:hover { color: var(--text); }
         nav.scrolled .nav-menu-btn { color: var(--text-light); }
         nav.scrolled .nav-menu-btn:hover { color: var(--warm-brown); }
 
@@ -253,93 +253,181 @@
         .lang-toggle--mobile .lang-btn.active { color: rgba(236, 217, 208, 0.8); }
         .lang-toggle--mobile .lang-sep { color: rgba(236, 217, 208, 0.15); }
 
+        /* ─── LOADER ─────────────────────────────────────── */
+        #loader {
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            background: #F8F7F7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        #loader-title {
+            font-family: 'Tenor Sans', serif;
+            font-size: 4.5vw;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: #42362E;
+            white-space: nowrap;
+            position: relative;
+            z-index: 2;
+            will-change: font-size, letter-spacing;
+        }
+        #loader-left, #loader-right {
+            position: absolute;
+            top: 50%;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 300;
+            font-style: italic;
+            font-size: 0.78rem;
+            letter-spacing: 0.08em;
+            color: #706156;
+            white-space: nowrap;
+            will-change: transform, opacity;
+        }
+        #loader-left  { right: calc(50% + 20vw); transform: translateY(-50%); }
+        #loader-right { left:  calc(50% + 20vw); transform: translateY(-50%); }
+        #loader-percent {
+            position: absolute;
+            top: calc(50% + 38px);
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 300;
+            font-style: italic;
+            font-size: 0.72rem;
+            letter-spacing: 0.08em;
+            color: #706156;
+            white-space: nowrap;
+            will-change: opacity;
+        }
+
         /* ─── HERO ────────────────────────────────────── */
         .hero {
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            background: var(--ink);
+            background: var(--cream-light);
             position: relative;
             overflow: hidden;
         }
-        .hero-glow {
-            position: absolute;
-            inset: 0;
-            pointer-events: none;
-            background: radial-gradient(ellipse 70% 50% at 50% 55%, rgba(167,112,73,0.14) 0%, transparent 70%);
-            animation: glowPulse 6s ease-in-out infinite;
-        }
-        @keyframes glowPulse {
-            0%, 100% { opacity: 0.7; transform: scale(1); }
-            50%       { opacity: 1;   transform: scale(1.06); }
-        }
-        .hero-content {
-            position: relative;
-            z-index: 2;
+        .hero-title-section {
+            flex: 1;
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0;
+            align-items: flex-end;
+            justify-content: center;
+            padding-top: 130px;
+            padding-bottom: 28px;
         }
-        .hero-eyebrow {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 200;
-            font-size: clamp(0.68rem, 1.2vw, 0.85rem);
-            letter-spacing: 0.48em;
-            text-transform: uppercase;
-            color: rgba(236, 217, 208, 0.45);
-            margin-bottom: 36px;
-        }
-        .hero-name {
+        .hero-main-title {
             font-family: 'Tenor Sans', serif;
-            font-size: clamp(7rem, 19vw, 17rem);
-            letter-spacing: 0.06em;
-            line-height: 0.9;
-            color: var(--cream);
-            position: relative;
-        }
-        .hero-sub {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 200;
-            font-size: clamp(0.65rem, 1.4vw, 0.8rem);
-            letter-spacing: 0.5em;
+            font-size: 13.5vw;
+            letter-spacing: 0.04em;
             text-transform: uppercase;
-            color: rgba(236, 217, 208, 0.5);
-            position: absolute;
-            bottom: -1.6rem;
-            right: -0.5em;
+            color: var(--text);
+            line-height: 0.88;
+            white-space: nowrap;
+            opacity: 0;
+            transform: translateY(-28px);
+            transition: opacity 0.65s ease, transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .hero-tagline {
+        .hero-main-title.revealed { opacity: 1; transform: translateY(0); }
+        .hero-divider {
+            width: calc(100% - 144px);
+            margin: 0 72px;
+            height: 1px;
+            background: var(--blush);
+            opacity: 0.6;
+        }
+        .hero-bottom {
+            display: flex;
+            align-items: flex-end;
+            padding: 0 72px 72px;
+            min-height: 280px;
+        }
+        .hero-bottom-left {
+            flex: 1;
+            align-self: flex-end;
+            opacity: 0;
+            transform: translateY(22px);
+            transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .hero-bottom-left.revealed { opacity: 1; transform: translateY(0); }
+        .hero-left-line {
+            display: block;
+            font-family: 'Tenor Sans', serif;
+            font-size: clamp(1.4rem, 2.6vw, 2.6rem);
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            color: var(--text);
+            line-height: 1.18;
+        }
+        .hero-left-line.italic {
+            font-style: italic;
+            color: var(--text-light);
+        }
+        .hero-bottom-image {
+            width: clamp(160px, 18vw, 280px);
+            flex-shrink: 0;
+            margin: 0 clamp(24px, 4vw, 64px);
+            align-self: flex-end;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(32px);
+            transition: opacity 0.7s ease 0.1s, transform 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.1s;
+        }
+        .hero-bottom-image.revealed { opacity: 1; transform: translateY(0); }
+        .hero-bottom-image img {
+            width: 100%;
+            aspect-ratio: 2/3;
+            object-fit: cover;
+            object-position: center 20%;
+            display: block;
+            filter: saturate(0.85);
+        }
+        .hero-bottom-right {
+            flex: 1;
+            align-self: flex-end;
+            text-align: right;
+            opacity: 0;
+            transform: translateY(22px);
+            transition: opacity 0.7s ease 0.2s, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.2s;
+        }
+        .hero-bottom-right.revealed { opacity: 1; transform: translateY(0); }
+        .hero-right-desc {
             font-family: 'Montserrat', sans-serif;
             font-weight: 300;
-            font-size: clamp(0.8rem, 1.6vw, 1rem);
-            letter-spacing: 0.12em;
-            color: rgba(236, 217, 208, 0.65);
-            margin-top: 48px;
-            font-style: italic;
+            font-size: 0.68rem;
+            letter-spacing: 0.18em;
+            line-height: 2;
+            color: var(--text-light);
+            text-transform: uppercase;
+            max-width: 220px;
+            margin-left: auto;
+            margin-bottom: 24px;
         }
         .hero-cta {
-            margin-top: 52px;
             display: inline-block;
-            padding: 14px 40px;
-            border: 1px solid rgba(167, 112, 73, 0.5);
+            padding: 13px 32px;
+            border: 1px solid rgba(66, 54, 46, 0.35);
             font-family: 'Montserrat', sans-serif;
             font-weight: 400;
-            font-size: 0.65rem;
-            letter-spacing: 0.3em;
+            font-size: 0.6rem;
+            letter-spacing: 0.28em;
             text-transform: uppercase;
-            color: var(--cream);
+            color: var(--text);
             text-decoration: none;
             transition: background 0.4s cubic-bezier(0.25,0.46,0.45,0.94),
                         border-color 0.4s cubic-bezier(0.25,0.46,0.45,0.94),
+                        color 0.4s cubic-bezier(0.25,0.46,0.45,0.94),
                         transform 0.3s cubic-bezier(0.25,0.46,0.45,0.94);
         }
         .hero-cta:hover {
-            background: rgba(167, 112, 73, 0.18);
-            border-color: rgba(167, 112, 73, 0.8);
+            background: var(--text);
+            border-color: var(--text);
+            color: var(--cream-light);
             transform: translateY(-2px);
         }
         .hero-scroll {
@@ -356,13 +444,13 @@
             font-size: 0.6rem;
             letter-spacing: 0.3em;
             text-transform: uppercase;
-            color: rgba(236, 217, 208, 0.35);
+            color: rgba(66, 54, 46, 0.3);
             writing-mode: vertical-rl;
         }
         .hero-scroll-line {
             width: 1px;
             height: 44px;
-            background: linear-gradient(to bottom, rgba(208,184,172,0.5), transparent);
+            background: linear-gradient(to bottom, rgba(66,54,46,0.3), transparent);
             animation: scrollPulse 2.2s ease-in-out infinite;
         }
         @keyframes scrollPulse {
@@ -928,7 +1016,7 @@
 
         /* ─── JEWELRY ────────────────────────────────── */
         #jewelry {
-            background: #F0E5DC;
+            background: #E8E3DE;
             padding: 160px 72px;
             text-align: center;
             position: relative;
@@ -1080,7 +1168,7 @@
 
         /* ─── FOOTER ────────────────────────────────── */
         footer {
-            background: #130a03;
+            background: #100e0c;
             padding: 56px 72px 48px;
             display: flex;
             flex-direction: column;
@@ -1132,6 +1220,13 @@
             #contact { padding: 80px 32px; }
             footer { padding: 48px 32px 40px; }
             .hero-scroll { right: 32px; }
+            .hero-title-section { padding-top: 100px; padding-bottom: 20px; }
+            .hero-main-title { font-size: 16vw; }
+            .hero-divider { width: calc(100% - 64px); margin: 0 32px; }
+            .hero-bottom { padding: 0 32px 56px; flex-direction: column; align-items: flex-start; min-height: auto; gap: 32px; }
+            .hero-bottom-image { width: clamp(140px, 40vw, 200px); margin: 0; align-self: center; }
+            .hero-bottom-right { text-align: left; }
+            .hero-right-desc { margin-left: 0; }
             .studio-details { flex-direction: column; border-top: none; }
             .studio-detail-item { border-right: none; border-bottom: 1px solid var(--blush); padding: 24px 0; }
             .studio-detail-item:last-child { border-bottom: none; padding-left: 0; }
@@ -1143,8 +1238,8 @@
         @media (max-width: 600px) {
             nav { padding: 20px 24px; }
             nav.scrolled { padding: 14px 24px; }
-            .hero-eyebrow { font-size: 0.48rem; letter-spacing: 0.18em; }
-            .hero-name { font-size: clamp(5rem, 22vw, 8rem); }
+            .hero-main-title { font-size: 18vw; letter-spacing: 0.02em; }
+            .hero-scroll { display: none; }
             .section { padding: 64px 24px; }
             .studio-statement { font-size: clamp(1.55rem, 5.5vw, 2rem); }
             .services-intro { padding: 48px 24px 32px; }
@@ -1166,6 +1261,14 @@
     </style>
 </head>
 <body>
+
+<!-- ─── LOADER ──────────────────────────────────────── -->
+<div id="loader">
+    <span id="loader-left">Loading</span>
+    <div id="loader-title">LUMI ATELIER</div>
+    <span id="loader-right">in progres</span>
+    <div id="loader-percent">(0%)</div>
+</div>
 
 <!-- ─── MOBILE MENU ──────────────────────────────────── -->
 <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
@@ -1217,11 +1320,23 @@
 
 <!-- ─── HERO ─────────────────────────────────────────── -->
 <section class="hero" id="home">
-    <div class="hero-glow"></div>
-    <div class="hero-content">
-        <p class="hero-eyebrow fade-up" data-i18n="hero-eyebrow">Venda do Pinheiro · Estúdio de Tattoo &amp; Piercing</p>
-        <h1 class="hero-name fade-up delay-1">LUMI</h1>
-<a href="#services" class="hero-cta fade-up delay-4" data-i18n="hero-cta">Explorar os serviços</a>
+    <div class="hero-title-section">
+        <h1 class="hero-main-title" id="heroTitle">LUMI ATELIER</h1>
+    </div>
+    <div class="hero-divider"></div>
+    <div class="hero-bottom">
+        <div class="hero-bottom-left" id="heroLeft">
+            <span class="hero-left-line">Fineline Tattoo</span>
+            <span class="hero-left-line">Arte Permanente</span>
+            <span class="hero-left-line italic">Criado com intenção.</span>
+        </div>
+        <div class="hero-bottom-image" id="heroImage">
+            <img src="media/DSCF4917.jpg" alt="Lumi Atelier" loading="eager" decoding="async">
+        </div>
+        <div class="hero-bottom-right" id="heroRight">
+            <p class="hero-right-desc">Arte permanente desenhada à medida — apenas por marcação.</p>
+            <a href="book.html" class="hero-cta" data-i18n="hero-cta">Reservar Sessão ↗</a>
+        </div>
     </div>
     <div class="hero-scroll">
         <span class="hero-scroll-label" data-i18n="hero-scroll">Rolar</span>
@@ -1611,6 +1726,62 @@
         this.style.display = 'none';
         document.getElementById('jewelryConfirm').style.display = 'block';
     });
+
+    // ─── LOADER ───────────────────────────────────────
+    (function() {
+        var loader = document.getElementById('loader');
+        if (!loader) return;
+        var lTitle = document.getElementById('loader-title');
+        var lLeft  = document.getElementById('loader-left');
+        var lRight = document.getElementById('loader-right');
+        var lPct   = document.getElementById('loader-percent');
+        document.body.style.overflow = 'hidden';
+
+        var STEPS    = 80;   // number of ticks
+        var INTERVAL = 32;   // ms per tick (~2.56s total)
+        var current  = 0;
+
+        function ease(t) { return t < 0.5 ? 2*t*t : -1 + (4 - 2*t)*t; }
+
+        var timer = setInterval(function() {
+            current++;
+            var t = Math.min(current / STEPS, 1);
+            var p = ease(t);
+            lPct.textContent = '(' + Math.round(p * 100) + '%)';
+            var slide = p * 43;
+            lLeft.style.transform  = 'translateY(-50%) translateX(-' + slide + 'vw)';
+            lRight.style.transform = 'translateY(-50%) translateX('  + slide + 'vw)';
+            if (t >= 1) { clearInterval(timer); onComplete(); }
+        }, INTERVAL);
+
+        function onComplete() {
+            [lLeft, lRight, lPct].forEach(function(el) {
+                el.style.transition = 'opacity 0.32s ease';
+                el.style.opacity = '0';
+            });
+            setTimeout(function() {
+                lTitle.style.transition = 'font-size 0.88s cubic-bezier(0.16,1,0.3,1), letter-spacing 0.88s cubic-bezier(0.16,1,0.3,1)';
+                lTitle.style.fontSize = '13.5vw';
+                lTitle.style.letterSpacing = '0.04em';
+            }, 260);
+            setTimeout(function() {
+                loader.style.transition = 'transform 0.88s cubic-bezier(0.76,0,0.24,1)';
+                loader.style.transform = 'translateY(-100%)';
+            }, 980);
+            setTimeout(function() {
+                document.body.style.overflow = '';
+                loader.style.display = 'none';
+                var heroTitle = document.getElementById('heroTitle');
+                var heroLeft  = document.getElementById('heroLeft');
+                var heroImage = document.getElementById('heroImage');
+                var heroRight = document.getElementById('heroRight');
+                if (heroTitle) heroTitle.classList.add('revealed');
+                setTimeout(function() { if (heroLeft)  heroLeft.classList.add('revealed'); }, 90);
+                setTimeout(function() { if (heroImage) heroImage.classList.add('revealed'); }, 190);
+                setTimeout(function() { if (heroRight) heroRight.classList.add('revealed'); }, 280);
+            }, 1750);
+        }
+    })();
 </script>
 </body>
 </html>
