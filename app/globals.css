@@ -416,7 +416,7 @@ nav.scrolled .nav-menu-btn:hover { color: var(--warm-brown); }
 .hero-title-section {
     flex: 1;
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     justify-content: center;
     padding-top: 100px;
     padding-bottom: 0;
@@ -440,8 +440,8 @@ nav.scrolled .nav-menu-btn:hover { color: var(--warm-brown); }
 .hero-bottom {
     display: flex;
     align-items: flex-end;
-    padding: 0 72px 72px;
-    min-height: 280px;
+    padding: 0 72px 64px;
+    min-height: 260px;
 }
 .hero-bottom-left {
     flex: 1;
@@ -495,12 +495,12 @@ nav.scrolled .nav-menu-btn:hover { color: var(--warm-brown); }
 .hero-right-desc {
     font-family: 'Montserrat', sans-serif;
     font-weight: 300;
-    font-size: 0.82rem;
-    letter-spacing: 0.12em;
-    line-height: 1.9;
+    font-size: 1rem;
+    letter-spacing: 0.1em;
+    line-height: 1.85;
     color: var(--text-light);
     text-transform: uppercase;
-    max-width: 280px;
+    max-width: 320px;
     margin-left: auto;
     margin-bottom: 28px;
 }
