@@ -467,13 +467,13 @@ nav.scrolled .nav-menu-btn:hover { color: var(--warm-brown); }
     font-size: clamp(1.5rem, 2.2vw, 2.2rem);
     letter-spacing: 0.04em;
     text-transform: uppercase;
-    color: var(--text);
+    color: var(--text-light);
     line-height: 1.18;
     text-align: left;
 }
 .hero-left-line.italic {
     font-style: italic;
-    color: var(--text-light);
+    color: var(--ink);
 }
 .hero-bottom-images {
     display: flex;
