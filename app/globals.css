@@ -210,7 +210,7 @@ nav.scrolled .nav-center-icon { color: var(--warm-brown); }
 .nav-links a {
     font-size: 1.12rem;
     font-weight: 500;
-    letter-spacing: 0.19em;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--text-light);
     text-decoration: none;
@@ -510,13 +510,13 @@ text-align: justify;
 .hero-bottom-right.revealed { opacity: 1; transform: translateY(0); }
 .hero-right-desc {
     font-family: 'Montserrat', sans-serif;
-    font-weight: 300;
-    font-size: 1.1rem;
-    letter-spacing: 0.06em;
-    line-height: 1.7;
+    font-weight: 400;
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    line-height: 1.9;
     color: var(--text-light);
     text-align: justify;
-    text-align-last: left;
+    text-align-last: justify;
     text-transform: uppercase;
     max-width: none;
     margin-left: auto;
