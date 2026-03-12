@@ -95,6 +95,13 @@ export default function Home() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [artFormSent, setArtFormSent] = useState(false);
+  const [heroRevealed, setHeroRevealed] = useState(false);
+  const [loaderPct, setLoaderPct] = useState(0);
+  const [loaderSlide, setLoaderSlide] = useState(0);
+  const [loaderLabelsVisible, setLoaderLabelsVisible] = useState(true);
+  const [loaderTitleBig, setLoaderTitleBig] = useState(false);
+  const [loaderOut, setLoaderOut] = useState(false);
+  const [loaderDone, setLoaderDone] = useState(false);
 
   const t = translations[lang];
 
@@ -128,8 +135,52 @@ export default function Home() {
     return () => observer.disconnect();
   }, []);
 
+  // ─── LOADER ───────────────────────────────────────
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    const STEPS = 80;
+    const INTERVAL = 32;
+    let current = 0;
+    function ease(t: number) { return t < 0.5 ? 2*t*t : -1 + (4 - 2*t)*t; }
+
+    const timer = setInterval(() => {
+      current++;
+      const t = Math.min(current / STEPS, 1);
+      const p = ease(t);
+      setLoaderPct(Math.round(p * 100));
+      setLoaderSlide(p * 43);
+      if (t >= 1) {
+        clearInterval(timer);
+        // Fade labels
+        setLoaderLabelsVisible(false);
+        // Grow title
+        setTimeout(() => setLoaderTitleBig(true), 260);
+        // Slide loader up
+        setTimeout(() => setLoaderOut(true), 980);
+        // Reveal hero
+        setTimeout(() => {
+          document.body.style.overflow = '';
+          setLoaderDone(true);
+          setHeroRevealed(true);
+        }, 1750);
+      }
+    }, INTERVAL);
+
+    return () => { clearInterval(timer); document.body.style.overflow = ''; };
+  }, []);
+
   return (
     <>
+      {/* ─── LOADER ──────────────────────────────────── */}
+      {!loaderDone && (
+        <div id="loader" style={{ transform: loaderOut ? 'translateY(-100%)' : 'translateY(0)', transition: loaderOut ? 'transform 0.88s cubic-bezier(0.76,0,0.24,1)' : undefined }}>
+          <span id="loader-left" style={{ opacity: loaderLabelsVisible ? 1 : 0, transition: 'opacity 0.32s ease', transform: `translateY(-50%) translateX(-${loaderSlide}vw)` }}>Loading</span>
+          <div id="loader-title" style={{ fontSize: loaderTitleBig ? '13.5vw' : '4.5vw', letterSpacing: loaderTitleBig ? '0.04em' : '0.22em', transition: loaderTitleBig ? 'font-size 0.88s cubic-bezier(0.16,1,0.3,1), letter-spacing 0.88s cubic-bezier(0.16,1,0.3,1)' : undefined }}>LUMI ATELIER</div>
+          <span id="loader-right" style={{ opacity: loaderLabelsVisible ? 1 : 0, transition: 'opacity 0.32s ease', transform: `translateY(-50%) translateX(${loaderSlide}vw)` }}>in progres</span>
+          <div id="loader-percent" style={{ opacity: loaderLabelsVisible ? 1 : 0, transition: 'opacity 0.32s ease' }}>({loaderPct}%)</div>
+        </div>
+      )}
+
       {/* ─── MOBILE MENU ─────────────────────────────── */}
       <div className={`mobile-menu${menuOpen ? ' open' : ''}`} aria-hidden={!menuOpen}>
         <div className="mobile-menu-top">
@@ -180,11 +231,23 @@ export default function Home() {
 
       {/* ─── HERO ─────────────────────────────────────── */}
       <section className="hero" id="home">
-        <div className="hero-glow"></div>
-        <div className="hero-content">
-          <p className="hero-eyebrow fade-up">{t['hero-eyebrow']}</p>
-          <h1 className="hero-name fade-up delay-1">LUMI</h1>
-          <a href="#services" className="hero-cta fade-up delay-4">{t['hero-cta']}</a>
+        <div className="hero-title-section">
+          <h1 className={`hero-main-title${heroRevealed ? ' revealed' : ''}`}>LUMI ATELIER</h1>
+        </div>
+        <div className="hero-divider"></div>
+        <div className="hero-bottom">
+          <div className={`hero-bottom-left${heroRevealed ? ' revealed' : ''}`}>
+            <span className="hero-left-line">Fineline Tattoo</span>
+            <span className="hero-left-line">Arte Permanente</span>
+            <span className="hero-left-line italic">Criado com intenção.</span>
+          </div>
+          <div className={`hero-bottom-image${heroRevealed ? ' revealed' : ''}`}>
+            <img src="/media/DSCF4917.jpg" alt="Lumi Atelier" loading="eager" />
+          </div>
+          <div className={`hero-bottom-right${heroRevealed ? ' revealed' : ''}`}>
+            <p className="hero-right-desc">Arte permanente desenhada à medida — apenas por marcação.</p>
+            <a href="book.html" className="hero-cta">{t['hero-cta']}</a>
+          </div>
         </div>
         <div className="hero-scroll">
           <span className="hero-scroll-label">{t['hero-scroll']}</span>
