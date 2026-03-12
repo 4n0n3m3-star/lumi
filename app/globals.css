@@ -423,7 +423,7 @@ nav.scrolled .nav-menu-btn:hover { color: var(--warm-brown); }
 }
 .hero-main-title {
     font-family: 'Tenor Sans', serif;
-    font-size: 13.5vw;
+    font-size: 12.5vw;
     letter-spacing: 0.04em;
     text-transform: uppercase;
     color: var(--text);

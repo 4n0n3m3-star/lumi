@@ -175,7 +175,7 @@ export default function Home() {
       {!loaderDone && (
         <div id="loader" style={{ transform: loaderOut ? 'translateY(-100%)' : 'translateY(0)', transition: loaderOut ? 'transform 0.88s cubic-bezier(0.76,0,0.24,1)' : undefined }}>
           <span id="loader-left" style={{ opacity: loaderLabelsVisible ? 1 : 0, transition: 'opacity 0.32s ease', transform: `translateY(-50%) translateX(-${loaderSlide}vw)` }}>Loading</span>
-          <div id="loader-title" style={{ fontSize: loaderTitleBig ? '13.5vw' : '4.5vw', letterSpacing: loaderTitleBig ? '0.04em' : '0.22em', transition: loaderTitleBig ? 'font-size 0.88s cubic-bezier(0.16,1,0.3,1), letter-spacing 0.88s cubic-bezier(0.16,1,0.3,1)' : undefined }}>LUMI ATELIER</div>
+          <div id="loader-title" style={{ fontSize: loaderTitleBig ? '12.5vw' : '4.5vw', letterSpacing: loaderTitleBig ? '0.04em' : '0.22em', transition: loaderTitleBig ? 'font-size 0.88s cubic-bezier(0.16,1,0.3,1), letter-spacing 0.88s cubic-bezier(0.16,1,0.3,1)' : undefined }}>LUMI ATELIER</div>
           <span id="loader-right" style={{ opacity: loaderLabelsVisible ? 1 : 0, transition: 'opacity 0.32s ease', transform: `translateY(-50%) translateX(${loaderSlide}vw)` }}>in progres</span>
           <div id="loader-percent" style={{ opacity: loaderLabelsVisible ? 1 : 0, transition: 'opacity 0.32s ease' }}>({loaderPct}%)</div>
         </div>
