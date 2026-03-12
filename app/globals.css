@@ -209,7 +209,7 @@ nav.scrolled .nav-center-icon { color: var(--warm-brown); }
 }
 .nav-links a {
     font-size: 1.12rem;
-    font-weight: 500;
+    font-weight: 400;
     letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--text-light);
@@ -450,7 +450,7 @@ nav.scrolled .nav-menu-btn:hover { color: var(--warm-brown); }
 .hero-bottom {
     display: flex;
     align-items: flex-end;
-    padding: 0 48px 64px;
+    padding: 0 48px 64px 80px;
     min-height: 260px;
 }
 .hero-bottom-left {
@@ -521,7 +521,7 @@ text-align: justify;
     text-align: justify;
     text-align-last: justify;
     text-transform: uppercase;
-    max-width: none;
+    max-width: 280px;
     margin-left: auto;
     margin-bottom: 28px;
 }
