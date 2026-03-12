@@ -96,8 +96,8 @@
             align-items: center;
         }
         .nav-links a {
-            font-size: 0.7rem;
-            letter-spacing: 0.24em;
+            font-size: 1.4rem;
+            letter-spacing: 0.14em;
             text-transform: uppercase;
             color: var(--text-light);
             text-decoration: none;
@@ -344,7 +344,7 @@
         .hero-bottom {
             display: flex;
             align-items: flex-end;
-            padding: 0 72px 64px;
+            padding: 0 48px 64px;
             min-height: 260px;
         }
         .hero-bottom-left {
@@ -358,11 +358,12 @@
         .hero-left-line {
             display: block;
             font-family: 'Tenor Sans', serif;
-            font-size: clamp(0.9rem, 1.5vw, 1.5rem);
+            font-size: clamp(1.2rem, 1.8vw, 1.8rem);
             letter-spacing: 0.04em;
             text-transform: uppercase;
             color: var(--text);
-            line-height: 1.25;
+            line-height: 1.22;
+            text-align: left;
         }
         .hero-left-line.italic {
             font-style: italic;
@@ -372,7 +373,7 @@
             display: flex;
             gap: 10px;
             flex-shrink: 0;
-            margin: 0 clamp(24px, 4vw, 64px);
+            margin: 0 clamp(16px, 2.5vw, 40px);
             align-self: flex-end;
             opacity: 0;
             transform: translateY(32px);
@@ -380,7 +381,7 @@
         }
         .hero-bottom-images.revealed { opacity: 1; transform: translateY(0); }
         .hero-bottom-image {
-            width: clamp(120px, 15vw, 230px);
+            width: clamp(180px, 22vw, 360px);
             flex-shrink: 0;
             overflow: hidden;
         }
@@ -404,11 +405,12 @@
         .hero-right-desc {
             font-family: 'Montserrat', sans-serif;
             font-weight: 300;
-            font-size: 0.78rem;
-            letter-spacing: 0.08em;
-            line-height: 1.9;
+            font-size: 1.1rem;
+            letter-spacing: 0.06em;
+            line-height: 1.7;
             color: var(--text-light);
-            max-width: 300px;
+            text-align: justify;
+            max-width: none;
             margin-left: auto;
             margin-bottom: 28px;
         }
