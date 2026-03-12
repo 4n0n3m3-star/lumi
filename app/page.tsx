@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import ZoomParallaxSection from '@/components/zoom-parallax-section';
 
 const translations = {
@@ -103,6 +103,8 @@ export default function Home() {
   const [loaderOut, setLoaderOut] = useState(false);
   const [loaderDone, setLoaderDone] = useState(false);
   const [heroTitleReady, setHeroTitleReady] = useState(false);
+  const [loaderTitleTranslate, setLoaderTitleTranslate] = useState({ x: 0, y: 0 });
+  const heroTitleRef = useRef<HTMLHeadingElement>(null);
 
   const t = translations[lang];
 
@@ -155,14 +157,24 @@ export default function Home() {
         setLoaderLabelsVisible(false);
         // Grow title
         setTimeout(() => setLoaderTitleBig(true), 300);
-        // Fade loader out + reveal hero title simultaneously
-        setTimeout(() => { setLoaderOut(true); setHeroTitleReady(true); }, 1200);
-        // Reveal rest of hero after fade completes
+        // After title has grown, measure hero position and translate loader title there
+        setTimeout(() => {
+          if (heroTitleRef.current) {
+            const rect = heroTitleRef.current.getBoundingClientRect();
+            setLoaderTitleTranslate({
+              x: (rect.left + rect.width / 2) - window.innerWidth / 2,
+              y: (rect.top + rect.height / 2) - window.innerHeight / 2,
+            });
+          }
+        }, 1220);
+        // Reveal hero title + fade loader after translate settles
+        setTimeout(() => { setLoaderOut(true); setHeroTitleReady(true); }, 1980);
+        // Reveal rest of hero
         setTimeout(() => {
           document.body.style.overflow = '';
           setLoaderDone(true);
           setHeroRevealed(true);
-        }, 2100);
+        }, 2880);
       }
     }, INTERVAL);
 
@@ -175,7 +187,7 @@ export default function Home() {
       {!loaderDone && (
         <div id="loader" style={{ opacity: loaderOut ? 0 : 1, pointerEvents: loaderOut ? 'none' : undefined, transition: loaderOut ? 'opacity 0.9s ease' : undefined }}>
           <span id="loader-left" style={{ opacity: loaderLabelsVisible ? 1 : 0, transition: 'opacity 0.6s ease', transform: 'translateY(-50%)' }}>Loading</span>
-          <div id="loader-title" style={{ fontSize: loaderTitleBig ? '12.5vw' : '4.5vw', letterSpacing: loaderTitleBig ? '0.04em' : '0.22em', transition: loaderTitleBig ? 'font-size 0.88s cubic-bezier(0.16,1,0.3,1), letter-spacing 0.88s cubic-bezier(0.16,1,0.3,1)' : undefined }}>LUMI ATELIER</div>
+          <div id="loader-title" style={{ fontSize: loaderTitleBig ? '12.5vw' : '4.5vw', letterSpacing: loaderTitleBig ? '0.04em' : '0.22em', transform: `translate(${loaderTitleTranslate.x}px, ${loaderTitleTranslate.y}px)`, transition: loaderTitleBig ? 'font-size 0.88s cubic-bezier(0.16,1,0.3,1), letter-spacing 0.88s cubic-bezier(0.16,1,0.3,1), transform 0.72s cubic-bezier(0.16,1,0.3,1) 0.92s' : undefined }}>LUMI ATELIER</div>
           <span id="loader-right" style={{ opacity: loaderLabelsVisible ? 1 : 0, transition: 'opacity 0.6s ease', transform: 'translateY(-50%)' }}>in progres</span>
           <div id="loader-percent" style={{ opacity: loaderLabelsVisible ? 1 : 0, transition: 'opacity 0.6s ease' }}>({loaderPct}%)</div>
         </div>
@@ -235,7 +247,7 @@ export default function Home() {
       {/* ─── HERO ─────────────────────────────────────── */}
       <section className="hero" id="home">
         <div className="hero-title-section">
-          <h1 className={`hero-main-title${(heroRevealed || heroTitleReady) ? ' revealed' : ''}`}>LUMI ATELIER</h1>
+          <h1 ref={heroTitleRef} className={`hero-main-title${(heroRevealed || heroTitleReady) ? ' revealed' : ''}`}>LUMI ATELIER</h1>
         </div>
         <div className="hero-divider"></div>
         <div className="hero-bottom">
