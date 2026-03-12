@@ -97,7 +97,7 @@ export default function Home() {
   const [artFormSent, setArtFormSent] = useState(false);
   const [heroRevealed, setHeroRevealed] = useState(false);
   const [loaderPct, setLoaderPct] = useState(0);
-  const [loaderSlide, setLoaderSlide] = useState(0);
+
   const [loaderLabelsVisible, setLoaderLabelsVisible] = useState(true);
   const [loaderTitleBig, setLoaderTitleBig] = useState(false);
   const [loaderOut, setLoaderOut] = useState(false);
@@ -139,8 +139,8 @@ export default function Home() {
   // ─── LOADER ───────────────────────────────────────
   useEffect(() => {
     document.body.style.overflow = 'hidden';
-    const STEPS = 80;
-    const INTERVAL = 32;
+    const STEPS = 120;
+    const INTERVAL = 28;
     let current = 0;
     function ease(t: number) { return t < 0.5 ? 2*t*t : -1 + (4 - 2*t)*t; }
 
@@ -149,21 +149,20 @@ export default function Home() {
       const t = Math.min(current / STEPS, 1);
       const p = ease(t);
       setLoaderPct(Math.round(p * 100));
-      setLoaderSlide(p * 43);
       if (t >= 1) {
         clearInterval(timer);
-        // Fade labels
+        // Fade labels + percent
         setLoaderLabelsVisible(false);
         // Grow title
-        setTimeout(() => setLoaderTitleBig(true), 260);
-        // Reveal hero title + slide loader up simultaneously
-        setTimeout(() => { setLoaderOut(true); setHeroTitleReady(true); }, 980);
-        // Reveal hero
+        setTimeout(() => setLoaderTitleBig(true), 300);
+        // Fade loader out + reveal hero title simultaneously
+        setTimeout(() => { setLoaderOut(true); setHeroTitleReady(true); }, 1200);
+        // Reveal rest of hero after fade completes
         setTimeout(() => {
           document.body.style.overflow = '';
           setLoaderDone(true);
           setHeroRevealed(true);
-        }, 1750);
+        }, 2100);
       }
     }, INTERVAL);
 
@@ -174,11 +173,11 @@ export default function Home() {
     <>
       {/* ─── LOADER ──────────────────────────────────── */}
       {!loaderDone && (
-        <div id="loader" style={{ transform: loaderOut ? 'translateY(-100%)' : 'translateY(0)', transition: loaderOut ? 'transform 0.88s cubic-bezier(0.76,0,0.24,1)' : undefined }}>
-          <span id="loader-left" style={{ opacity: loaderLabelsVisible ? 1 : 0, transition: 'opacity 0.32s ease', transform: `translateY(-50%) translateX(-${loaderSlide}vw)` }}>Loading</span>
+        <div id="loader" style={{ opacity: loaderOut ? 0 : 1, pointerEvents: loaderOut ? 'none' : undefined, transition: loaderOut ? 'opacity 0.9s ease' : undefined }}>
+          <span id="loader-left" style={{ opacity: loaderLabelsVisible ? 1 : 0, transition: 'opacity 0.6s ease', transform: 'translateY(-50%)' }}>Loading</span>
           <div id="loader-title" style={{ fontSize: loaderTitleBig ? '12.5vw' : '4.5vw', letterSpacing: loaderTitleBig ? '0.04em' : '0.22em', transition: loaderTitleBig ? 'font-size 0.88s cubic-bezier(0.16,1,0.3,1), letter-spacing 0.88s cubic-bezier(0.16,1,0.3,1)' : undefined }}>LUMI ATELIER</div>
-          <span id="loader-right" style={{ opacity: loaderLabelsVisible ? 1 : 0, transition: 'opacity 0.32s ease', transform: `translateY(-50%) translateX(${loaderSlide}vw)` }}>in progres</span>
-          <div id="loader-percent" style={{ opacity: loaderLabelsVisible ? 1 : 0, transition: 'opacity 0.32s ease' }}>({loaderPct}%)</div>
+          <span id="loader-right" style={{ opacity: loaderLabelsVisible ? 1 : 0, transition: 'opacity 0.6s ease', transform: 'translateY(-50%)' }}>in progres</span>
+          <div id="loader-percent" style={{ opacity: loaderLabelsVisible ? 1 : 0, transition: 'opacity 0.6s ease' }}>({loaderPct}%)</div>
         </div>
       )}
 
