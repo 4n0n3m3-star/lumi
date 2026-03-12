@@ -186,10 +186,20 @@ export default function Home() {
       {/* ─── LOADER ──────────────────────────────────── */}
       {!loaderDone && (
         <div id="loader" style={{ opacity: loaderOut ? 0 : 1, pointerEvents: loaderOut ? 'none' : undefined, transition: loaderOut ? 'opacity 0.9s ease' : undefined }}>
-          <span id="loader-left" style={{ opacity: loaderLabelsVisible ? 1 : 0, transition: 'opacity 0.6s ease', transform: 'translateY(-50%)' }}>Loading</span>
-          <div id="loader-title" style={{ fontSize: loaderTitleBig ? '12.5vw' : '4.5vw', letterSpacing: loaderTitleBig ? '0.04em' : '0.22em', transform: `translate(${loaderTitleTranslate.x}px, ${loaderTitleTranslate.y}px)`, transition: loaderTitleBig ? 'font-size 0.88s cubic-bezier(0.16,1,0.3,1), letter-spacing 0.88s cubic-bezier(0.16,1,0.3,1), transform 0.72s cubic-bezier(0.16,1,0.3,1) 0.92s' : undefined }}>LUMI ATELIER</div>
-          <span id="loader-right" style={{ opacity: loaderLabelsVisible ? 1 : 0, transition: 'opacity 0.6s ease', transform: 'translateY(-50%)' }}>in progres</span>
-          <div id="loader-percent" style={{ opacity: loaderLabelsVisible ? 1 : 0, transition: 'opacity 0.6s ease' }}>({loaderPct}%)</div>
+          <div id="loader-title" style={{
+            fontSize: loaderTitleBig ? '12.5vw' : '5vw',
+            letterSpacing: loaderTitleBig ? '-0.01em' : '0.22em',
+            transform: `translate(${loaderTitleTranslate.x}px, ${loaderTitleTranslate.y}px)`,
+            transition: loaderTitleBig
+              ? 'font-size 0.95s cubic-bezier(0.16,1,0.3,1), letter-spacing 0.95s cubic-bezier(0.16,1,0.3,1), transform 0.72s cubic-bezier(0.16,1,0.3,1) 0.98s'
+              : undefined
+          }}>LUMI ATELIER</div>
+          <div id="loader-sub" className={loaderLabelsVisible ? '' : 'hidden'}>
+            Venda do Pinheiro · Estúdio de Tattoo &amp; Piercing
+          </div>
+          <div id="loader-bar-wrap">
+            <div id="loader-bar" style={{ width: `${loaderPct}%` }}></div>
+          </div>
         </div>
       )}
 
@@ -282,29 +292,25 @@ export default function Home() {
       {/* ─── STUDIO ABOUT ─────────────────────────────── */}
       <section className="section" id="studio">
         <div className="studio-inner">
-          <p className="section-eyebrow fade-up">{t['studio-eyebrow']}</p>
-          <h2
-            className="studio-statement fade-up delay-1"
-            dangerouslySetInnerHTML={{ __html: t['studio-statement'] }}
-          />
-          <div className="studio-details fade-up delay-2">
-            <div className="studio-detail-item">
-              <span className="studio-detail-label">{t['studio-founded-label']}</span>
-              <span className="studio-detail-value">
-                2025 ·{' '}
-                <a
-                  href="https://maps.app.goo.gl/c2zDP3NneLvdbeLX7"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{ color: 'inherit', textDecoration: 'underline', textUnderlineOffset: '3px', textDecorationColor: 'var(--rose-taupe)' }}
-                >
-                  Venda do Pinheiro, Portugal
-                </a>
-              </span>
-            </div>
-            <div className="studio-detail-item">
-              <span className="studio-detail-label">{t['studio-specs-label']}</span>
-              <span className="studio-detail-value">{t['studio-specs-value']}</span>
+          <div className="studio-left fade-up">
+            <p className="studio-eyebrow-label">O Atelier</p>
+            <h2 className="studio-heading">
+              Um santuário para<br/><em>arte permanente</em>
+            </h2>
+          </div>
+          <div className="studio-right fade-up delay-1">
+            <p className="studio-body">
+              Criado com intenção, para durar uma vida. Um espaço onde cada peça é concebida à medida — traço a traço, com cuidado e propósito.
+            </p>
+            <div className="studio-meta">
+              <div className="studio-meta-row">
+                <span className="studio-meta-label">Fundado</span>
+                <span className="studio-meta-value">2025 · Venda do Pinheiro, Portugal</span>
+              </div>
+              <div className="studio-meta-row">
+                <span className="studio-meta-label">Especialidades</span>
+                <span className="studio-meta-value">Fineline Tattoo · Piercing</span>
+              </div>
             </div>
           </div>
         </div>
@@ -312,48 +318,37 @@ export default function Home() {
 
       {/* ─── SERVICES ─────────────────────────────────── */}
       <section id="services">
-        <div className="services-grid">
-          {/* Card 1: Tattoo */}
-          <div className="service-card fade-up">
-            <img
-              src="/media/DSCF4917.jpg"
-              alt="Estúdio de Tattoo"
-              style={{ objectPosition: 'center 20%' }}
-              loading="eager"
-              decoding="async"
-              fetchPriority="high"
-            />
-            <div className="service-card-overlay"></div>
-            <div className="service-card-content">
-              <p className="service-card-label">{t['tattoo-label']}</p>
-              <h2 className="service-card-title">{t['tattoo-title']}</h2>
-              <p className="service-card-desc">{t['tattoo-desc']}</p>
-              <p className="service-card-artist">{t['tattoo-artist']}</p>
-              <div className="service-card-actions">
-                <a href="book.html?service=tattoo" className="service-card-cta">{t['tattoo-cta']}</a>
-                <a href="https://stephanytattoo.com" className="service-card-link" target="_blank" rel="noopener noreferrer">{t['tattoo-link']}</a>
-              </div>
+        <div className="services-header">
+          <div className="services-header-left fade-up">
+            <p className="services-section-label">Serviços</p>
+            <h2 className="services-heading">Arte que<br/><em>ressoa</em></h2>
+          </div>
+          <div className="services-header-right fade-up delay-1">
+            <p className="services-desc">
+              Cada peça é concebida à medida — traço fino, detalhes delicados, arte que envelhece contigo. Apenas por marcação.
+            </p>
+            <a href="book.html" className="services-cta-link">Reservar sessão →</a>
+          </div>
+        </div>
+        <div className="services-grid-numbered">
+          <div className="service-item fade-up">
+            <img src="/media/DSCF4917.jpg" alt="Tattoo Fineline" loading="eager" />
+            <div className="service-item-overlay"></div>
+            <div className="service-item-content">
+              <span className="service-item-num">01</span>
+              <h3 className="service-item-name">Tattoo</h3>
+              <p className="service-item-sub">Fineline · Ilustração · Script</p>
+              <a href="book.html?service=tattoo" className="service-item-arrow">Reservar →</a>
             </div>
           </div>
-
-          {/* Card 2: Piercing */}
-          <div className="service-card fade-up delay-1">
-            <img
-              src="/media/DSCF4915.jpg"
-              alt="Estúdio de Piercing"
-              style={{ objectPosition: 'center 25%' }}
-              loading="lazy"
-              decoding="async"
-            />
-            <div className="service-card-overlay"></div>
-            <div className="service-card-content">
-              <p className="service-card-label">{t['piercing-label']}</p>
-              <h2 className="service-card-title">{t['piercing-title']}</h2>
-              <p className="service-card-desc">{t['piercing-desc']}</p>
-              <p className="service-card-artist">{t['piercing-artist']}</p>
-              <div className="service-card-actions">
-                <a href="book.html?service=piercing" className="service-card-cta">{t['piercing-cta']}</a>
-              </div>
+          <div className="service-item fade-up delay-1">
+            <img src="/media/DSCF4915.jpg" alt="Piercing" loading="lazy" />
+            <div className="service-item-overlay"></div>
+            <div className="service-item-content">
+              <span className="service-item-num">02</span>
+              <h3 className="service-item-name">Piercing</h3>
+              <p className="service-item-sub">Ouvido · Facial · Corpo</p>
+              <a href="book.html?service=piercing" className="service-item-arrow">Reservar →</a>
             </div>
           </div>
         </div>
@@ -408,20 +403,58 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ─── CONTACT ──────────────────────────────────── */}
-      <section id="contact">
-        <div className="contact-links">
-          <a href="mailto:studio@lumiatelier.com" className="contact-link fade-up">studio@lumiatelier.com</a>
-          <a href="https://instagram.com/lumi.atelier_" className="contact-link fade-up delay-1" target="_blank" rel="noopener noreferrer">@lumi.atelier_</a>
+      {/* ─── CONTACT CTA ──────────────────────────────── */}
+      <section id="contact-cta">
+        <p className="contact-cta-label fade-up">Contacto</p>
+        <h2 className="contact-cta-heading fade-up delay-1">Marca o teu<br/><em>momento</em></h2>
+        <div className="contact-cta-links fade-up delay-2">
+          <a href="mailto:studio@lumiatelier.com" className="contact-cta-link">studio@lumiatelier.com</a>
+          <a href="https://instagram.com/lumi.atelier_" className="contact-cta-link" target="_blank" rel="noopener noreferrer">@lumi.atelier_</a>
+          <a href="book.html" className="contact-cta-link">Reservar →</a>
         </div>
       </section>
 
       {/* ─── FOOTER ────────────────────────────────────── */}
+      <div className="footer-marquee">
+        <div className="footer-marquee-track">
+          {['LUMI ATELIER', 'TATTOO', 'PIERCING', 'ARTE PERMANENTE', 'VENDA DO PINHEIRO', 'CRIADO COM INTENÇÃO'].concat(['LUMI ATELIER', 'TATTOO', 'PIERCING', 'ARTE PERMANENTE', 'VENDA DO PINHEIRO', 'CRIADO COM INTENÇÃO']).map((item, i) => (
+            <span key={i} className="footer-marquee-item">{item} ·</span>
+          ))}
+        </div>
+      </div>
       <footer>
-        <a href="#home" className="footer-logo">Lumi Atelier</a>
-        <div className="footer-rule"></div>
-        <p className="footer-copy">{t['footer-copy']}</p>
-        <a href="https://stephanytattoo.com" className="footer-personal" target="_blank" rel="noopener noreferrer">{t['footer-personal']}</a>
+        <div className="footer-grid">
+          <div>
+            <a href="#home" className="footer-brand-name">Lumi Atelier</a>
+            <p className="footer-tagline">Arte permanente criada com intenção, para durar uma vida.</p>
+          </div>
+          <div>
+            <p className="footer-col-label">Menu</p>
+            <div className="footer-col-links">
+              <a href="#services" className="footer-col-link">Serviços</a>
+              <a href="#art" className="footer-col-link">Arte</a>
+              <a href="book.html" className="footer-col-link">Reservar</a>
+              <a href="artists.html" className="footer-col-link">Artistas</a>
+            </div>
+          </div>
+          <div>
+            <p className="footer-col-label">Seguir</p>
+            <div className="footer-col-links">
+              <a href="https://instagram.com/lumi.atelier_" className="footer-col-link" target="_blank" rel="noopener noreferrer">Instagram</a>
+            </div>
+          </div>
+          <div>
+            <p className="footer-col-label">Contacto</p>
+            <div className="footer-col-links">
+              <a href="mailto:studio@lumiatelier.com" className="footer-col-link">studio@lumiatelier.com</a>
+              <span className="footer-col-link" style={{cursor:'default'}}>Venda do Pinheiro, Portugal</span>
+            </div>
+          </div>
+        </div>
+        <div className="footer-bottom">
+          <p className="footer-copy">© 2025 LUMI Atelier. Todos os direitos reservados.</p>
+          <a href="https://stephanytattoo.com" className="footer-personal-link" target="_blank" rel="noopener noreferrer">Portfólio da Stephany →</a>
+        </div>
       </footer>
     </>
   );
