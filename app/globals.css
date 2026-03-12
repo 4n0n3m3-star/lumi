@@ -210,7 +210,7 @@ nav.scrolled .nav-center-icon { color: var(--warm-brown); }
 .nav-links a {
     font-size: 1.12rem;
     font-weight: 500;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.19em;
     text-transform: uppercase;
     color: var(--text-light);
     text-decoration: none;
@@ -464,7 +464,7 @@ nav.scrolled .nav-menu-btn:hover { color: var(--warm-brown); }
 .hero-left-line {
     display: block;
     font-family: 'Tenor Sans', serif;
-    font-size: clamp(1.5rem, 2.2vw, 2.2rem);
+    font-size: clamp(1.5rem, 3.8vw, 2.2rem);
     letter-spacing: 0.04em;
     text-transform: uppercase;
     color: var(--text-light);
@@ -515,7 +515,8 @@ text-align: justify;
     letter-spacing: 0.06em;
     line-height: 1.7;
     color: var(--text-light);
-    text-align: right;
+    text-align: justify;
+    text-align-last: left;
     text-transform: uppercase;
     max-width: none;
     margin-left: auto;
