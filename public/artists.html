@@ -11,16 +11,16 @@
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
-            --cream-light: #FDFAF7;
-            --cream:       #ECD9D0;
-            --blush:       #E6CCBD;
-            --rose-taupe:  #D0B8AC;
-            --taupe:       #B09080;
-            --warm-brown:  #C4956A;
-            --dark-brown:  #A77049;
-            --text:        #2C1A0E;
-            --text-light:  #7A5C48;
-            --ink:         #1A0E06;
+            --cream-light: #FAF7F1;
+            --cream:       #EDE3D4;
+            --blush:       #EFD9CC;
+            --rose-taupe:  #BFA08C;
+            --taupe:       #806A58;
+            --warm-brown:  #BFA08C;
+            --dark-brown:  #806A58;
+            --text:        #3F2F24;
+            --text-light:  #806A58;
+            --ink:         #1E1713;
         }
 
         html { scroll-behavior: smooth; }
@@ -280,19 +280,6 @@
             .artists-grid { grid-template-columns: 1fr; gap: 24px; }
             footer { padding: 40px 24px 36px; }
         }
-        @media (max-width: 600px) {
-            nav { padding: 20px 24px; }
-            .page-header { padding: 100px 24px 48px; }
-            .page-header-title { font-size: clamp(2.4rem, 10vw, 3.5rem); }
-            .page-header-sub { font-size: 0.8rem; }
-            .section { padding: 64px 24px; }
-            .artist-name { font-size: 1.4rem; }
-            .artist-bio { font-size: 0.8rem; }
-            .career-card { padding: 40px 28px; min-height: auto; }
-            .career-title { font-size: 1.6rem; }
-            .career-body { font-size: 0.8rem; }
-            footer { padding: 36px 24px 32px; }
-        }
     </style>
 </head>
 <body>
@@ -300,12 +287,12 @@
 <!-- ─── MOBILE MENU ──────────────────────────────────── -->
 <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
     <div class="mobile-menu-top">
-        <a href="/" class="mobile-menu-brand" onclick="closeMenu()">Lumi Atelier</a>
+        <a href="index.html" class="mobile-menu-brand" onclick="closeMenu()">Lumi Atelier</a>
         <button class="mobile-menu-close" onclick="closeMenu()" data-i18n="nav-close">Fechar</button>
     </div>
     <ul class="mobile-menu-links">
-        <li><a href="/#services" onclick="closeMenu()" data-i18n="nav-services">Serviços</a></li>
-        <li><a href="/#art" onclick="closeMenu()" data-i18n="nav-art">Arte</a></li>
+        <li><a href="index.html#services" onclick="closeMenu()" data-i18n="nav-services">Serviços</a></li>
+        <li><a href="index.html#art" onclick="closeMenu()" data-i18n="nav-art">Arte</a></li>
         <li><a href="book.html" style="color:var(--warm-brown);" data-i18n="nav-book">Reservar</a></li>
         <li><a href="artists.html" class="active" onclick="closeMenu()" data-i18n="nav-artists">Artistas</a></li>
     </ul>
@@ -328,10 +315,10 @@
 
 <!-- ─── NAV ─────────────────────────────────────────── -->
 <nav id="nav">
-    <a href="/" class="nav-logo">Lumi Atelier</a>
+    <a href="index.html" class="nav-logo">Lumi Atelier</a>
     <ul class="nav-links">
-        <li><a href="/#services" data-i18n="nav-services">Serviços</a></li>
-        <li><a href="/#art" data-i18n="nav-art">Arte</a></li>
+        <li><a href="index.html#services" data-i18n="nav-services">Serviços</a></li>
+        <li><a href="index.html#art" data-i18n="nav-art">Arte</a></li>
         <li><a href="book.html" style="color:var(--warm-brown);" data-i18n="nav-book">Reservar</a></li>
         <li><a href="artists.html" class="active" data-i18n="nav-artists">Artistas</a></li>
     </ul>
@@ -347,7 +334,8 @@
 
 <!-- ─── PAGE HEADER ──────────────────────────────────── -->
 <header class="page-header">
-    <h1 class="page-header-title fade-up" data-i18n="page-header-title">Artistas</h1>
+    <span class="page-header-eyebrow fade-up" data-i18n="page-header-eyebrow">LUMI Atelier</span>
+    <h1 class="page-header-title fade-up delay-1" data-i18n="page-header-title">A Equipa</h1>
     <p class="page-header-sub fade-up delay-2" data-i18n="page-header-sub">Artistas que trabalham com intenção — um cliente de cada vez.</p>
 </header>
 
@@ -378,7 +366,7 @@
 
 <!-- ─── FOOTER ────────────────────────────────────────── -->
 <footer>
-    <a href="/" class="footer-logo">Lumi Atelier</a>
+    <a href="index.html" class="footer-logo">Lumi Atelier</a>
     <div class="footer-rule"></div>
     <p class="footer-copy" data-i18n="footer-copy">&copy; 2025 LUMI Atelier. Todos os direitos reservados.</p>
     <a href="https://stephanytattoo.com" class="footer-personal" target="_blank" data-i18n="footer-personal">Visitar o Portfólio da Stephany →</a>
@@ -393,7 +381,8 @@
             'nav-book': 'Reservar',
             'nav-menu': 'Menu',
             'nav-close': 'Fechar',
-            'page-header-title': 'Artistas',
+            'page-header-eyebrow': 'LUMI Atelier',
+            'page-header-title': 'A Equipa',
             'page-header-sub': 'Artistas que trabalham com intenção — um cliente de cada vez.',
             'artist-role': 'Artista de Tattoo · Fundadora do Estúdio',
             'artist-bio': 'Especialista em tattoos fineline — traços delicados, motivos botânicos, formas abstractas e lettering lírico. Cada peça é desenhada a partir do zero para se tornar parte de ti.',
@@ -412,7 +401,8 @@
             'nav-book': 'Book',
             'nav-menu': 'Menu',
             'nav-close': 'Close',
-            'page-header-title': 'Artists',
+            'page-header-eyebrow': 'LUMI Atelier',
+            'page-header-title': 'The Team',
             'page-header-sub': 'Artists who work with intention — one client at a time.',
             'artist-role': 'Tattoo Artist · Studio Founder',
             'artist-bio': 'Specialist in fineline tattoos — delicate lines, botanical motifs, abstract shapes, and lyrical script. Every piece is custom-drawn to become a part of you.',

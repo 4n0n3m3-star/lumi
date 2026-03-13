@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LUMI Atelier — Estúdio de Tattoo & Piercing em Venda do Pinheiro</title>
     <meta name="description" content="LUMI Atelier — estúdio de tattoo fineline e piercing em Venda do Pinheiro, Portugal. Apenas por marcação. Arte permanente criada com intenção.">
-    <meta name="theme-color" content="#1A1512">
+    <meta name="theme-color" content="#1E1713">
     <meta property="og:type" content="website">
     <meta property="og:title" content="LUMI Atelier — Tattoo & Piercing">
     <meta property="og:description" content="Estúdio de tattoo fineline e piercing em Venda do Pinheiro. Onde a luz encontra a pele.">
@@ -21,16 +21,16 @@
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
         :root {
-            --cream-light: #F8F7F7;
-            --cream:       #D2CCC4;
-            --blush:       #D2CCC4;
-            --rose-taupe:  #A8917F;
-            --taupe:       #706156;
-            --warm-brown:  #A8917F;
-            --dark-brown:  #706156;
-            --text:        #42362E;
-            --text-light:  #706156;
-            --ink:         #1A1512;
+            --cream-light: #FAF7F1;
+            --cream:       #EDE3D4;
+            --blush:       #EFD9CC;
+            --rose-taupe:  #BFA08C;
+            --taupe:       #806A58;
+            --warm-brown:  #BFA08C;
+            --dark-brown:  #806A58;
+            --text:        #3F2F24;
+            --text-light:  #806A58;
+            --ink:         #1E1713;
         }
 
         html { scroll-behavior: smooth; }
@@ -69,7 +69,7 @@
             transition: background 0.5s ease, padding 0.4s ease, border-color 0.5s ease;
         }
         nav.scrolled {
-            background: rgba(248, 247, 247, 0.94);
+            background: rgba(250, 247, 241, 0.94);
             backdrop-filter: blur(12px);
             padding: 18px 64px;
             border-bottom: 1px solid var(--blush);
@@ -129,7 +129,7 @@
             font-weight: 400;
             letter-spacing: 0.24em;
             text-transform: uppercase;
-            color: rgba(66, 54, 46, 0.4);
+            color: rgba(63, 47, 36, 0.4);
             padding: 2px 0;
             transition: color 0.3s ease;
         }
@@ -140,7 +140,7 @@
         nav.scrolled .lang-btn:hover:not(.active) { color: var(--text-light); }
         .lang-sep {
             font-size: 0.5rem;
-            color: rgba(66, 54, 46, 0.2);
+            color: rgba(63, 47, 36, 0.2);
             pointer-events: none;
         }
         nav.scrolled .lang-sep { color: var(--blush); }
@@ -195,7 +195,7 @@
             font-size: 0.62rem;
             letter-spacing: 0.28em;
             text-transform: uppercase;
-            color: rgba(236, 217, 208, 0.4);
+            color: rgba(239, 217, 204, 0.4);
             background: none;
             border: none;
             cursor: pointer;
@@ -224,7 +224,7 @@
         }
         .mobile-menu-links a:hover { color: var(--warm-brown); }
         .mobile-menu-bottom {
-            border-top: 1px solid rgba(253, 250, 247, 0.07);
+            border-top: 1px solid rgba(250, 247, 241, 0.07);
             padding-top: 28px;
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
@@ -235,14 +235,14 @@
             font-size: 0.52rem;
             letter-spacing: 0.32em;
             text-transform: uppercase;
-            color: rgba(167, 112, 73, 0.55);
+            color: rgba(191, 160, 140, 0.55);
             margin-bottom: 10px;
         }
         .mobile-menu-bottom-col a {
             display: block;
             font-size: 0.72rem;
             letter-spacing: 0.05em;
-            color: rgba(236, 217, 208, 0.45);
+            color: rgba(239, 217, 204, 0.45);
             text-decoration: none;
             transition: color 0.25s ease;
         }
@@ -253,19 +253,19 @@
             gap: 8px;
         }
         .lang-toggle--mobile .lang-btn {
-            color: rgba(236, 217, 208, 0.3);
+            color: rgba(239, 217, 204, 0.3);
             font-size: 0.7rem;
             letter-spacing: 0.28em;
         }
-        .lang-toggle--mobile .lang-btn.active { color: rgba(236, 217, 208, 0.8); }
-        .lang-toggle--mobile .lang-sep { color: rgba(236, 217, 208, 0.15); }
+        .lang-toggle--mobile .lang-btn.active { color: rgba(239, 217, 204, 0.8); }
+        .lang-toggle--mobile .lang-sep { color: rgba(239, 217, 204, 0.15); }
 
         /* ─── LOADER ─────────────────────────────────────── */
         #loader {
             position: fixed;
             inset: 0;
             z-index: 1000;
-            background: #F8F7F7;
+            background: var(--cream-light);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -276,7 +276,7 @@
             font-size: 4.5vw;
             letter-spacing: 0.22em;
             text-transform: uppercase;
-            color: #42362E;
+            color: var(--text);
             white-space: nowrap;
             position: relative;
             z-index: 2;
@@ -290,7 +290,7 @@
             font-style: italic;
             font-size: 0.78rem;
             letter-spacing: 0.08em;
-            color: #706156;
+            color: var(--text-light);
             white-space: nowrap;
             will-change: transform, opacity;
         }
@@ -306,7 +306,7 @@
             font-style: italic;
             font-size: 0.72rem;
             letter-spacing: 0.08em;
-            color: #706156;
+            color: var(--text-light);
             white-space: nowrap;
             will-change: opacity;
         }
@@ -457,13 +457,13 @@
             font-size: 0.6rem;
             letter-spacing: 0.3em;
             text-transform: uppercase;
-            color: rgba(66, 54, 46, 0.3);
+            color: rgba(63, 47, 36, 0.3);
             writing-mode: vertical-rl;
         }
         .hero-scroll-line {
             width: 1px;
             height: 44px;
-            background: linear-gradient(to bottom, rgba(66,54,46,0.3), transparent);
+            background: linear-gradient(to bottom, rgba(63,47,36,0.3), transparent);
             animation: scrollPulse 2.2s ease-in-out infinite;
         }
         @keyframes scrollPulse {
@@ -635,7 +635,7 @@
             font-size: 0.65rem;
             letter-spacing: 0.28em;
             text-transform: uppercase;
-            color: rgba(167, 112, 73, 0.6);
+            color: rgba(191, 160, 140, 0.6);
             display: flex;
             align-items: center;
             gap: 16px;
@@ -645,7 +645,7 @@
             display: block;
             width: 36px;
             height: 1px;
-            background: rgba(167, 112, 73, 0.3);
+            background: rgba(191, 160, 140, 0.3);
             flex-shrink: 0;
         }
         .services-intro-note {
@@ -860,7 +860,7 @@
         }
         .career-card:hover {
             border-color: var(--warm-brown);
-            background: rgba(167,112,73,0.03);
+            background: rgba(191,160,140,0.03);
         }
         .career-eyebrow {
             font-size: 0.6rem;
@@ -930,7 +930,7 @@
             position: absolute;
             inset: 0;
             backdrop-filter: blur(4px);
-            background: rgba(253, 250, 247, 0.08);
+            background: rgba(250, 247, 241, 0.08);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -942,7 +942,7 @@
             font-size: clamp(0.9rem, 2vw, 1.3rem);
             letter-spacing: 0.2em;
             text-transform: uppercase;
-            color: rgba(236, 217, 208, 0.6);
+            color: rgba(239, 217, 204, 0.6);
         }
         .art-glass-num {
             font-family: 'Montserrat', sans-serif;
@@ -950,13 +950,13 @@
             font-size: 0.55rem;
             letter-spacing: 0.4em;
             text-transform: uppercase;
-            color: rgba(236, 217, 208, 0.35);
+            color: rgba(239, 217, 204, 0.35);
         }
         .art-glass-dot {
             width: 5px;
             height: 5px;
             border-radius: 50%;
-            background: rgba(167, 112, 73, 0.5);
+            background: rgba(191, 160, 140, 0.5);
         }
         .art-footer {
             margin-top: 64px;
@@ -1039,7 +1039,7 @@
             position: absolute;
             inset: 0;
             pointer-events: none;
-            background: radial-gradient(ellipse 60% 60% at 50% 50%, rgba(167,112,73,0.12) 0%, transparent 70%);
+            background: radial-gradient(ellipse 60% 60% at 50% 50%, rgba(191,160,140,0.12) 0%, transparent 70%);
         }
         .jewelry-inner {
             position: relative;
@@ -1054,7 +1054,7 @@
             font-size: 0.6rem;
             letter-spacing: 0.5em;
             text-transform: uppercase;
-            color: rgba(167, 112, 73, 0.7);
+            color: rgba(191, 160, 140, 0.7);
             margin-bottom: 44px;
         }
         .jewelry-rule-pair {
@@ -1072,7 +1072,7 @@
             width: 4px;
             height: 4px;
             border-radius: 50%;
-            background: rgba(167, 112, 73, 0.5);
+            background: rgba(191, 160, 140, 0.5);
         }
         .jewelry-brand {
             font-family: 'Tenor Sans', serif;
@@ -1110,7 +1110,7 @@
         .jewelry-subscribe input {
             flex: 1;
             padding: 14px 22px;
-            background: rgba(253, 250, 247, 0.6);
+            background: rgba(250, 247, 241, 0.6);
             border: 1px solid rgba(176, 144, 128, 0.4);
             border-right: none;
             font-family: 'Montserrat', sans-serif;
@@ -1120,12 +1120,12 @@
             outline: none;
             transition: border-color 0.3s ease;
         }
-        .jewelry-subscribe input:focus { border-color: rgba(167,112,73,0.6); }
+        .jewelry-subscribe input:focus { border-color: rgba(191,160,140,0.6); }
         .jewelry-subscribe input::placeholder { color: rgba(122, 92, 72, 0.4); }
         .jewelry-subscribe button {
             padding: 14px 30px;
             background: transparent;
-            border: 1px solid rgba(167, 112, 73, 0.5);
+            border: 1px solid rgba(191, 160, 140, 0.5);
             font-family: 'Montserrat', sans-serif;
             font-weight: 400;
             font-size: 0.6rem;
@@ -1152,7 +1152,7 @@
             display: none;
             font-size: 0.75rem;
             letter-spacing: 0.08em;
-            color: rgba(167, 112, 73, 0.8);
+            color: rgba(191, 160, 140, 0.8);
             font-style: italic;
             margin-top: 20px;
         }
@@ -1194,7 +1194,7 @@
             font-size: 1rem;
             letter-spacing: 0.24em;
             text-transform: uppercase;
-            color: rgba(236, 217, 208, 0.5);
+            color: rgba(239, 217, 204, 0.5);
             text-decoration: none;
         }
         .footer-rule {
@@ -1205,16 +1205,16 @@
         .footer-copy {
             font-size: 0.65rem;
             letter-spacing: 0.12em;
-            color: rgba(236, 217, 208, 0.2);
+            color: rgba(239, 217, 204, 0.2);
         }
         .footer-personal {
             font-size: 0.65rem;
             letter-spacing: 0.1em;
-            color: rgba(167, 112, 73, 0.5);
+            color: rgba(191, 160, 140, 0.5);
             text-decoration: none;
             transition: color 0.3s ease;
         }
-        .footer-personal:hover { color: rgba(167, 112, 73, 0.85); }
+        .footer-personal:hover { color: rgba(191, 160, 140, 0.85); }
 
         /* ─── RESPONSIVE ────────────────────────────── */
         @media (max-width: 900px) {

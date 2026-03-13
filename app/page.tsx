@@ -356,7 +356,7 @@ export default function Home() {
         <p className="section-eyebrow fade-up">{t['art-eyebrow']}</p>
         <div className="art-grid">
           <div className="art-slot fade-up delay-1">
-            <img src="https://placehold.co/600x800/B09080/ECD9D0?text=+" alt="Art piece 1" loading="lazy" decoding="async" width={600} height={800} />
+            <img src="https://placehold.co/600x800/806A58/EDE3D4?text=+" alt="Art piece 1" loading="lazy" decoding="async" width={600} height={800} />
             <div className="art-glass">
               <span className="art-glass-num">{t['art-ed1-num']}</span>
               <div className="art-glass-dot"></div>
@@ -364,7 +364,7 @@ export default function Home() {
             </div>
           </div>
           <div className="art-slot fade-up delay-2">
-            <img src="https://placehold.co/600x800/8C6248/D0B8AC?text=+" alt="Art piece 2" loading="lazy" decoding="async" width={600} height={800} />
+            <img src="https://placehold.co/600x800/3F2F24/BFA08C?text=+" alt="Art piece 2" loading="lazy" decoding="async" width={600} height={800} />
             <div className="art-glass">
               <span className="art-glass-num">{t['art-ed2-num']}</span>
               <div className="art-glass-dot"></div>
@@ -372,7 +372,7 @@ export default function Home() {
             </div>
           </div>
           <div className="art-slot fade-up delay-3">
-            <img src="https://placehold.co/600x800/A77049/ECD9D0?text=+" alt="Art piece 3" loading="lazy" decoding="async" width={600} height={800} />
+            <img src="https://placehold.co/600x800/BFA08C/FAF7F1?text=+" alt="Art piece 3" loading="lazy" decoding="async" width={600} height={800} />
             <div className="art-glass">
               <span className="art-glass-num">{t['art-ed3-num']}</span>
               <div className="art-glass-dot"></div>
