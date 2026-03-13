@@ -22,20 +22,20 @@ export default function ZoomParallaxSection() {
 
 	const images = [
 		{
-			src: '/media/parallax-piercing-detail.jpg',
-			alt: 'LUMI Atelier — estúdio de tattoo',
+			src: '/media/IMG_5994.jpg',
+			alt: 'LUMI Atelier — sala de tattoo',
 		},
 		{
 			src: '/media/DSCF4915.jpg',
 			alt: 'LUMI Atelier — estúdio de piercing',
 		},
 		{
-			src: '/media/parallax-studio-detail.jpg',
-			alt: 'LUMI Atelier — espaço',
+			src: '/media/IMG_5995.jpg',
+			alt: 'LUMI Atelier — sala de consulta',
 		},
 		{
-			src: 'https://images.unsplash.com/photo-1598300042247-d088f8ab3a91?w=800&h=800&fit=crop&auto=format&q=80',
-			alt: 'Fine line tattoo detail',
+			src: '/media/IMG_5997.jpg',
+			alt: 'LUMI Atelier — espelho e lounge',
 		},
 		{
 			src: '/media/DSCF4304.jpg',
@@ -46,8 +46,8 @@ export default function ZoomParallaxSection() {
 			alt: 'LUMI Atelier — detalhe de piercing',
 		},
 		{
-			src: 'https://images.unsplash.com/photo-1559181567-c3190ca9959b?w=800&h=800&fit=crop&auto=format&q=80',
-			alt: 'Botanical detail',
+			src: '/media/502993212_17851067253464581_3699851566995191396_n.jpeg',
+			alt: 'LUMI Atelier — detalhe de piercing',
 		},
 	];
 

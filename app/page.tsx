@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import ZoomParallaxSection from '@/components/zoom-parallax-section';
 import { VelocityScroll } from '@/components/ui/scroll-based-velocity';
 import { GoogleReviews } from '@/components/ui/google-reviews';
+import { Header } from '@/components/ui/header-2';
 
 const translations = {
   pt: {
@@ -94,8 +95,6 @@ type Lang = keyof typeof translations;
 
 export default function Home() {
   const [lang, setLangState] = useState<Lang>('pt');
-  const [scrolled, setScrolled] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
   const [artFormSent, setArtFormSent] = useState(false);
   const [heroRevealed, setHeroRevealed] = useState(false);
   const [loaderPct, setLoaderPct] = useState(0);
@@ -111,18 +110,6 @@ export default function Home() {
   const t = translations[lang];
 
   function setLang(l: Lang) { setLangState(l); }
-  function closeMenu() { setMenuOpen(false); }
-
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 60);
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  useEffect(() => {
-    document.body.style.overflow = menuOpen ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
-  }, [menuOpen]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -143,8 +130,8 @@ export default function Home() {
   // ─── LOADER ───────────────────────────────────────
   useEffect(() => {
     document.body.style.overflow = 'hidden';
-    const STEPS = 180;
-    const INTERVAL = 22;
+    const STEPS = 80;
+    const INTERVAL = 18;
     let current = 0;
     // Very gentle ease — slow start, slow finish
     function ease(t: number) { return t * t * (3 - 2 * t); }
@@ -159,7 +146,7 @@ export default function Home() {
         // Gently fade out percent
         setLoaderLabelsVisible(false);
         // Slowly grow title after a breath
-        setTimeout(() => setLoaderTitleBig(true), 600);
+        setTimeout(() => setLoaderTitleBig(true), 300);
         // After title has settled, measure hero and glide there
         setTimeout(() => {
           requestAnimationFrame(() => {
@@ -173,15 +160,15 @@ export default function Home() {
               });
             }
           });
-        }, 2400);
+        }, 1200);
         // Fade loader + reveal hero title after translate settles
-        setTimeout(() => { setLoaderOut(true); setHeroTitleReady(true); }, 3800);
+        setTimeout(() => { setLoaderOut(true); setHeroTitleReady(true); }, 2000);
         // Reveal rest of hero after loader is gone
         setTimeout(() => {
           document.body.style.overflow = '';
           setLoaderDone(true);
           setHeroRevealed(true);
-        }, 5200);
+        }, 3000);
       }
     }, INTERVAL);
 
@@ -207,56 +194,8 @@ export default function Home() {
         </div>
       )}
 
-      {/* ─── MOBILE MENU ─────────────────────────────── */}
-      <div className={`mobile-menu${menuOpen ? ' open' : ''}`} aria-hidden={!menuOpen}>
-        <div className="mobile-menu-top">
-          <a href="#home" className="mobile-menu-brand" onClick={closeMenu}>Lumi Atelier</a>
-          <button className="mobile-menu-close" onClick={closeMenu}>{t['nav-close']}</button>
-        </div>
-        <ul className="mobile-menu-links">
-          <li><a href="#services" onClick={closeMenu}>{t['nav-services']}</a></li>
-          <li><a href="#art" onClick={closeMenu}>{t['nav-art']}</a></li>
-          <li><a href="book.html" style={{ color: 'var(--warm-brown)' }}>{t['nav-book']}</a></li>
-          <li><a href="artists.html" onClick={closeMenu}>{t['nav-artists']}</a></li>
-        </ul>
-        <div className="mobile-menu-bottom">
-          <div className="mobile-menu-bottom-col">
-            <a href="https://instagram.com/lumi.atelier_" target="_blank" rel="noopener noreferrer">@lumi.atelier_</a>
-          </div>
-          <div className="mobile-menu-bottom-col">
-            <a href="mailto:studio@lumiatelier.com">studio@lumiatelier.com</a>
-          </div>
-          <div className="mobile-menu-bottom-col">
-            <div className="lang-toggle lang-toggle--mobile">
-              <button className={`lang-btn${lang === 'pt' ? ' active' : ''}`} onClick={() => setLang('pt')}>PT</button>
-              <span className="lang-sep">|</span>
-              <button className={`lang-btn${lang === 'en' ? ' active' : ''}`} onClick={() => setLang('en')}>EN</button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* ─── NAV ─────────────────────────────────────── */}
-      <nav id="nav" className={scrolled ? 'scrolled' : ''}>
-        <div className="nav-left">
-          <ul className="nav-links">
-            <li><a href="#services" className="nav-roll"><span data-text={t['nav-services']}>{t['nav-services']}</span></a></li>
-            <li><a href="#art" className="nav-roll"><span data-text={t['nav-art']}>{t['nav-art']}</span></a></li>
-          </ul>
-        </div>
-        <a href="#home" className="nav-center-icon">
-          <svg viewBox="0 0 100 100" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-            <path d="M50 2 Q57 43 98 50 Q57 57 50 98 Q43 57 2 50 Q43 43 50 2 Z" />
-          </svg>
-        </a>
-        <div className="nav-right">
-          <ul className="nav-links">
-            <li><a href="book.html" className="nav-roll nav-roll--accent"><span data-text={t['nav-book']}>{t['nav-book']}</span></a></li>
-            <li><a href="artists.html" className="nav-roll"><span data-text={t['nav-artists']}>{t['nav-artists']}</span></a></li>
-          </ul>
-          <button className="nav-menu-btn" aria-label="Menu" onClick={() => setMenuOpen(true)}>{t['nav-menu']}</button>
-        </div>
-      </nav>
+      {/* ─── HEADER ─────────────────────────────────── */}
+      <Header />
 
       {/* ─── HERO ─────────────────────────────────────── */}
       <section className="hero" id="home">
@@ -356,11 +295,20 @@ export default function Home() {
       {/* ─── ZOOM PARALLAX ────────────────────────────── */}
       <ZoomParallaxSection />
 
+      {/* ─── ART MARQUEE ────────────────────────────────── */}
+      <div className="velocity-scroll-section" style={{ position: 'relative', width: '100%' }}>
+        <VelocityScroll
+          text="ARTE · VISÃO · INTENÇÃO · MINIMALISTA ·"
+          default_velocity={3}
+          className="text-[clamp(2rem,5vw,4.5rem)] font-light tracking-[-0.02em]"
+        />
+      </div>
+
       {/* ─── ART COLLECTION ───────────────────────────── */}
       <section className="section" id="art">
         <div className="art-grid">
           <div className="art-slot fade-up delay-1">
-            <img src="https://placehold.co/600x800/806A58/EDE3D4?text=+" alt="Art piece 1" loading="lazy" decoding="async" width={600} height={800} />
+            <img src="https://placehold.co/600x800/806A58/806A58" alt="Art piece 1" loading="lazy" decoding="async" width={600} height={800} />
             <div className="art-glass">
               <span className="art-glass-num">{t['art-ed1-num']}</span>
               <div className="art-glass-dot"></div>
@@ -368,7 +316,7 @@ export default function Home() {
             </div>
           </div>
           <div className="art-slot fade-up delay-2">
-            <img src="https://placehold.co/600x800/3F2F24/BFA08C?text=+" alt="Art piece 2" loading="lazy" decoding="async" width={600} height={800} />
+            <img src="https://placehold.co/600x800/3F2F24/3F2F24" alt="Art piece 2" loading="lazy" decoding="async" width={600} height={800} />
             <div className="art-glass">
               <span className="art-glass-num">{t['art-ed2-num']}</span>
               <div className="art-glass-dot"></div>
@@ -376,7 +324,7 @@ export default function Home() {
             </div>
           </div>
           <div className="art-slot fade-up delay-3">
-            <img src="https://placehold.co/600x800/BFA08C/FAF7F1?text=+" alt="Art piece 3" loading="lazy" decoding="async" width={600} height={800} />
+            <img src="https://placehold.co/600x800/BFA08C/BFA08C" alt="Art piece 3" loading="lazy" decoding="async" width={600} height={800} />
             <div className="art-glass">
               <span className="art-glass-num">{t['art-ed3-num']}</span>
               <div className="art-glass-dot"></div>
@@ -424,49 +372,18 @@ export default function Home() {
           </div>
           <div className="contact-right fade-up delay-1">
             <h2 className="contact-cta-heading">Marca o teu<br/>momento</h2>
+            <a href="book.html" className="contact-book-btn">Marcar Agora <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ display: 'inline-block', marginLeft: '6px', verticalAlign: 'middle' }}><path d="M3.5 8.5L8.5 3.5M8.5 3.5H4M8.5 3.5V8" /></svg></a>
           </div>
         </div>
       </section>
 
       {/* ─── FOOTER ────────────────────────────────────── */}
-      <div className="footer-marquee">
-        <div className="footer-marquee-track">
-          {['LUMI ATELIER', 'TATTOO', 'PIERCING', 'ARTE PERMANENTE', 'VENDA DO PINHEIRO', 'CRIADO COM INTENÇÃO'].concat(['LUMI ATELIER', 'TATTOO', 'PIERCING', 'ARTE PERMANENTE', 'VENDA DO PINHEIRO', 'CRIADO COM INTENÇÃO']).map((item, i) => (
-            <span key={i} className="footer-marquee-item">{item} ·</span>
-          ))}
-        </div>
-      </div>
       <footer>
-        <div className="footer-grid">
-          <div>
-            <a href="#home" className="footer-brand-name">Lumi Atelier</a>
-            <p className="footer-tagline">Arte permanente criada com intenção, para durar uma vida.</p>
-          </div>
-          <div>
-            <p className="footer-col-label">Menu</p>
-            <div className="footer-col-links">
-              <a href="#services" className="footer-col-link">Serviços</a>
-              <a href="#art" className="footer-col-link">Arte</a>
-              <a href="book.html" className="footer-col-link">Reservar</a>
-              <a href="artists.html" className="footer-col-link">Artistas</a>
-            </div>
-          </div>
-          <div>
-            <p className="footer-col-label">Seguir</p>
-            <div className="footer-col-links">
-              <a href="https://instagram.com/lumi.atelier_" className="footer-col-link" target="_blank" rel="noopener noreferrer">Instagram</a>
-            </div>
-          </div>
-          <div>
-            <p className="footer-col-label">Contacto</p>
-            <div className="footer-col-links">
-              <a href="mailto:studio@lumiatelier.com" className="footer-col-link">studio@lumiatelier.com</a>
-              <span className="footer-col-link" style={{cursor:'default'}}>Venda do Pinheiro, Portugal</span>
-            </div>
-          </div>
+        <div className="footer-hero">
+          <h2 className="footer-hero-title">LUMI ATELIER</h2>
         </div>
         <div className="footer-bottom">
-          <p className="footer-copy">© 2025 LUMI Atelier. Todos os direitos reservados.</p>
+          <p className="footer-copy">© 2026 LUMI Atelier. Todos os direitos reservados.</p>
           <a href="https://stephanytattoo.com" className="footer-personal-link" target="_blank" rel="noopener noreferrer">Portfólio da Stephany →</a>
         </div>
       </footer>

@@ -38,55 +38,171 @@
         /* ─── GRAIN OVERLAY ──────────────────────────── */
         body::before {
             content: '';
-            position: fixed;
-            inset: 0;
-            z-index: 200;
-            pointer-events: none;
-            opacity: 0.025;
+            position: fixed; inset: 0; z-index: 200;
+            pointer-events: none; opacity: 0.025;
             background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-            background-repeat: repeat;
-            background-size: 128px 128px;
+            background-repeat: repeat; background-size: 128px 128px;
         }
 
-        /* ─── NAV ─────────────────────────────────────── */
-        nav {
-            position: fixed;
-            top: 0; left: 0; right: 0;
+        /* ─── PILL HEADER (matching header-2.tsx) ───── */
+        .lumi-header {
+            position: sticky;
+            top: 0;
             z-index: 100;
-            padding: 28px 64px;
+            width: 100%;
+            max-width: 100%;
+            margin: 0 auto;
+            background: transparent;
+            border: 1px solid transparent;
+            border-radius: 6px;
+            transition: all 0.5s ease-out;
+        }
+        .lumi-header.scrolled {
+            top: 16px;
+            max-width: 56rem;
+            border-radius: 9999px;
+            background: rgba(250, 247, 241, 0.92);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-color: var(--blush);
+            box-shadow: 0 4px 24px rgba(63, 47, 36, 0.06), 0 1px 4px rgba(63, 47, 36, 0.04);
+        }
+        .lumi-header-nav {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background: rgba(253,250,247,0.92);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--blush);
+            height: 56px;
+            padding: 0 40px;
+            transition: all 0.5s ease-out;
         }
-        .nav-back {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 400;
-            font-size: 0.62rem;
-            letter-spacing: 0.28em;
-            text-transform: uppercase;
-            color: var(--text-light);
-            text-decoration: none;
+        .lumi-header.scrolled .lumi-header-nav {
+            height: 48px;
+            padding: 0 24px;
+        }
+        .lumi-header-left,
+        .lumi-header-right {
             display: flex;
             align-items: center;
-            gap: 10px;
-            transition: color 0.3s ease;
+            gap: 4px;
+            flex: 1;
         }
-        .nav-back:hover { color: var(--warm-brown); }
-        .nav-back svg { width: 14px; height: 14px; }
-        .nav-brand {
-            font-family: 'Tenor Sans', serif;
-            font-size: 0.9rem;
-            letter-spacing: 0.22em;
+        .lumi-header-right { justify-content: flex-end; }
+        .lumi-header-center {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+        .lumi-header-center:hover { opacity: 0.55; }
+        .lumi-header-center svg { width: 16px; height: 16px; color: var(--warm-brown); }
+
+        /* Nav-roll hover effect (matching globals.css) */
+        .nav-roll {
+            display: inline-block;
+            overflow: hidden;
+            position: relative;
+            height: 1em;
+            line-height: 1;
+            padding: 0 12px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.18em;
             text-transform: uppercase;
-            color: var(--text);
+            color: var(--taupe);
             text-decoration: none;
         }
-        .nav-brand:hover { color: var(--warm-brown); transition: color 0.3s ease; }
+        .nav-roll span {
+            display: block;
+            transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .nav-roll span::after {
+            content: attr(data-text);
+            display: block;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            color: var(--text);
+        }
+        .nav-roll:hover span { transform: translateY(-100%); }
+        .nav-roll--accent { color: var(--warm-brown); }
+        .nav-roll--accent span::after { color: var(--warm-brown); }
+        .lumi-header.scrolled .nav-roll span::after { color: var(--warm-brown); }
 
-        /* ─── PAGE ────────────────────────────────────── */
+        .nav-menu-btn {
+            display: none; background: none; border: none; cursor: pointer;
+            font-family: 'Montserrat', sans-serif; font-size: 0.62rem;
+            font-weight: 400; letter-spacing: 0.28em; text-transform: uppercase;
+            color: var(--text-light); padding: 0; transition: color 0.3s ease;
+        }
+        .nav-menu-btn:hover { color: var(--text); }
+
+        /* ─── MOBILE MENU ────────────────────────────── */
+        .mobile-menu {
+            position: fixed; inset: 0; z-index: 101;
+            background: var(--ink);
+            display: flex; flex-direction: column;
+            padding: 24px 36px 44px;
+            transform: translateY(-100%);
+            transition: transform 0.55s cubic-bezier(0.76, 0, 0.24, 1);
+            pointer-events: none;
+        }
+        .mobile-menu.open { transform: translateY(0); pointer-events: all; }
+        .mobile-menu-top {
+            display: flex; align-items: center; justify-content: space-between;
+            margin-bottom: auto;
+        }
+        .mobile-menu-brand {
+            font-family: 'Tenor Sans', serif; font-size: 0.95rem;
+            letter-spacing: 0.22em; text-transform: uppercase;
+            color: var(--cream); text-decoration: none;
+        }
+        .mobile-menu-close {
+            font-size: 0.62rem; letter-spacing: 0.28em; text-transform: uppercase;
+            color: rgba(239, 217, 204, 0.4); background: none; border: none;
+            cursor: pointer; font-family: 'Montserrat', sans-serif;
+            font-weight: 400; padding: 0; transition: color 0.3s ease;
+        }
+        .mobile-menu-close:hover { color: var(--cream); }
+        .mobile-menu-links {
+            list-style: none; padding: 0; margin: auto 0;
+        }
+        .mobile-menu-links li { overflow: hidden; }
+        .mobile-menu-links a {
+            display: block; font-family: 'Tenor Sans', serif;
+            font-size: clamp(2.2rem, 10vw, 3.8rem);
+            letter-spacing: 0.1em; text-transform: uppercase;
+            color: var(--cream); text-decoration: none;
+            transition: color 0.25s ease; line-height: 1.25;
+        }
+        .mobile-menu-links a:hover { color: var(--warm-brown); }
+        .mobile-menu-bottom {
+            border-top: 1px solid rgba(250, 247, 241, 0.07);
+            padding-top: 28px;
+            display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px;
+        }
+        .mobile-menu-bottom-col span {
+            display: block; font-size: 0.52rem; letter-spacing: 0.32em;
+            text-transform: uppercase; color: rgba(191, 160, 140, 0.55); margin-bottom: 10px;
+        }
+        .mobile-menu-bottom-col a {
+            display: block; font-size: 0.72rem; letter-spacing: 0.05em;
+            color: rgba(239, 217, 204, 0.45); text-decoration: none;
+            transition: color 0.25s ease;
+        }
+        .mobile-menu-bottom-col a:hover { color: var(--cream); }
+        .lang-toggle--mobile { display: flex; align-items: center; gap: 8px; }
+        .lang-toggle--mobile .lang-btn {
+            color: rgba(239, 217, 204, 0.3); font-size: 0.7rem; letter-spacing: 0.28em;
+            background: none; border: none; cursor: pointer;
+            font-family: 'Montserrat', sans-serif; font-weight: 400;
+            text-transform: uppercase; transition: color 0.3s ease; padding: 0;
+        }
+        .lang-toggle--mobile .lang-btn.active { color: rgba(239, 217, 204, 0.8); }
+        .lang-toggle--mobile .lang-sep { color: rgba(239, 217, 204, 0.15); font-size: 0.5rem; }
+
+        /* ─── PAGE ───────────────────────────────────── */
         .page {
             padding: 140px 72px 100px;
             max-width: 1200px;
@@ -94,12 +210,24 @@
         }
 
         .eyebrow {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 400;
             font-size: 0.65rem;
-            letter-spacing: 0.35em;
+            letter-spacing: 0.28em;
             text-transform: uppercase;
             color: var(--text-light);
-            display: block;
+            display: flex;
+            align-items: center;
+            gap: 16px;
             margin-bottom: 24px;
+        }
+        .eyebrow::before {
+            content: '';
+            display: block;
+            width: 36px;
+            height: 1px;
+            background: var(--rose-taupe);
+            flex-shrink: 0;
         }
         .rule {
             width: 100%;
@@ -114,6 +242,25 @@
             line-height: 1.15;
             color: var(--text);
             margin-bottom: 52px;
+            text-align: center;
+        }
+
+        /* ─── WARM FORM BACKGROUND ───────────────────── */
+        .form-warm-wrap {
+            position: relative;
+            margin-top: -20px;
+            padding-bottom: 40px;
+        }
+        .form-warm-wrap::before {
+            content: '';
+            position: absolute;
+            top: -40px;
+            left: -80px;
+            right: -80px;
+            bottom: 0;
+            background: rgba(237, 227, 212, 0.5);
+            z-index: -1;
+            border-radius: 32px 32px 0 0;
         }
 
         /* ─── SERVICE SELECTOR ────────────────────────── */
@@ -124,7 +271,7 @@
             font-size: 0.65rem;
             letter-spacing: 0.2em;
             text-transform: uppercase;
-            color: var(--text);
+            color: var(--ink);
             display: block;
             margin-bottom: 16px;
         }
@@ -136,18 +283,19 @@
         .service-pill {
             padding: 10px 28px;
             border: 1px solid var(--rose-taupe);
+            border-radius: 999px;
             cursor: pointer;
             font-family: 'Montserrat', sans-serif;
             font-size: 0.68rem;
             letter-spacing: 0.22em;
             text-transform: uppercase;
-            color: var(--text-light);
+            color: var(--taupe);
             transition: color 0.3s ease, border-color 0.3s ease, background 0.3s ease;
             user-select: none;
         }
         .service-radio:checked + .service-pill {
-            border-color: var(--warm-brown);
-            color: var(--warm-brown);
+            border-color: var(--ink);
+            color: var(--ink);
             background: rgba(167,112,73,0.06);
         }
         .service-pill:hover { color: var(--warm-brown); border-color: var(--warm-brown); }
@@ -157,12 +305,12 @@
             font-size: 0.84rem;
             font-weight: 400;
             line-height: 1.75;
-            color: var(--text);
+            color: var(--ink);
             margin-bottom: 8px;
         }
         .form-intro-sub {
             font-size: 0.72rem;
-            color: var(--text-light);
+            color: var(--text);
             margin-bottom: 48px;
         }
 
@@ -186,19 +334,19 @@
             font-size: 0.65rem;
             letter-spacing: 0.2em;
             text-transform: uppercase;
-            color: var(--text);
+            color: var(--ink);
         }
         .form-group input,
         .form-group textarea,
         .form-group select {
             background: transparent;
             border: none;
-            border-bottom: 1px solid var(--rose-taupe);
+            border-bottom: 1px solid var(--taupe);
             padding: 10px 0;
             font-family: 'Montserrat', sans-serif;
             font-size: 0.84rem;
             font-weight: 300;
-            color: var(--text);
+            color: var(--ink);
             outline: none;
             transition: border-color 0.3s ease;
             -webkit-appearance: none;
@@ -207,7 +355,7 @@
         .form-group textarea:focus,
         .form-group select:focus { border-color: var(--warm-brown); }
         .form-group input::placeholder,
-        .form-group textarea::placeholder { color: var(--rose-taupe); }
+        .form-group textarea::placeholder { color: var(--taupe); }
         .form-group textarea { resize: none; height: 120px; }
         .form-submit { margin-top: 12px; }
 
@@ -215,6 +363,7 @@
             display: inline-block;
             padding: 16px 48px;
             border: 1px solid var(--warm-brown);
+            border-radius: 999px;
             color: var(--warm-brown);
             font-family: 'Montserrat', sans-serif;
             font-size: 0.65rem;
@@ -255,27 +404,28 @@
             flex-wrap: wrap;
             gap: 8px;
             padding: 6px 0 10px;
-            border-bottom: 1px solid var(--rose-taupe);
+            border-bottom: 1px solid var(--taupe);
         }
         .radio-option { display: none; }
         .radio-pill {
             padding: 6px 14px;
-            border: 1px solid var(--rose-taupe);
+            border: 1px solid var(--taupe);
+            border-radius: 999px;
             cursor: pointer;
             font-family: 'Montserrat', sans-serif;
             font-size: 0.62rem;
             letter-spacing: 0.18em;
             text-transform: uppercase;
-            color: var(--text-light);
+            color: var(--text);
             transition: color 0.3s ease, border-color 0.3s ease, background 0.3s ease;
             user-select: none;
         }
         .radio-option:checked + .radio-pill {
-            border-color: var(--warm-brown);
-            color: var(--warm-brown);
-            background: rgba(167,112,73,0.06);
+            border-color: var(--ink);
+            color: var(--ink);
+            background: rgba(30,23,19,0.05);
         }
-        .radio-pill:hover { color: var(--warm-brown); border-color: var(--warm-brown); }
+        .radio-pill:hover { color: var(--ink); border-color: var(--ink); }
 
         /* ─── CHECKBOX GROUP ─────────────────────────── */
         .checkbox-group {
@@ -283,13 +433,13 @@
             flex-wrap: wrap;
             gap: 8px;
             padding: 6px 0 10px;
-            border-bottom: 1px solid var(--rose-taupe);
+            border-bottom: 1px solid var(--taupe);
         }
         .checkbox-option { display: none; }
         .checkbox-option:checked + .radio-pill {
-            border-color: var(--warm-brown);
-            color: var(--warm-brown);
-            background: rgba(167,112,73,0.06);
+            border-color: var(--ink);
+            color: var(--ink);
+            background: rgba(30,23,19,0.05);
         }
 
         /* ─── FORM HINT ──────────────────────────────── */
@@ -319,7 +469,7 @@
         .first-time-box p {
             font-size: 0.78rem;
             line-height: 1.8;
-            color: var(--text-light);
+            color: var(--text);
         }
 
         /* ─── CONDITIONAL FIELDS ─────────────────────── */
@@ -333,16 +483,16 @@
             align-items: center;
             gap: 8px;
             padding: 8px 0;
-            border-bottom: 1px solid var(--rose-taupe);
+            border-bottom: 1px solid var(--taupe);
             cursor: pointer;
             font-size: 0.72rem;
             letter-spacing: 0.18em;
             text-transform: uppercase;
-            color: var(--text-light);
+            color: var(--text);
             transition: color 0.3s ease, border-color 0.3s ease;
             width: 100%;
         }
-        .file-label:hover { color: var(--warm-brown); border-color: var(--warm-brown); }
+        .file-label:hover { color: var(--ink); border-color: var(--ink); }
         .file-hint {
             font-size: 0.58rem;
             letter-spacing: 0.12em;
@@ -356,7 +506,7 @@
             font-size: 0.58rem;
             letter-spacing: 0.3em;
             text-transform: uppercase;
-            color: var(--text-light);
+            color: var(--text);
             padding-top: 16px;
             border-top: 1px solid var(--blush);
         }
@@ -372,16 +522,13 @@
             padding: 20px 24px;
             font-size: 0.72rem;
             line-height: 1.85;
-            color: var(--text-light);
+            color: var(--text);
             border-bottom: 1px solid var(--blush);
         }
         .consent-text ul {
             list-style: none;
-            padding: 0;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
+            padding: 0; margin: 0;
+            display: flex; flex-direction: column; gap: 10px;
         }
         .consent-text li::before {
             content: '—';
@@ -398,9 +545,7 @@
         .consent-check input[type="checkbox"] {
             appearance: none;
             -webkit-appearance: none;
-            width: 14px;
-            height: 14px;
-            min-width: 14px;
+            width: 14px; height: 14px; min-width: 14px;
             border: 1px solid var(--rose-taupe);
             margin-top: 2px;
             cursor: pointer;
@@ -413,7 +558,7 @@
         .consent-check span {
             font-size: 0.68rem;
             line-height: 1.7;
-            color: var(--text-light);
+            color: var(--text);
             letter-spacing: 0.04em;
         }
 
@@ -425,51 +570,52 @@
         }
         .service-fields.visible { display: flex; }
 
-        /* ─── FOOTER LINKS ───────────────────────────── */
-        .links-section {
-            background: var(--ink);
-            padding: 0 72px;
-            text-align: center;
-        }
-        .links-item { padding: 88px 0; }
-        .links-rule {
-            width: 100%;
-            height: 1px;
-            background: rgba(253,250,247,0.1);
-        }
-        .links-label {
-            display: block;
-            font-size: 0.68rem;
-            font-weight: 500;
-            letter-spacing: 0.08em;
-            color: var(--blush);
-            margin-bottom: 20px;
-        }
-        .links-link {
-            font-family: 'Tenor Sans', serif;
-            font-size: clamp(2.2rem, 5vw, 7.5rem);
-            font-weight: 300;
-            color: var(--cream-light);
-            text-decoration: none;
-            line-height: 1;
-            position: relative;
-            display: inline-block;
-        }
-        .links-link::after {
-            content: '';
-            position: absolute;
-            bottom: 4px;
-            left: 0;
-            width: 0;
-            height: 1px;
+        /* ─── CONTACT SECTION ────────────────────────── */
+        .contact-section {
             background: var(--cream-light);
-            transition: width 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            padding: 80px 72px;
+            border-top: 1px solid rgba(44, 26, 14, 0.08);
+            border-bottom: 1px solid rgba(44, 26, 14, 0.08);
         }
-        .links-link:hover::after { width: 100%; }
+        .contact-links {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .contact-link {
+            display: inline-block;
+            overflow: hidden;
+            position: relative;
+            height: 1em;
+            line-height: 1;
+            padding: 0;
+            font-family: 'Tenor Sans', serif;
+            font-size: clamp(1.1rem, 2vw, 1.6rem);
+            letter-spacing: 0.06em;
+            color: var(--text);
+            text-decoration: underline;
+            text-decoration-color: var(--rose-taupe);
+            text-underline-offset: 6px;
+            text-decoration-thickness: 1px;
+        }
+        .contact-link span {
+            display: block;
+            transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .contact-link span::after {
+            content: attr(data-text);
+            display: block;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            color: var(--warm-brown);
+        }
+        .contact-link:hover span { transform: translateY(-100%); }
+        .contact-link:hover { text-decoration-color: var(--warm-brown); }
 
-        /* ─── FOOTER ──────────────────────────────────── */
+        /* ─── FOOTER ─────────────────────────────────── */
         footer {
-            background: #130a03;
+            background: #100e0c;
             padding: 56px 72px 48px;
             display: flex;
             flex-direction: column;
@@ -485,52 +631,107 @@
             color: rgba(239, 217, 204, 0.5);
             text-decoration: none;
         }
-        .footer-rule {
-            width: 36px;
-            height: 1px;
-            background: rgba(208, 184, 172, 0.15);
-        }
+        .footer-rule { width: 36px; height: 1px; background: rgba(208, 184, 172, 0.15); }
         .footer-copy {
             font-size: 0.65rem;
             letter-spacing: 0.12em;
             color: rgba(239, 217, 204, 0.2);
         }
+        .footer-personal {
+            font-size: 0.65rem;
+            letter-spacing: 0.1em;
+            color: rgba(191, 160, 140, 0.5);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .footer-personal:hover { color: rgba(191, 160, 140, 0.85); }
 
         /* ─── RESPONSIVE ──────────────────────────────── */
         @media (max-width: 900px) {
-            nav { padding: 24px 32px; }
+            .lumi-header { border-radius: 0; }
+            .lumi-header.scrolled { top: 0; max-width: 100%; border-radius: 0; }
+            .lumi-header-left, .lumi-header-right .nav-roll { display: none; }
+            .nav-menu-btn { display: block; }
             .page { padding: 120px 32px 80px; }
-            .links-section { padding: 0 32px; }
+            .contact-section { padding: 80px 32px; }
+            footer { padding: 48px 32px 40px; }
+            .form-warm-wrap::before { left: -40px; right: -40px; border-radius: 24px 24px 0 0; }
         }
         @media (max-width: 600px) {
-            nav { padding: 20px 24px; }
+            .lumi-header-nav { padding: 0 24px; }
             .page { padding: 110px 24px 72px; }
             .form-row { grid-template-columns: 1fr; }
-            .links-section { padding: 0 24px; }
-            .links-item { padding: 56px 0; }
-            .links-link { font-size: clamp(1.4rem, 6vw, 2.4rem); }
-            footer { padding: 40px 24px 36px; }
+            .contact-section { padding: 64px 24px; }
+            .contact-links { flex-direction: column; gap: 24px; align-items: flex-start; }
+            .contact-link { font-size: clamp(0.9rem, 4vw, 1.2rem); word-break: break-all; }
             .service-pills { flex-direction: column; }
             .service-pill { text-align: center; }
+            footer { padding: 40px 24px 36px; }
+            .form-warm-wrap::before { left: -28px; right: -28px; border-radius: 18px 18px 0 0; }
         }
     </style>
 </head>
 <body>
 
-<nav>
-    <a href="/" class="nav-back">
-        <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.2">
-            <path d="M10 7H4M4 7L7 4M4 7L7 10"/>
-        </svg>
-        <span data-i18n="nav-back">Voltar</span>
-    </a>
-    <a href="/" class="nav-brand">LUMI Atelier</a>
-</nav>
+<!-- ─── MOBILE MENU ──────────────────────────────────── -->
+<div class="mobile-menu" id="mobileMenu" aria-hidden="true">
+    <div class="mobile-menu-top">
+        <a href="index.html" class="mobile-menu-brand" onclick="closeMenu()">Lumi Atelier</a>
+        <button class="mobile-menu-close" onclick="closeMenu()" data-i18n="nav-close">Fechar</button>
+    </div>
+    <ul class="mobile-menu-links">
+        <li><a href="index.html#services" onclick="closeMenu()" data-i18n="nav-services">Serviços</a></li>
+        <li><a href="index.html#art" onclick="closeMenu()" data-i18n="nav-art">Arte</a></li>
+        <li><a href="book.html" style="color:var(--warm-brown);" data-i18n="nav-book">Reservar</a></li>
+        <li><a href="artists.html" onclick="closeMenu()" data-i18n="nav-artists">Artistas</a></li>
+    </ul>
+    <div class="mobile-menu-bottom">
+        <div class="mobile-menu-bottom-col">
+            <span>Social</span>
+            <a href="https://instagram.com/lumi.atelier_" target="_blank">@lumi.atelier_</a>
+        </div>
+        <div class="mobile-menu-bottom-col">
+            <span>Contacto</span>
+            <a href="mailto:studio@lumiatelier.com">studio@lumiatelier.com</a>
+        </div>
+        <div class="mobile-menu-bottom-col">
+            <span>Idioma</span>
+            <div class="lang-toggle--mobile">
+                <button class="lang-btn active" data-lang="pt" onclick="setLang('pt')">PT</button>
+                <span class="lang-sep">|</span>
+                <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ─── PILL HEADER ─────────────────────────────────── -->
+<header class="lumi-header" id="lumiHeader">
+    <nav class="lumi-header-nav">
+        <div class="lumi-header-left">
+            <a class="nav-roll" href="index.html#services" data-i18n="nav-services"><span data-text="Serviços">Serviços</span></a>
+            <a class="nav-roll" href="index.html#art" data-i18n="nav-art"><span data-text="Arte">Arte</span></a>
+        </div>
+        <a href="index.html" class="lumi-header-center">
+            <svg viewBox="0 0 100 100" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path d="M50 2 Q57 43 98 50 Q57 57 50 98 Q43 57 2 50 Q43 43 50 2 Z" />
+            </svg>
+        </a>
+        <div class="lumi-header-right">
+            <a class="nav-roll nav-roll--accent" href="book.html" data-i18n="nav-book"><span data-text="Reservar">Reservar</span></a>
+            <a class="nav-roll" href="artists.html" data-i18n="nav-artists"><span data-text="Artistas">Artistas</span></a>
+            <button class="nav-menu-btn" id="menuBtn" aria-label="Menu" onclick="toggleMenu()" data-i18n="nav-menu">Menu</button>
+        </div>
+    </nav>
+</header>
 
 <main class="page">
     <span class="eyebrow" data-i18n="page-eyebrow">Reservar Sessão</span>
     <div class="rule"></div>
-    <h1 class="page-title" data-i18n="page-title">Formulário de admissão — vamos trabalhar juntos.</h1>
+    <h1 class="page-title" data-i18n="page-title">FORMULÁRIO DE ADMISSÃO</h1>
+
+    <!-- ─── WAVY WARM FORM AREA ────────────────────────── -->
+    <div class="form-warm-wrap">
 
     <!-- ─── SERVICE SELECTOR ─────────────────────────── -->
     <div class="service-selector">
@@ -553,7 +754,6 @@
         <input type="hidden" name="service" id="form-service" value="tattoo">
 
         <!-- ─── COMMON FIELDS ─────────────────────────── -->
-        <!-- Nome + Telemóvel -->
         <div class="form-row">
             <div class="form-group">
                 <label for="name" data-i18n="label-name">Nome Completo</label>
@@ -565,7 +765,6 @@
             </div>
         </div>
 
-        <!-- Email + Cidade -->
         <div class="form-row">
             <div class="form-group">
                 <label for="email">Email</label>
@@ -580,13 +779,11 @@
         <!-- ─── TATTOO FIELDS ──────────────────────────── -->
         <div class="service-fields visible" id="tattoo-fields">
 
-            <!-- Ideia -->
             <div class="form-group">
                 <label for="idea" data-i18n="label-idea">A tua ideia</label>
                 <textarea id="idea" name="idea" placeholder="Descreve a tua ideia de tatuagem, inspiração, referências..." data-i18n-ph="ph-idea"></textarea>
             </div>
 
-            <!-- Zona do corpo -->
             <div class="form-group">
                 <label data-i18n="label-zone">Zona do corpo</label>
                 <div class="radio-group">
@@ -611,19 +808,16 @@
                 </div>
             </div>
 
-            <!-- Condicional: outra zona -->
             <div class="form-group conditional-field" id="zone-outro-field">
                 <label for="zone-custom" data-i18n="label-zone-custom">Especifica a zona</label>
                 <input type="text" id="zone-custom" name="zone_custom" placeholder="Ex: costelas, nuca..." data-i18n-ph="ph-zone-custom">
             </div>
 
-            <!-- Tamanho -->
             <div class="form-group" style="max-width:220px;">
                 <label for="size" data-i18n="label-size">Tamanho aproximado (cm)</label>
                 <input type="number" id="size" name="size" min="1" max="100" placeholder="Ex: 8" data-i18n-ph="ph-size">
             </div>
 
-            <!-- Primeira tatuagem? -->
             <div class="form-group">
                 <label data-i18n="label-first">É a tua primeira tatuagem?</label>
                 <div class="radio-group">
@@ -634,19 +828,16 @@
                 </div>
             </div>
 
-            <!-- Info box primeira tatuagem -->
             <div class="first-time-box" id="first-tattoo-box">
                 <p class="first-time-box-title" data-i18n="first-tattoo-title">Dica para a primeira tatuagem</p>
-                <p data-i18n="first-tattoo-text">Bem-vindo ao clube! As primeiras tatuagens são muito especiais. Toma uma refeição sólida 1 a 2 horas antes da sessão, mantém-te hidratado e evita álcool no dia anterior. Vamos fazer o máximo para te sentires confortável e em paz. ❤</p>
+                <p data-i18n="first-tattoo-text">Bem-vindo ao clube! As primeiras tatuagens são muito especiais. Toma uma refeição sólida 1 a 2 horas antes da sessão, mantém-te hidratado e evita álcool no dia anterior. Vamos fazer o máximo para te sentires confortável e em paz.</p>
             </div>
 
-            <!-- Dúvidas primeira sessão -->
             <div class="form-group conditional-field" id="first-concerns-field">
                 <label for="concerns" data-i18n="label-concerns">Alguma dúvida ou preocupação sobre a tua primeira sessão?</label>
                 <textarea id="concerns" name="concerns" placeholder="Partilha as tuas dúvidas..." data-i18n-ph="ph-concerns"></textarea>
             </div>
 
-            <!-- Imagens de referência -->
             <div class="form-group">
                 <label for="references" data-i18n="label-references">Imagens de referência</label>
                 <input type="file" id="references" name="attachment" accept="image/*" multiple class="file-input">
@@ -657,7 +848,6 @@
                 <span class="file-hint" data-i18n="label-references-hint">PNG, JPG, WEBP — podes selecionar várias</span>
             </div>
 
-            <!-- Horário preferencial -->
             <div class="form-group">
                 <label data-i18n="label-schedule">Horário preferencial</label>
                 <span class="form-hint" data-i18n="label-schedule-hint">Podes selecionar vários</span>
@@ -673,20 +863,17 @@
                 </div>
             </div>
 
-            <!-- Saúde -->
             <div class="form-group">
                 <label for="health" data-i18n="label-health">Avaliação Médica e de Saúde</label>
                 <span class="form-hint" data-i18n="label-health-hint">Descreve qualquer alergia, condição de saúde ou pele, gravidez ou amamentação.</span>
                 <textarea id="health" name="health" placeholder="Ex: sou alérgica a látex, tenho pele atópica..." data-i18n-ph="ph-health"></textarea>
             </div>
 
-            <!-- Notas -->
             <div class="form-group">
                 <label for="notes-tattoo" data-i18n="label-notes">Algum pedido especial ou observação?</label>
                 <textarea id="notes-tattoo" name="notes" placeholder="Qualquer detalhe adicional que queiras partilhar..." data-i18n-ph="ph-notes"></textarea>
             </div>
 
-            <!-- Consentimentos tattoo -->
             <p class="consent-section-title" data-i18n="consent-section">Consentimentos</p>
 
             <div class="form-group">
@@ -728,7 +915,6 @@
         <!-- ─── PIERCING FIELDS ─────────────────────────── -->
         <div class="service-fields" id="piercing-fields">
 
-            <!-- Tipo de piercing -->
             <div class="form-group">
                 <label data-i18n="label-piercing-type">Tipo de piercing</label>
                 <div class="radio-group">
@@ -741,13 +927,11 @@
                 </div>
             </div>
 
-            <!-- Localização específica -->
             <div class="form-group">
                 <label for="piercing-location" data-i18n="label-piercing-location">Localização específica</label>
                 <textarea id="piercing-location" name="piercing_location" placeholder="Ex: cartilagem, tragus, helix, septo, narina, umbigo..." data-i18n-ph="ph-piercing-location"></textarea>
             </div>
 
-            <!-- Primeiro piercing? -->
             <div class="form-group">
                 <label data-i18n="label-first-piercing">É o teu primeiro piercing?</label>
                 <div class="radio-group">
@@ -758,13 +942,11 @@
                 </div>
             </div>
 
-            <!-- Info box primeiro piercing -->
             <div class="first-time-box" id="first-piercing-box">
                 <p class="first-time-box-title" data-i18n="first-piercing-title">Dica para o primeiro piercing</p>
-                <p data-i18n="first-piercing-text">Bem-vindo a esta experiência! Toma uma refeição antes da sessão e mantém-te hidratado. Usa roupa confortável que permita acesso fácil à zona. Não hesites em partilhar qualquer dúvida — estamos aqui para te deixar à vontade. ❤</p>
+                <p data-i18n="first-piercing-text">Bem-vindo a esta experiência! Toma uma refeição antes da sessão e mantém-te hidratado. Usa roupa confortável que permita acesso fácil à zona. Não hesites em partilhar qualquer dúvida — estamos aqui para te deixar à vontade.</p>
             </div>
 
-            <!-- Material de jóia -->
             <div class="form-group">
                 <label data-i18n="label-jewelry">Material de jóia preferido</label>
                 <div class="radio-group">
@@ -779,7 +961,6 @@
                 </div>
             </div>
 
-            <!-- Horário preferencial (piercing) -->
             <div class="form-group">
                 <label data-i18n="label-schedule">Horário preferencial</label>
                 <span class="form-hint" data-i18n="label-schedule-hint">Podes selecionar vários</span>
@@ -795,20 +976,17 @@
                 </div>
             </div>
 
-            <!-- Saúde (piercing) -->
             <div class="form-group">
                 <label for="health-piercing" data-i18n="label-health">Avaliação Médica e de Saúde</label>
                 <span class="form-hint" data-i18n="label-health-hint">Descreve qualquer alergia, condição de pele ou saúde, gravidez ou amamentação.</span>
                 <textarea id="health-piercing" name="health_piercing" placeholder="Ex: sou alérgico a níquel, tenho pele sensível..." data-i18n-ph="ph-health-piercing"></textarea>
             </div>
 
-            <!-- Notas (piercing) -->
             <div class="form-group">
                 <label for="notes-piercing" data-i18n="label-notes">Algum pedido especial ou observação?</label>
                 <textarea id="notes-piercing" name="notes_piercing" placeholder="Qualquer detalhe adicional..." data-i18n-ph="ph-notes"></textarea>
             </div>
 
-            <!-- Consentimentos piercing -->
             <p class="consent-section-title" data-i18n="consent-section">Consentimentos</p>
 
             <div class="form-group">
@@ -850,34 +1028,38 @@
             <button type="submit" class="btn btn-filled" id="submit-btn" data-i18n="submit">Enviar Pedido</button>
         </div>
     </form>
+
+    </div><!-- /form-warm-wrap -->
 </main>
 
-<!-- ─── FOOTER LINKS ───────────────────────────────────── -->
-<section class="links-section">
-    <div class="links-item">
-        <span class="links-label">Contacto direto ↗</span>
-        <a href="mailto:studio@lumiatelier.com" class="links-link">studio@lumiatelier.com</a>
-    </div>
-    <div class="links-rule"></div>
-    <div class="links-item">
-        <span class="links-label">Instagram ↗</span>
-        <a href="https://instagram.com/lumi.atelier_" target="_blank" rel="noopener" class="links-link">@lumi.atelier_</a>
+<!-- ─── CONTACT ──────────────────────────────────────── -->
+<section class="contact-section">
+    <div class="contact-links">
+        <a href="mailto:studio@lumiatelier.com" class="contact-link"><span data-text="studio@lumiatelier.com">studio@lumiatelier.com</span></a>
+        <a href="https://instagram.com/lumi.atelier_" class="contact-link" target="_blank" rel="noopener"><span data-text="@lumi.atelier_">@lumi.atelier_</span></a>
     </div>
 </section>
 
+<!-- ─── FOOTER ────────────────────────────────────────── -->
 <footer>
-    <a href="/" class="footer-logo">Lumi Atelier</a>
+    <a href="index.html" class="footer-logo">Lumi Atelier</a>
     <div class="footer-rule"></div>
-    <p class="footer-copy">&copy; 2025 LUMI Atelier. All rights reserved.</p>
+    <p class="footer-copy" data-i18n="footer-copy">&copy; 2025 LUMI Atelier. Todos os direitos reservados.</p>
+    <a href="https://stephanytattoo.com" class="footer-personal" target="_blank" data-i18n="footer-personal">Visitar o Portfólio da Stephany →</a>
 </footer>
 
 <script>
     // ─── i18n ──────────────────────────────────────────
     const i18n = {
         pt: {
-            'nav-back': 'Voltar',
+            'nav-services': 'Serviços',
+            'nav-artists': 'Artistas',
+            'nav-art': 'Arte',
+            'nav-book': 'Reservar',
+            'nav-menu': 'Menu',
+            'nav-close': 'Fechar',
             'page-eyebrow': 'Reservar Sessão',
-            'page-title': 'Formulário de admissão — vamos trabalhar juntos.',
+            'page-title': 'FORMULÁRIO DE ADMISSÃO',
             'service-label': 'Que serviço pretendes?',
             'svc-tattoo': 'Tatuagem', 'svc-piercing': 'Piercing',
             'form-intro': 'Preenche este formulário com os detalhes da tua sessão. Leva apenas alguns minutos e ajuda-nos a proporcionar-te a melhor experiência possível.',
@@ -894,7 +1076,7 @@
             'label-size': 'Tamanho aproximado (cm)', 'ph-size': 'Ex: 8',
             'label-first': 'É a tua primeira tatuagem?', 'first-sim': 'Sim', 'first-nao': 'Não',
             'first-tattoo-title': 'Dica para a primeira tatuagem',
-            'first-tattoo-text': 'Bem-vindo ao clube! As primeiras tatuagens são muito especiais. Toma uma refeição sólida 1 a 2 horas antes da sessão, mantém-te hidratado e evita álcool no dia anterior. Vamos fazer o máximo para te sentires confortável e em paz. ❤',
+            'first-tattoo-text': 'Bem-vindo ao clube! As primeiras tatuagens são muito especiais. Toma uma refeição sólida 1 a 2 horas antes da sessão, mantém-te hidratado e evita álcool no dia anterior. Vamos fazer o máximo para te sentires confortável e em paz.',
             'label-concerns': 'Alguma dúvida sobre a tua primeira sessão?', 'ph-concerns': 'Partilha as tuas dúvidas...',
             'label-references': 'Imagens de referência', 'label-references-btn': 'Selecionar imagens', 'label-references-hint': 'PNG, JPG, WEBP — podes selecionar várias',
             'label-schedule': 'Horário preferencial', 'label-schedule-hint': 'Podes selecionar vários',
@@ -908,7 +1090,7 @@
             'label-piercing-location': 'Localização específica', 'ph-piercing-location': 'Ex: cartilagem, tragus, helix, septo, narina, umbigo...',
             'label-first-piercing': 'É o teu primeiro piercing?', 'fp-sim': 'Sim', 'fp-nao': 'Não',
             'first-piercing-title': 'Dica para o primeiro piercing',
-            'first-piercing-text': 'Bem-vindo a esta experiência! Toma uma refeição antes da sessão e mantém-te hidratado. Usa roupa confortável que permita acesso fácil à zona. Não hesites em partilhar qualquer dúvida — estamos aqui para te deixar à vontade. ❤',
+            'first-piercing-text': 'Bem-vindo a esta experiência! Toma uma refeição antes da sessão e mantém-te hidratado. Usa roupa confortável que permita acesso fácil à zona. Não hesites em partilhar qualquer dúvida — estamos aqui para te deixar à vontade.',
             'label-jewelry': 'Material de jóia preferido',
             'jm-titanio': 'Titânio', 'jm-ouro': 'Ouro', 'jm-prata': 'Prata', 'jm-sem-pref': 'Sem preferência',
             'consent-section': 'Consentimentos',
@@ -929,9 +1111,14 @@
             'sending': 'A enviar…', 'sent': 'Pedido Enviado ✓', 'error': 'Erro — Tenta Novamente',
         },
         en: {
-            'nav-back': 'Back',
+            'nav-services': 'Services',
+            'nav-artists': 'Artists',
+            'nav-art': 'Art',
+            'nav-book': 'Book',
+            'nav-menu': 'Menu',
+            'nav-close': 'Close',
             'page-eyebrow': 'Book your Session',
-            'page-title': 'Intake form — let\'s work together.',
+            'page-title': 'INTAKE FORM',
             'service-label': 'Which service are you booking?',
             'svc-tattoo': 'Tattoo', 'svc-piercing': 'Piercing',
             'form-intro': 'Fill in this form with your session details. It takes just a few minutes and helps us give you the best possible experience.',
@@ -948,7 +1135,7 @@
             'label-size': 'Approximate size (cm)', 'ph-size': 'E.g: 8',
             'label-first': 'Is this your first tattoo?', 'first-sim': 'Yes', 'first-nao': 'No',
             'first-tattoo-title': 'First tattoo tip',
-            'first-tattoo-text': 'Welcome to the club! First tattoos are very special. Have a solid meal 1–2 hours before, stay hydrated and avoid alcohol the day before. We\'ll do our best to make you feel comfortable and at ease. ❤',
+            'first-tattoo-text': 'Welcome to the club! First tattoos are very special. Have a solid meal 1–2 hours before, stay hydrated and avoid alcohol the day before. We\'ll do our best to make you feel comfortable and at ease.',
             'label-concerns': 'Any doubts about your first session?', 'ph-concerns': 'Share your questions...',
             'label-references': 'Reference images', 'label-references-btn': 'Select images', 'label-references-hint': 'PNG, JPG, WEBP — you can select multiple',
             'label-schedule': 'Preferred schedule', 'label-schedule-hint': 'You can select multiple',
@@ -962,7 +1149,7 @@
             'label-piercing-location': 'Specific location', 'ph-piercing-location': 'E.g: cartilage, tragus, helix, septum, nostril, navel...',
             'label-first-piercing': 'Is this your first piercing?', 'fp-sim': 'Yes', 'fp-nao': 'No',
             'first-piercing-title': 'First piercing tip',
-            'first-piercing-text': 'Welcome to this experience! Have a meal before your session and stay hydrated. Wear comfortable clothing that allows easy access to the area. Don\'t hesitate to share any questions — we\'re here to put you at ease. ❤',
+            'first-piercing-text': 'Welcome to this experience! Have a meal before your session and stay hydrated. Wear comfortable clothing that allows easy access to the area. Don\'t hesitate to share any questions — we\'re here to put you at ease.',
             'label-jewelry': 'Preferred jewelry material',
             'jm-titanio': 'Titanium', 'jm-ouro': 'Gold', 'jm-prata': 'Silver', 'jm-sem-pref': 'No preference',
             'consent-section': 'Consents',
@@ -986,17 +1173,50 @@
 
     let currentLang = localStorage.getItem('lang') || 'pt';
 
-    function applyLang(lang) {
-        const t = i18n[lang];
+    function setLang(lang) {
+        currentLang = lang;
         document.documentElement.lang = lang;
+        localStorage.setItem('lang', lang);
         document.querySelectorAll('[data-i18n]').forEach(el => {
-            const v = t[el.dataset.i18n]; if (v !== undefined) el.innerHTML = v;
+            const key = el.getAttribute('data-i18n');
+            if (i18n[lang][key] !== undefined) el.innerHTML = i18n[lang][key];
         });
         document.querySelectorAll('[data-i18n-ph]').forEach(el => {
-            const v = t[el.dataset.i18nPh]; if (v !== undefined) el.placeholder = v;
+            const v = i18n[lang][el.dataset.i18nPh]; if (v !== undefined) el.placeholder = v;
         });
-        currentLang = lang;
-        localStorage.setItem('lang', lang);
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.lang === lang);
+        });
+        // Re-apply nav-roll data-text for translated nav links
+        document.querySelectorAll('.nav-roll[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if (i18n[lang][key] !== undefined) {
+                const span = el.querySelector('span');
+                if (span) { span.textContent = i18n[lang][key]; span.dataset.text = i18n[lang][key]; }
+            }
+        });
+    }
+
+    // Apply saved lang
+    if (currentLang !== 'pt') setLang(currentLang);
+
+    // ─── PILL HEADER SCROLL ─────────────────────────
+    const header = document.getElementById('lumiHeader');
+    window.addEventListener('scroll', () => {
+        header.classList.toggle('scrolled', window.scrollY > 10);
+    });
+
+    // ─── MOBILE MENU ────────────────────────────────
+    const mobileMenu = document.getElementById('mobileMenu');
+    function toggleMenu() {
+        const open = mobileMenu.classList.toggle('open');
+        mobileMenu.setAttribute('aria-hidden', open ? 'false' : 'true');
+        document.body.style.overflow = open ? 'hidden' : '';
+    }
+    function closeMenu() {
+        mobileMenu.classList.remove('open');
+        mobileMenu.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
     }
 
     // ─── SERVICE SWITCHING ─────────────────────────────
@@ -1011,25 +1231,14 @@
         tattooFields.classList.toggle('visible', isTattoo);
         piercingFields.classList.toggle('visible', !isTattoo);
         formServiceInput.value = service;
-
-        // Update required consent
         if (consentTattooCheck) consentTattooCheck.required = isTattoo;
         if (consentPiercingCheck) consentPiercingCheck.required = !isTattoo;
-
-        // Update form subject
-        const subjectEl = document.querySelector('input[name="subject"]');
-        if (subjectEl) {
-            subjectEl.value = isTattoo
-                ? 'Nova Marcação — Tatuagem · LUMI Atelier'
-                : 'Nova Marcação — Piercing · LUMI Atelier';
-        }
     }
 
     document.querySelectorAll('input[name="service_type"]').forEach(radio => {
         radio.addEventListener('change', function() { switchService(this.value); });
     });
 
-    // Pre-select from URL param
     const urlParams = new URLSearchParams(window.location.search);
     const serviceParam = urlParams.get('service');
     if (serviceParam === 'piercing') {
@@ -1188,7 +1397,6 @@
             ].join('\n');
         }
 
-        // Minimal web3forms payload
         const payload = new FormData();
         payload.append('access_key', fd.get('access_key'));
         payload.append('subject', isTattoo ? `Nova Marcação Tattoo — ${get('name')}` : `Nova Marcação Piercing — ${get('name')}`);
@@ -1204,14 +1412,12 @@
                 btn.textContent = t['sent'];
                 btn.style.background = 'var(--dark-brown)';
 
-                // Confirmation email to client
                 fetch('/api/confirm', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ name: get('name'), email: fd.get('email') || '', service, lang: currentLang }),
                 }).catch(() => {});
 
-                // Google Sheets logging
                 const sheetPayload = isTattoo ? {
                     service: 'tattoo',
                     name: get('name'), email: fd.get('email') || '', phone: get('phone'), city: get('city'),
@@ -1242,7 +1448,6 @@
                 }).catch(() => {});
 
                 form.reset();
-                // Re-apply service state
                 switchService(service);
                 if (refInput) {
                     const labelSpan = document.querySelector('.file-label span');
@@ -1260,7 +1465,7 @@
     });
 
     // Apply language on load
-    applyLang(currentLang);
+    if (currentLang !== 'pt') setLang(currentLang);
 </script>
 </body>
 </html>

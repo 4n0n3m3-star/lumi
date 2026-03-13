@@ -95,18 +95,38 @@
             list-style: none;
             align-items: center;
         }
+        .nav-links li {
+            line-height: 1;
+        }
         .nav-links a {
+            display: inline-block;
+            overflow: hidden;
+            position: relative;
+            height: 1em;
+            line-height: 1;
             font-size: 1.12rem;
             font-weight: 500;
             letter-spacing: 0.14em;
             text-transform: uppercase;
             color: var(--text-light);
             text-decoration: none;
-            transition: color 0.3s ease;
         }
-        .nav-links a:hover { color: var(--text); }
+        .nav-links a span {
+            display: block;
+            transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .nav-links a span::after {
+            content: attr(data-text);
+            display: block;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            color: var(--text);
+        }
+        .nav-links a:hover span { transform: translateY(-100%); }
+        .nav-links a[style*="warm-brown"] span::after { color: var(--warm-brown); }
         nav.scrolled .nav-links a { color: var(--text-light); }
-        nav.scrolled .nav-links a:hover { color: var(--warm-brown); }
+        nav.scrolled .nav-links a span::after { color: var(--warm-brown); }
 
         /* ─── NAV RIGHT + LANG TOGGLE ────────────────── */
         .nav-right {
@@ -358,9 +378,9 @@
         .hero-bottom-left.revealed { opacity: 1; transform: translateY(0); }
         .hero-left-line {
             display: block;
-            font-family: 'Tenor Sans', serif;
+            font-family: 'Montserrat', sans-serif;
             font-size: clamp(1.8rem, 4.2vw, 3rem);
-            letter-spacing: 0.02em;
+            letter-spacing: 0.08em;
             text-transform: uppercase;
             color: var(--taupe);
             font-weight: 300;
@@ -369,9 +389,9 @@
         }
         .hero-left-line.italic {
             font-style: italic;
-            font-weight: 700;
+            font-weight: 500;
             color: var(--ink);
-            letter-spacing: -0.01em;
+            letter-spacing: 0.02em;
         }
         .hero-bottom-images {
             display: flex;
@@ -385,7 +405,7 @@
         }
         .hero-bottom-images.revealed { opacity: 1; transform: translateY(0); }
         .hero-bottom-image {
-            width: clamp(180px, 22vw, 360px);
+            width: clamp(220px, 28vw, 440px);
             flex-shrink: 0;
             overflow: hidden;
         }
@@ -1170,14 +1190,34 @@
             align-items: center;
         }
         .contact-link {
+            display: inline-block;
+            overflow: hidden;
+            position: relative;
+            height: 1em;
+            line-height: 1;
             font-family: 'Tenor Sans', serif;
             font-size: clamp(1.1rem, 2vw, 1.6rem);
             letter-spacing: 0.06em;
             color: var(--text);
-            text-decoration: none;
-            transition: color 0.3s ease;
+            text-decoration: underline;
+            text-decoration-color: var(--rose-taupe);
+            text-underline-offset: 6px;
+            text-decoration-thickness: 1px;
         }
-        .contact-link:hover { color: var(--warm-brown); }
+        .contact-link span {
+            display: block;
+            transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .contact-link span::after {
+            content: attr(data-text);
+            display: block;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            color: var(--warm-brown);
+        }
+        .contact-link:hover span { transform: translateY(-100%); }
+        .contact-link:hover { text-decoration-color: var(--warm-brown); }
 
         /* ─── FOOTER ────────────────────────────────── */
         footer {
@@ -1316,8 +1356,8 @@
 <nav id="nav">
     <div class="nav-left">
         <ul class="nav-links">
-            <li><a href="#services" data-i18n="nav-services">Serviços</a></li>
-            <li><a href="#art" data-i18n="nav-art">Arte</a></li>
+            <li><a href="#services" data-i18n="nav-services"><span data-text="Serviços">Serviços</span></a></li>
+            <li><a href="#art" data-i18n="nav-art"><span data-text="Arte">Arte</span></a></li>
         </ul>
     </div>
     <a href="#home" class="nav-center-icon">
@@ -1327,8 +1367,8 @@
     </a>
     <div class="nav-right">
         <ul class="nav-links">
-            <li><a href="book.html" style="color:var(--warm-brown);" data-i18n="nav-book">Reservar</a></li>
-            <li><a href="artists.html" data-i18n="nav-artists">Artistas</a></li>
+            <li><a href="book.html" style="color:var(--warm-brown);" data-i18n="nav-book"><span data-text="Reservar">Reservar</span></a></li>
+            <li><a href="artists.html" data-i18n="nav-artists"><span data-text="Artistas">Artistas</span></a></li>
         </ul>
         <button class="nav-menu-btn" id="menuBtn" aria-label="Menu" onclick="toggleMenu()" data-i18n="nav-menu">Menu</button>
     </div>
@@ -1494,8 +1534,8 @@
 <!-- ─── CONTACT ───────────────────────────────────────── -->
 <section id="contact">
     <div class="contact-links">
-        <a href="mailto:studio@lumiatelier.com" class="contact-link fade-up">studio@lumiatelier.com</a>
-        <a href="https://instagram.com/lumi.atelier_" class="contact-link fade-up delay-1" target="_blank">@lumi.atelier_</a>
+        <a href="mailto:studio@lumiatelier.com" class="contact-link fade-up"><span data-text="studio@lumiatelier.com">studio@lumiatelier.com</span></a>
+        <a href="https://instagram.com/lumi.atelier_" class="contact-link fade-up delay-1" target="_blank"><span data-text="@lumi.atelier_">@lumi.atelier_</span></a>
     </div>
 </section>
 
@@ -1681,7 +1721,13 @@
         document.querySelectorAll('[data-i18n]').forEach(el => {
             const key = el.getAttribute('data-i18n');
             if (translations[lang][key] !== undefined) {
-                el.innerHTML = translations[lang][key];
+                const span = el.querySelector('span[data-text]');
+                if (span) {
+                    span.textContent = translations[lang][key];
+                    span.dataset.text = translations[lang][key];
+                } else {
+                    el.innerHTML = translations[lang][key];
+                }
             }
         });
 
