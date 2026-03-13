@@ -1089,13 +1089,58 @@ nav.scrolled .nav-menu-btn:hover { color: var(--warm-brown); }
 /* ─── CONTACT CTA ────────────────────────────── */
 #contact-cta {
     background: var(--cream-light);
-    padding: 160px 72px;
+    padding: 140px 72px;
+    text-transform: uppercase;
+}
+.contact-inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 80px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.contact-left {
+    padding-top: 12px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 56px;
-    text-align: center;
+    gap: 40px;
+}
+.contact-body {
+    font-size: 0.82rem;
+    line-height: 2;
+    color: var(--text-light);
+    max-width: 420px;
+    letter-spacing: 0.04em;
+}
+.contact-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border-top: 1px solid var(--cream);
+}
+.contact-meta-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--cream);
+}
+.contact-meta-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.55rem;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
+    color: var(--taupe);
+}
+.contact-meta-value {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    color: var(--text);
+}
+.contact-right {
+    flex-shrink: 0;
 }
 .contact-cta-heading {
     font-family: 'Tenor Sans', serif;
@@ -1104,20 +1149,7 @@ nav.scrolled .nav-menu-btn:hover { color: var(--warm-brown); }
     letter-spacing: -0.01em;
     color: var(--text);
     line-height: 1.08;
-}
-.contact-cta-sub {
-    font-size: 0.78rem;
-    line-height: 2;
-    letter-spacing: 0.06em;
-    color: var(--taupe);
-    max-width: 440px;
-    margin-top: -16px;
-}
-.contact-cta-links {
-    display: flex;
-    gap: 56px;
-    flex-wrap: wrap;
-    justify-content: center;
+    text-align: right;
 }
 .contact-cta-link {
     font-family: 'Montserrat', sans-serif;
@@ -1253,6 +1285,9 @@ footer {
     .service-item { aspect-ratio: 3/4; }
     #art { padding: 80px 32px; }
     #contact-cta { padding: 100px 32px; }
+    .contact-inner { flex-direction: column-reverse; gap: 40px; }
+    .contact-cta-heading { text-align: left; }
+    .contact-body { text-align: left; }
     footer { padding: 48px 32px 40px; }
     .footer-grid { grid-template-columns: 1fr 1fr; }
     .hero-scroll { right: 32px; }

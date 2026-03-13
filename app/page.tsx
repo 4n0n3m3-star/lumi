@@ -406,12 +406,25 @@ export default function Home() {
 
       {/* ─── CONTACT CTA ──────────────────────────────── */}
       <section id="contact-cta">
-        <h2 className="contact-cta-heading fade-up">Marca o teu<br/>momento</h2>
-        <p className="contact-cta-sub fade-up delay-1">Cada peça é única. Cada sessão, exclusiva.<br/>Reserve o seu momento e deixe-nos dar vida à sua visão.</p>
-        <div className="contact-cta-links fade-up delay-2">
-          <a href="mailto:studio@lumiatelier.com" className="contact-cta-link"><span data-text="studio@lumiatelier.com">studio@lumiatelier.com</span></a>
-          <a href="https://instagram.com/lumi.atelier_" className="contact-cta-link" target="_blank" rel="noopener noreferrer"><span data-text="@lumi.atelier_">@lumi.atelier_</span></a>
-          <a href="book.html" className="contact-cta-link"><span data-text="Reservar →">Reservar →</span></a>
+        <div className="contact-inner">
+          <div className="contact-left fade-up">
+            <p className="contact-body">
+              Cada peça é única. Cada sessão, exclusiva. Reserve o seu momento e deixe-nos dar vida à sua visão.
+            </p>
+            <div className="contact-meta">
+              <div className="contact-meta-row">
+                <span className="contact-meta-label">Email</span>
+                <a href="mailto:studio@lumiatelier.com" className="contact-meta-value contact-cta-link"><span data-text="studio@lumiatelier.com">studio@lumiatelier.com</span></a>
+              </div>
+              <div className="contact-meta-row">
+                <span className="contact-meta-label">Instagram</span>
+                <a href="https://instagram.com/lumi.atelier_" className="contact-meta-value contact-cta-link" target="_blank" rel="noopener noreferrer"><span data-text="@lumi.atelier_">@lumi.atelier_</span></a>
+              </div>
+            </div>
+          </div>
+          <div className="contact-right fade-up delay-1">
+            <h2 className="contact-cta-heading">Marca o teu<br/>momento</h2>
+          </div>
         </div>
       </section>
 
