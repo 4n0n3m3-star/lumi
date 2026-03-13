@@ -357,7 +357,6 @@ export default function Home() {
 
       {/* ─── ART COLLECTION ───────────────────────────── */}
       <section className="section" id="art">
-        <p className="section-eyebrow fade-up">{t['art-eyebrow']}</p>
         <div className="art-grid">
           <div className="art-slot fade-up delay-1">
             <img src="https://placehold.co/600x800/806A58/EDE3D4?text=+" alt="Art piece 1" loading="lazy" decoding="async" width={600} height={800} />
@@ -403,13 +402,12 @@ export default function Home() {
 
       {/* ─── CONTACT CTA ──────────────────────────────── */}
       <section id="contact-cta">
-        <p className="contact-cta-label fade-up">Contacto</p>
-        <h2 className="contact-cta-heading fade-up delay-1">Marca o teu<br/><em>momento</em></h2>
-        <p className="contact-cta-sub fade-up delay-2">Cada peça é única. Cada sessão, exclusiva.<br/>Reserve o seu momento e deixe-nos dar vida à sua visão.</p>
-        <div className="contact-cta-links fade-up delay-3">
-          <a href="mailto:studio@lumiatelier.com" className="contact-cta-link">studio@lumiatelier.com</a>
-          <a href="https://instagram.com/lumi.atelier_" className="contact-cta-link" target="_blank" rel="noopener noreferrer">@lumi.atelier_</a>
-          <a href="book.html" className="contact-cta-link">Reservar →</a>
+        <h2 className="contact-cta-heading fade-up">Marca o teu<br/>momento</h2>
+        <p className="contact-cta-sub fade-up delay-1">Cada peça é única. Cada sessão, exclusiva.<br/>Reserve o seu momento e deixe-nos dar vida à sua visão.</p>
+        <div className="contact-cta-links fade-up delay-2">
+          <a href="mailto:studio@lumiatelier.com" className="contact-cta-link"><span data-text="studio@lumiatelier.com">studio@lumiatelier.com</span></a>
+          <a href="https://instagram.com/lumi.atelier_" className="contact-cta-link" target="_blank" rel="noopener noreferrer"><span data-text="@lumi.atelier_">@lumi.atelier_</span></a>
+          <a href="book.html" className="contact-cta-link"><span data-text="Reservar →">Reservar →</span></a>
         </div>
       </section>
 
