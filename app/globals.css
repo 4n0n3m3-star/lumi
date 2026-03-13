@@ -623,7 +623,7 @@ nav.scrolled .nav-menu-btn:hover { color: var(--warm-brown); }
 .fade-up.delay-4 { transition-delay: 0.48s; }
 
 /* ─── STUDIO ABOUT ──────────────────────────── */
-#studio { background: var(--cream-light); padding: 160px 72px; }
+#studio { background: var(--cream-light); padding: 160px 72px; text-transform: uppercase; }
 .studio-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 100px; align-items: start; }
 .studio-left {}
 .studio-eyebrow-label {

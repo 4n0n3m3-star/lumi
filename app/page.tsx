@@ -287,7 +287,6 @@ export default function Home() {
       <section className="section" id="studio">
         <div className="studio-inner">
           <div className="studio-left fade-up">
-            <p className="studio-eyebrow-label">O Atelier</p>
             <h2 className="studio-heading">
               Um refúgio para<br/><em>arte permanente</em>
             </h2>
