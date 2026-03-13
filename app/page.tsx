@@ -188,7 +188,7 @@ export default function Home() {
         <div id="loader" style={{ opacity: loaderOut ? 0 : 1, pointerEvents: loaderOut ? 'none' : undefined, transition: loaderOut ? 'opacity 0.9s ease' : undefined }}>
           <div id="loader-title" style={{
             fontSize: loaderTitleBig ? '12.5vw' : '5vw',
-            letterSpacing: loaderTitleBig ? '-0.01em' : '0.22em',
+            letterSpacing: loaderTitleBig ? '0.04em' : '0.22em',
             transform: `translate(${loaderTitleTranslate.x}px, ${loaderTitleTranslate.y}px)`,
             transition: loaderTitleBig
               ? 'font-size 0.95s cubic-bezier(0.16,1,0.3,1), letter-spacing 0.95s cubic-bezier(0.16,1,0.3,1), transform 0.72s cubic-bezier(0.16,1,0.3,1) 0.98s'
@@ -259,7 +259,6 @@ export default function Home() {
         <div className="hero-title-section">
           <h1 ref={heroTitleRef} className={`hero-main-title${(heroRevealed || heroTitleReady) ? ' revealed' : ''}`}>LUMI ATELIER</h1>
         </div>
-        <div className="hero-divider"></div>
         <div className="hero-bottom">
           <div className={`hero-bottom-left${heroRevealed ? ' revealed' : ''}`}>
             <span className="hero-left-line">Creative Studio</span>
@@ -282,10 +281,6 @@ export default function Home() {
             </p>
             <a href="book.html" className="hero-cta">{t['hero-cta']}</a>
           </div>
-        </div>
-        <div className="hero-scroll">
-          <span className="hero-scroll-label">{t['hero-scroll']}</span>
-          <div className="hero-scroll-line"></div>
         </div>
       </section>
 
