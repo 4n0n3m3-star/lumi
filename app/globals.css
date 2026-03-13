@@ -827,19 +827,20 @@ nav.scrolled .nav-menu-btn:hover { color: var(--warm-brown); }
 /* ─── ART COLLECTION ────────────────────────── */
 #art {
     background: var(--cream-light);
-    padding: 140px 72px;
+    padding: 48px 72px;
     position: relative;
     overflow: hidden;
 }
 .art-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 3px;
+    gap: 12px;
 }
 .art-slot {
     position: relative;
-    aspect-ratio: 3/4;
+    aspect-ratio: 5/6;
     overflow: hidden;
+    border-radius: 16px;
 }
 .art-slot img {
     width: 100%;
@@ -890,56 +891,58 @@ nav.scrolled .nav-menu-btn:hover { color: var(--warm-brown); }
     background: var(--rose-taupe);
 }
 .art-footer {
-    margin-top: 80px;
-    padding-top: 64px;
-    border-top: 1px solid var(--cream);
+    margin-top: 32px;
+    padding-top: 28px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 16px;
+    gap: 12px;
     text-align: center;
+    text-transform: uppercase;
 }
 .art-footer-title {
     font-family: 'Tenor Sans', serif;
-    font-size: clamp(1.4rem, 2.8vw, 2.2rem);
-    letter-spacing: 0.02em;
-    color: var(--text);
+    font-size: clamp(1.8rem, 3vw, 3rem);
     font-weight: 300;
+    line-height: 1.08;
+    letter-spacing: -0.01em;
+    color: var(--text);
 }
 .art-footer-sub {
-    font-size: 0.78rem;
-    letter-spacing: 0.06em;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.65rem;
+    line-height: 1.6;
+    letter-spacing: 0.12em;
     color: var(--text-light);
-    font-style: italic;
-    line-height: 1.8;
+    white-space: nowrap;
 }
 .art-subscribe {
     display: flex;
     gap: 0;
-    margin-top: 28px;
+    margin-top: 16px;
     max-width: 420px;
     width: 100%;
+    background: rgba(237,227,212,0.3);
+    border-radius: 999px;
+    overflow: hidden;
 }
 .art-subscribe input {
     flex: 1;
     padding: 14px 22px;
-    border: 1px solid var(--cream);
-    border-right: none;
+    border: none;
     border-radius: 999px 0 0 999px;
-    background: rgba(237,227,212,0.3);
+    background: transparent;
     font-family: 'Montserrat', sans-serif;
     font-size: 0.72rem;
     letter-spacing: 0.08em;
     color: var(--text);
     outline: none;
-    transition: border-color 0.4s cubic-bezier(0.25,0.46,0.45,0.94);
 }
-.art-subscribe input:focus { border-color: var(--rose-taupe); }
 .art-subscribe input::placeholder { color: var(--text-light); }
 .art-subscribe button {
     padding: 14px 30px;
-    background: rgba(237,227,212,0.3);
-    border: 1px solid var(--cream);
+    background: transparent;
+    border: none;
     border-radius: 0 999px 999px 0;
     font-family: 'Montserrat', sans-serif;
     font-weight: 400;
@@ -948,11 +951,10 @@ nav.scrolled .nav-menu-btn:hover { color: var(--warm-brown); }
     text-transform: uppercase;
     color: var(--taupe);
     cursor: pointer;
-    transition: background 0.4s cubic-bezier(0.25,0.46,0.45,0.94), color 0.4s cubic-bezier(0.25,0.46,0.45,0.94), transform 0.3s cubic-bezier(0.25,0.46,0.45,0.94);
+    transition: color 0.4s cubic-bezier(0.25,0.46,0.45,0.94), transform 0.3s cubic-bezier(0.25,0.46,0.45,0.94);
     white-space: nowrap;
 }
 .art-subscribe button:hover {
-    background: rgba(237,227,212,0.5);
     color: var(--text);
     transform: translateY(-1px);
 }
@@ -967,13 +969,15 @@ nav.scrolled .nav-menu-btn:hover { color: var(--warm-brown); }
 /* ─── GOOGLE REVIEWS ─────────────────────────── */
 .reviews-section {
     background: var(--cream);
-    padding: 100px 72px;
+    padding: 80px 0;
+    overflow: hidden;
 }
 .reviews-header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 48px;
+    padding: 0 72px;
 }
 .reviews-header-left {
     display: flex;
@@ -982,6 +986,7 @@ nav.scrolled .nav-menu-btn:hover { color: var(--warm-brown); }
 }
 .reviews-google-icon {
     flex-shrink: 0;
+    opacity: 0.7;
 }
 .reviews-rating-text {
     font-family: 'Tenor Sans', serif;
@@ -1002,11 +1007,27 @@ nav.scrolled .nav-menu-btn:hover { color: var(--warm-brown); }
     color: var(--taupe);
     text-transform: uppercase;
 }
-.reviews-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
+
+/* Marquee */
+.reviews-marquee {
+    overflow: hidden;
+    mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%);
 }
+.reviews-marquee-track {
+    display: flex;
+    gap: 20px;
+    width: max-content;
+    animation: reviews-scroll 40s linear infinite;
+}
+.reviews-marquee:hover .reviews-marquee-track {
+    animation-play-state: paused;
+}
+@keyframes reviews-scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
 .review-card {
     background: var(--cream-light);
     border-radius: 16px;
@@ -1014,6 +1035,9 @@ nav.scrolled .nav-menu-btn:hover { color: var(--warm-brown); }
     display: flex;
     flex-direction: column;
     gap: 16px;
+    width: 340px;
+    min-width: 340px;
+    flex-shrink: 0;
     transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .review-card:hover {
@@ -1052,13 +1076,14 @@ nav.scrolled .nav-menu-btn:hover { color: var(--warm-brown); }
 }
 
 @media (max-width: 1024px) {
-    .reviews-section { padding: 80px 32px; }
-    .reviews-grid { grid-template-columns: repeat(2, 1fr); }
+    .reviews-section { padding: 64px 0; }
+    .reviews-header { padding: 0 32px; }
+    .review-card { width: 300px; min-width: 300px; }
 }
 @media (max-width: 640px) {
-    .reviews-section { padding: 64px 20px; }
-    .reviews-grid { grid-template-columns: 1fr; }
-    .reviews-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+    .reviews-section { padding: 48px 0; }
+    .reviews-header { padding: 0 20px; flex-direction: column; align-items: flex-start; gap: 12px; }
+    .review-card { width: 280px; min-width: 280px; padding: 24px 20px; }
 }
 
 /* ─── CONTACT CTA ────────────────────────────── */
