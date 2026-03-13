@@ -312,17 +312,11 @@ export default function Home() {
 
       {/* ─── SERVICES ─────────────────────────────────── */}
       <section id="services">
-        <div className="services-header">
-          <div className="services-header-left fade-up">
-            <p className="services-section-label">Serviços</p>
-            <h2 className="services-heading">Arte que<br/><em>ressoa</em></h2>
-          </div>
-          <div className="services-header-right fade-up delay-1">
-            <p className="services-desc">
-              Cada peça é concebida à medida — traço fino, detalhes delicados, arte que envelhece contigo. Apenas por marcação.
-            </p>
-            <a href="book.html" className="services-cta-link">Reservar sessão →</a>
-          </div>
+        <div className="services-header fade-up">
+          <h2 className="services-heading">Arte que<br/><em>ressoa</em></h2>
+          <p className="services-desc">
+            Cada peça é concebida à medida — traço fino, detalhes delicados, arte que envelhece contigo. Apenas por marcação.
+          </p>
         </div>
         <div className="services-grid-numbered">
           <div className="service-item fade-up">

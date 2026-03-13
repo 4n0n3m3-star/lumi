@@ -38,9 +38,9 @@ export function ZoomParallax({ images }: ZoomParallaxProps) {
 						<motion.div
 							key={index}
 							style={{ scale }}
-							className={`absolute top-0 flex h-full w-full items-center justify-center ${index === 1 ? '[&>div]:!-top-[32vh] [&>div]:!left-[8vw] [&>div]:!h-[30vh] [&>div]:!w-[38vw]' : ''} ${index === 2 ? '[&>div]:!-top-[12vh] [&>div]:!-left-[32vw] [&>div]:!h-[42vh] [&>div]:!w-[24vw]' : ''} ${index === 3 ? '[&>div]:!left-[30vw] [&>div]:!h-[25vh] [&>div]:!w-[25vw]' : ''} ${index === 4 ? '[&>div]:!top-[30vh] [&>div]:!left-[8vw] [&>div]:!h-[25vh] [&>div]:!w-[24vw]' : ''} ${index === 5 ? '[&>div]:!top-[30vh] [&>div]:!-left-[28vw] [&>div]:!h-[25vh] [&>div]:!w-[30vw]' : ''} ${index === 6 ? '[&>div]:!top-[25vh] [&>div]:!left-[28vw] [&>div]:!h-[16vh] [&>div]:!w-[16vw]' : ''} `}
+							className={`absolute top-0 flex h-full w-full items-center justify-center ${index === 1 ? '[&>div]:!-top-[36vh] [&>div]:!left-[22vw] [&>div]:!h-[20vh] [&>div]:!w-[26vw]' : ''} ${index === 2 ? '[&>div]:!-top-[20vh] [&>div]:!-left-[36vw] [&>div]:!h-[28vh] [&>div]:!w-[18vw]' : ''} ${index === 3 ? '[&>div]:!left-[36vw] [&>div]:!h-[18vh] [&>div]:!w-[18vw]' : ''} ${index === 4 ? '[&>div]:!top-[30vh] [&>div]:!left-[14vw] [&>div]:!h-[18vh] [&>div]:!w-[20vw]' : ''} ${index === 5 ? '[&>div]:!top-[30vh] [&>div]:!-left-[34vw] [&>div]:!h-[18vh] [&>div]:!w-[22vw]' : ''} ${index === 6 ? '[&>div]:!top-[26vh] [&>div]:!left-[38vw] [&>div]:!h-[12vh] [&>div]:!w-[12vw]' : ''} `}
 						>
-							<div className="relative h-[36vh] w-[40vw]">
+							<div className="relative h-[22vh] w-[26vw]">
 								<img
 									src={src || '/placeholder.svg'}
 									alt={alt || `Parallax image ${index + 1}`}
