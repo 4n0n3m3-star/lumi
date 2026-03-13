@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import ZoomParallaxSection from '@/components/zoom-parallax-section';
+import { VelocityScroll } from '@/components/ui/scroll-based-velocity';
 
 const translations = {
   pt: {
@@ -160,11 +161,13 @@ export default function Home() {
         setTimeout(() => setLoaderTitleBig(true), 600);
         // After title has settled, measure hero and glide there
         setTimeout(() => {
-          if (heroTitleRef.current) {
-            const rect = heroTitleRef.current.getBoundingClientRect();
+          const loaderEl = document.getElementById('loader-title');
+          if (heroTitleRef.current && loaderEl) {
+            const heroRect = heroTitleRef.current.getBoundingClientRect();
+            const loaderRect = loaderEl.getBoundingClientRect();
             setLoaderTitleTranslate({
-              x: (rect.left + rect.width / 2) - window.innerWidth / 2,
-              y: (rect.top + rect.height / 2) - window.innerHeight / 2,
+              x: (heroRect.left + heroRect.width / 2) - (loaderRect.left + loaderRect.width / 2),
+              y: (heroRect.top + heroRect.height / 2) - (loaderRect.top + loaderRect.height / 2),
             });
           }
         }, 2200);
@@ -237,8 +240,8 @@ export default function Home() {
       <nav id="nav" className={scrolled ? 'scrolled' : ''}>
         <div className="nav-left">
           <ul className="nav-links">
-            <li><a href="#services">{t['nav-services']}</a></li>
-            <li><a href="#art">{t['nav-art']}</a></li>
+            <li><a href="#services" className="nav-roll"><span data-text={t['nav-services']}>{t['nav-services']}</span></a></li>
+            <li><a href="#art" className="nav-roll"><span data-text={t['nav-art']}>{t['nav-art']}</span></a></li>
           </ul>
         </div>
         <a href="#home" className="nav-center-icon">
@@ -248,8 +251,8 @@ export default function Home() {
         </a>
         <div className="nav-right">
           <ul className="nav-links">
-            <li><a href="book.html" style={{ color: 'var(--warm-brown)' }}>{t['nav-book']}</a></li>
-            <li><a href="artists.html">{t['nav-artists']}</a></li>
+            <li><a href="book.html" className="nav-roll nav-roll--accent"><span data-text={t['nav-book']}>{t['nav-book']}</span></a></li>
+            <li><a href="artists.html" className="nav-roll"><span data-text={t['nav-artists']}>{t['nav-artists']}</span></a></li>
           </ul>
           <button className="nav-menu-btn" aria-label="Menu" onClick={() => setMenuOpen(true)}>{t['nav-menu']}</button>
         </div>
@@ -283,12 +286,21 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ─── VELOCITY SCROLL ───────────────────────────── */}
+      <div className="velocity-scroll-section">
+        <VelocityScroll
+          text="TATTOO · PIERCING · FINELINE · ILUSTRAÇÃO ·"
+          default_velocity={3}
+          className="text-[clamp(2rem,5vw,4.5rem)] font-light tracking-[-0.02em]"
+        />
+      </div>
+
       {/* ─── STUDIO ABOUT ─────────────────────────────── */}
       <section className="section" id="studio">
         <div className="studio-inner">
           <div className="studio-left fade-up">
             <h2 className="studio-heading">
-              Um refúgio para<br/><em>arte permanente</em>
+              Um refúgio para<br/>arte permanente
             </h2>
           </div>
           <div className="studio-right fade-up delay-1">
@@ -298,7 +310,7 @@ export default function Home() {
             <div className="studio-meta">
               <div className="studio-meta-row">
                 <span className="studio-meta-label">Fundado</span>
-                <span className="studio-meta-value">2025 · Venda do Pinheiro, Portugal</span>
+                <span className="studio-meta-value">2025 · <a href="https://maps.app.goo.gl/mRryg6LLEHRSzZRJ9" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline', textUnderlineOffset: '4px' }}>Venda do Pinheiro, Portugal</a></span>
               </div>
               <div className="studio-meta-row">
                 <span className="studio-meta-label">Especialidades</span>
@@ -312,7 +324,7 @@ export default function Home() {
       {/* ─── SERVICES ─────────────────────────────────── */}
       <section id="services">
         <div className="services-header fade-up">
-          <h2 className="services-heading">Arte que<br/><em>ressoa</em></h2>
+          <h2 className="services-heading">Arte que<br/>ressoa</h2>
           <p className="services-desc">
             Cada peça é concebida à medida — traço fino, detalhes delicados, arte que envelhece contigo. Apenas por marcação.
           </p>
