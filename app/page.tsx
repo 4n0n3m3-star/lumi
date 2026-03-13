@@ -157,7 +157,7 @@ export default function Home() {
         setLoaderLabelsVisible(false);
         // Grow title
         setTimeout(() => setLoaderTitleBig(true), 300);
-        // After title has grown, measure hero position and translate loader title there
+        // After font-size animation is done (~1300ms), measure hero and start translate
         setTimeout(() => {
           if (heroTitleRef.current) {
             const rect = heroTitleRef.current.getBoundingClientRect();
@@ -166,15 +166,15 @@ export default function Home() {
               y: (rect.top + rect.height / 2) - window.innerHeight / 2,
             });
           }
-        }, 1220);
-        // Reveal hero title + fade loader after translate settles
-        setTimeout(() => { setLoaderOut(true); setHeroTitleReady(true); }, 1980);
-        // Reveal rest of hero
+        }, 1320);
+        // Fade loader + reveal hero title after translate settles (1320 + 750ms travel)
+        setTimeout(() => { setLoaderOut(true); setHeroTitleReady(true); }, 2150);
+        // Reveal rest of hero after loader is gone
         setTimeout(() => {
           document.body.style.overflow = '';
           setLoaderDone(true);
           setHeroRevealed(true);
-        }, 2880);
+        }, 3100);
       }
     }, INTERVAL);
 
@@ -191,7 +191,7 @@ export default function Home() {
             letterSpacing: loaderTitleBig ? '0.04em' : '0.22em',
             transform: `translate(${loaderTitleTranslate.x}px, ${loaderTitleTranslate.y}px)`,
             transition: loaderTitleBig
-              ? 'font-size 0.95s cubic-bezier(0.16,1,0.3,1), letter-spacing 0.95s cubic-bezier(0.16,1,0.3,1), transform 0.72s cubic-bezier(0.16,1,0.3,1) 0.98s'
+              ? 'font-size 0.95s cubic-bezier(0.16,1,0.3,1), letter-spacing 0.95s cubic-bezier(0.16,1,0.3,1), transform 0.75s cubic-bezier(0.16,1,0.3,1)'
               : undefined
           }}>LUMI ATELIER</div>
           <div id="loader-sub" className={loaderLabelsVisible ? '' : 'hidden'}>
