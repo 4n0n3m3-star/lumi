@@ -161,24 +161,26 @@ export default function Home() {
         setTimeout(() => setLoaderTitleBig(true), 600);
         // After title has settled, measure hero and glide there
         setTimeout(() => {
-          const loaderEl = document.getElementById('loader-title');
-          if (heroTitleRef.current && loaderEl) {
-            const heroRect = heroTitleRef.current.getBoundingClientRect();
-            const loaderRect = loaderEl.getBoundingClientRect();
-            setLoaderTitleTranslate({
-              x: (heroRect.left + heroRect.width / 2) - (loaderRect.left + loaderRect.width / 2),
-              y: (heroRect.top + heroRect.height / 2) - (loaderRect.top + loaderRect.height / 2),
-            });
-          }
-        }, 2200);
+          requestAnimationFrame(() => {
+            const loaderEl = document.getElementById('loader-title');
+            if (heroTitleRef.current && loaderEl) {
+              const heroRect = heroTitleRef.current.getBoundingClientRect();
+              const loaderRect = loaderEl.getBoundingClientRect();
+              setLoaderTitleTranslate({
+                x: (heroRect.left + heroRect.width / 2) - (loaderRect.left + loaderRect.width / 2),
+                y: (heroRect.top + heroRect.height / 2) - (loaderRect.top + loaderRect.height / 2),
+              });
+            }
+          });
+        }, 2400);
         // Fade loader + reveal hero title after translate settles
-        setTimeout(() => { setLoaderOut(true); setHeroTitleReady(true); }, 3400);
+        setTimeout(() => { setLoaderOut(true); setHeroTitleReady(true); }, 3800);
         // Reveal rest of hero after loader is gone
         setTimeout(() => {
           document.body.style.overflow = '';
           setLoaderDone(true);
           setHeroRevealed(true);
-        }, 4600);
+        }, 5200);
       }
     }, INTERVAL);
 
@@ -191,12 +193,9 @@ export default function Home() {
       {!loaderDone && (
         <div id="loader" style={{ opacity: loaderOut ? 0 : 1, pointerEvents: loaderOut ? 'none' : undefined, transition: loaderOut ? 'opacity 1.4s cubic-bezier(0.25,0.1,0.25,1)' : undefined }}>
           <div id="loader-title" style={{
-            fontSize: loaderTitleBig ? '12.5vw' : '5vw',
-            letterSpacing: loaderTitleBig ? '0.04em' : '0.22em',
+            fontSize: loaderTitleBig ? '12.5vw' : undefined,
+            letterSpacing: loaderTitleBig ? '0.04em' : undefined,
             transform: `translate(${loaderTitleTranslate.x}px, ${loaderTitleTranslate.y}px)`,
-            transition: loaderTitleBig
-              ? 'font-size 1.6s cubic-bezier(0.25,0.1,0.25,1), letter-spacing 1.6s cubic-bezier(0.25,0.1,0.25,1), transform 1.2s cubic-bezier(0.25,0.1,0.25,1)'
-              : undefined
           }}>LUMI ATELIER</div>
           <div id="loader-sub" className={loaderLabelsVisible ? '' : 'hidden'}>
             {loaderPct}%
@@ -265,9 +264,9 @@ export default function Home() {
         </div>
         <div className="hero-bottom">
           <div className={`hero-bottom-left${heroRevealed ? ' revealed' : ''}`}>
-            <span className="hero-left-line">Creative Studio</span>
-            <span className="hero-left-line">Arte Permanente</span>
-            <span className="hero-left-line italic">Criado com intenção.</span>
+            <span className="hero-left-line"><span className="hero-roll" data-text="Creative Studio">Creative Studio</span></span>
+            <span className="hero-left-line"><span className="hero-roll" data-text="Arte Permanente">Arte Permanente</span></span>
+            <span className="hero-left-line italic"><span className="hero-roll" data-text="Criado com intenção.">Criado com intenção.</span></span>
           </div>
           <div className={`hero-bottom-images${heroRevealed ? ' revealed' : ''}`}>
             <div className="hero-bottom-image">
@@ -281,7 +280,7 @@ export default function Home() {
             <p className="hero-right-desc">
               Cada peça é criada exclusivamente para si e está disponível apenas mediante marcação. Preencha o formulário de admissão, descreva a sua visão e dedicaremos toda a atenção possível para concretizar a sua ideia.
             </p>
-            <a href="book.html" className="hero-cta">{t['hero-cta']}</a>
+            <a href="book.html" className="hero-cta">{t['hero-cta']} <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ display: 'inline-block', marginLeft: '6px', verticalAlign: 'middle' }}><path d="M3.5 8.5L8.5 3.5M8.5 3.5H4M8.5 3.5V8" /></svg></a>
           </div>
         </div>
       </section>
@@ -324,9 +323,9 @@ export default function Home() {
       {/* ─── SERVICES ─────────────────────────────────── */}
       <section id="services">
         <div className="services-header fade-up">
-          <h2 className="services-heading">Arte que<br/>ressoa</h2>
+          <h2 className="services-heading">Arte</h2>
           <p className="services-desc">
-            Cada peça é concebida à medida — traço fino, detalhes delicados, arte que envelhece contigo. Apenas por marcação.
+            do latim: ars; &ldquo;técnica&rdquo;, &ldquo;habilidade&rdquo;,<br/>&ldquo;conhecimento&rdquo; ou &ldquo;maneira de fazer&rdquo;
           </p>
         </div>
         <div className="services-grid-numbered">

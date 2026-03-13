@@ -400,9 +400,15 @@ nav.scrolled .nav-menu-btn:hover { color: var(--warm-brown); }
     position: relative; z-index: 2;
     will-change: font-size, letter-spacing, transform;
     line-height: 0.88;
+    transition: font-size 1.6s cubic-bezier(0.25,0.1,0.25,1),
+                letter-spacing 1.6s cubic-bezier(0.25,0.1,0.25,1),
+                transform 1.2s cubic-bezier(0.25,0.1,0.25,1);
 }
 #loader-sub {
-    margin-top: 20px;
+    position: absolute;
+    top: calc(50% + 3vw);
+    left: 50%;
+    transform: translateX(-50%);
     font-family: 'Montserrat', sans-serif;
     font-weight: 300; font-style: italic;
     font-size: 0.72rem; letter-spacing: 0.14em;
@@ -411,7 +417,6 @@ nav.scrolled .nav-menu-btn:hover { color: var(--warm-brown); }
     transition: opacity 1s cubic-bezier(0.25,0.1,0.25,1);
     font-variant-numeric: tabular-nums;
     min-width: 3.5em; text-align: center;
-    height: 1.2em; line-height: 1.2em;
 }
 #loader-sub.hidden { opacity: 0; }
 #loader-bar-wrap {
@@ -476,7 +481,7 @@ nav.scrolled .nav-menu-btn:hover { color: var(--warm-brown); }
 .hero-left-line {
     display: block;
     font-family: 'Tenor Sans', serif;
-    font-size: clamp(1.1rem, 2.4vw, 2.2rem);
+    font-size: clamp(1.4rem, 3vw, 2.8rem);
     letter-spacing: 0.02em;
     text-transform: uppercase;
     color: var(--taupe);
@@ -487,6 +492,7 @@ nav.scrolled .nav-menu-btn:hover { color: var(--warm-brown); }
     opacity: 0;
     transform: translateY(28px);
     transition: opacity 1.2s cubic-bezier(0.25,0.1,0.25,1), transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow: hidden;
 }
 .hero-left-line:nth-child(1) { transition-delay: 0.1s; }
 .hero-left-line:nth-child(2) { transition-delay: 0.3s; }
@@ -498,9 +504,26 @@ nav.scrolled .nav-menu-btn:hover { color: var(--warm-brown); }
     color: var(--ink);
     letter-spacing: -0.01em;
 }
+.hero-roll {
+    display: inline-block;
+    position: relative;
+    transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.hero-roll::after {
+    content: attr(data-text);
+    display: block;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    color: var(--text);
+}
+.hero-left-line.italic .hero-roll::after { color: var(--warm-brown); }
+.hero-left-line:hover .hero-roll {
+    transform: translateY(-100%);
+}
 .hero-bottom-images {
     display: flex;
-    gap: 10px;
+    gap: 5px;
     flex-shrink: 0;
     align-self: flex-end;
     opacity: 0;
