@@ -195,7 +195,7 @@ export default function Home() {
               : undefined
           }}>LUMI ATELIER</div>
           <div id="loader-sub" className={loaderLabelsVisible ? '' : 'hidden'}>
-            Venda do Pinheiro · Estúdio de Tattoo &amp; Piercing
+            {loaderPct}%
           </div>
           <div id="loader-bar-wrap">
             <div id="loader-bar" style={{ width: `${loaderPct}%` }}></div>
@@ -275,9 +275,7 @@ export default function Home() {
           </div>
           <div className={`hero-bottom-right${heroRevealed ? ' revealed' : ''}`}>
             <p className="hero-right-desc">
-              Minimalista. Intencional. Eterna.<br/>
-              exclusivamente à sua medida.<br/>
-              Apenas por marcação.
+              Cada peça é criada exclusivamente para si e está disponível apenas mediante marcação. Preencha o formulário de admissão, descreva a sua visão e dedicaremos toda a atenção possível para concretizar a sua ideia.
             </p>
             <a href="book.html" className="hero-cta">{t['hero-cta']}</a>
           </div>
