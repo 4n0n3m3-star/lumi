@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import ZoomParallaxSection from '@/components/zoom-parallax-section';
 import { VelocityScroll } from '@/components/ui/scroll-based-velocity';
+import { GoogleReviews } from '@/components/ui/google-reviews';
 
 const translations = {
   pt: {
@@ -399,6 +400,9 @@ export default function Home() {
           )}
         </div>
       </section>
+
+      {/* ─── GOOGLE REVIEWS ────────────────────────────── */}
+      <GoogleReviews />
 
       {/* ─── CONTACT CTA ──────────────────────────────── */}
       <section id="contact-cta">

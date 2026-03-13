@@ -964,6 +964,103 @@ nav.scrolled .nav-menu-btn:hover { color: var(--warm-brown); }
     margin-top: 20px;
 }
 
+/* ─── GOOGLE REVIEWS ─────────────────────────── */
+.reviews-section {
+    background: var(--cream);
+    padding: 100px 72px;
+}
+.reviews-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 48px;
+}
+.reviews-header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.reviews-google-icon {
+    flex-shrink: 0;
+}
+.reviews-rating-text {
+    font-family: 'Tenor Sans', serif;
+    font-size: 1.4rem;
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    color: var(--text);
+}
+.reviews-stars {
+    display: inline-flex;
+    gap: 2px;
+    align-items: center;
+}
+.reviews-count {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    color: var(--taupe);
+    text-transform: uppercase;
+}
+.reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+.review-card {
+    background: var(--cream-light);
+    border-radius: 16px;
+    padding: 28px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.review-card:hover {
+    transform: translateY(-4px);
+}
+.review-card-top {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.review-author-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+}
+.review-author {
+    font-family: 'Tenor Sans', serif;
+    font-size: 0.85rem;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    color: var(--text);
+}
+.review-time {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    color: var(--taupe);
+    text-transform: uppercase;
+}
+.review-text {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.75rem;
+    line-height: 1.7;
+    letter-spacing: 0.02em;
+    color: var(--taupe);
+}
+
+@media (max-width: 1024px) {
+    .reviews-section { padding: 80px 32px; }
+    .reviews-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+    .reviews-section { padding: 64px 20px; }
+    .reviews-grid { grid-template-columns: 1fr; }
+    .reviews-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+}
+
 /* ─── CONTACT CTA ────────────────────────────── */
 #contact-cta {
     background: var(--cream-light);
