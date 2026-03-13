@@ -15,7 +15,7 @@ const translations = {
     'hero-cta': 'Explorar os serviços',
     'hero-scroll': 'Rolar',
     'studio-eyebrow': 'O Atelier',
-    'studio-statement': 'Um santuário para <em>arte permanente</em> — criado com intenção, para durar uma vida.',
+    'studio-statement': 'Um refúgio para <em>arte permanente</em> — criado com intenção, para durar uma vida.',
     'studio-founded-label': 'Fundado',
     'studio-specs-label': 'Especialidades',
     'studio-specs-value': 'Fineline Tattoo · Piercing',
@@ -56,7 +56,7 @@ const translations = {
     'hero-cta': 'Explore our services',
     'hero-scroll': 'Scroll',
     'studio-eyebrow': 'The Atelier',
-    'studio-statement': 'A sanctuary for <em>permanent art</em> — crafted with intention, worn for life.',
+    'studio-statement': 'A refuge for <em>permanent art</em> — crafted with intention, worn for life.',
     'studio-founded-label': 'Founded',
     'studio-specs-label': 'Specialities',
     'studio-specs-value': 'Fineline Tattoo · Piercing',
@@ -141,10 +141,11 @@ export default function Home() {
   // ─── LOADER ───────────────────────────────────────
   useEffect(() => {
     document.body.style.overflow = 'hidden';
-    const STEPS = 120;
-    const INTERVAL = 28;
+    const STEPS = 180;
+    const INTERVAL = 22;
     let current = 0;
-    function ease(t: number) { return t < 0.5 ? 2*t*t : -1 + (4 - 2*t)*t; }
+    // Very gentle ease — slow start, slow finish
+    function ease(t: number) { return t * t * (3 - 2 * t); }
 
     const timer = setInterval(() => {
       current++;
@@ -153,11 +154,11 @@ export default function Home() {
       setLoaderPct(Math.round(p * 100));
       if (t >= 1) {
         clearInterval(timer);
-        // Fade labels + percent
+        // Gently fade out percent
         setLoaderLabelsVisible(false);
-        // Grow title
-        setTimeout(() => setLoaderTitleBig(true), 300);
-        // After font-size animation is done (~1300ms), measure hero and start translate
+        // Slowly grow title after a breath
+        setTimeout(() => setLoaderTitleBig(true), 600);
+        // After title has settled, measure hero and glide there
         setTimeout(() => {
           if (heroTitleRef.current) {
             const rect = heroTitleRef.current.getBoundingClientRect();
@@ -166,15 +167,15 @@ export default function Home() {
               y: (rect.top + rect.height / 2) - window.innerHeight / 2,
             });
           }
-        }, 1320);
-        // Fade loader + reveal hero title after translate settles (1320 + 750ms travel)
-        setTimeout(() => { setLoaderOut(true); setHeroTitleReady(true); }, 2150);
+        }, 2200);
+        // Fade loader + reveal hero title after translate settles
+        setTimeout(() => { setLoaderOut(true); setHeroTitleReady(true); }, 3400);
         // Reveal rest of hero after loader is gone
         setTimeout(() => {
           document.body.style.overflow = '';
           setLoaderDone(true);
           setHeroRevealed(true);
-        }, 3100);
+        }, 4600);
       }
     }, INTERVAL);
 
@@ -185,13 +186,13 @@ export default function Home() {
     <>
       {/* ─── LOADER ──────────────────────────────────── */}
       {!loaderDone && (
-        <div id="loader" style={{ opacity: loaderOut ? 0 : 1, pointerEvents: loaderOut ? 'none' : undefined, transition: loaderOut ? 'opacity 0.9s ease' : undefined }}>
+        <div id="loader" style={{ opacity: loaderOut ? 0 : 1, pointerEvents: loaderOut ? 'none' : undefined, transition: loaderOut ? 'opacity 1.4s cubic-bezier(0.25,0.1,0.25,1)' : undefined }}>
           <div id="loader-title" style={{
             fontSize: loaderTitleBig ? '12.5vw' : '5vw',
             letterSpacing: loaderTitleBig ? '0.04em' : '0.22em',
             transform: `translate(${loaderTitleTranslate.x}px, ${loaderTitleTranslate.y}px)`,
             transition: loaderTitleBig
-              ? 'font-size 0.95s cubic-bezier(0.16,1,0.3,1), letter-spacing 0.95s cubic-bezier(0.16,1,0.3,1), transform 0.75s cubic-bezier(0.16,1,0.3,1)'
+              ? 'font-size 1.6s cubic-bezier(0.25,0.1,0.25,1), letter-spacing 1.6s cubic-bezier(0.25,0.1,0.25,1), transform 1.2s cubic-bezier(0.25,0.1,0.25,1)'
               : undefined
           }}>LUMI ATELIER</div>
           <div id="loader-sub" className={loaderLabelsVisible ? '' : 'hidden'}>
@@ -288,7 +289,7 @@ export default function Home() {
           <div className="studio-left fade-up">
             <p className="studio-eyebrow-label">O Atelier</p>
             <h2 className="studio-heading">
-              Um santuário para<br/><em>arte permanente</em>
+              Um refúgio para<br/><em>arte permanente</em>
             </h2>
           </div>
           <div className="studio-right fade-up delay-1">
@@ -400,7 +401,8 @@ export default function Home() {
       <section id="contact-cta">
         <p className="contact-cta-label fade-up">Contacto</p>
         <h2 className="contact-cta-heading fade-up delay-1">Marca o teu<br/><em>momento</em></h2>
-        <div className="contact-cta-links fade-up delay-2">
+        <p className="contact-cta-sub fade-up delay-2">Cada peça é única. Cada sessão, exclusiva.<br/>Reserve o seu momento e deixe-nos dar vida à sua visão.</p>
+        <div className="contact-cta-links fade-up delay-3">
           <a href="mailto:studio@lumiatelier.com" className="contact-cta-link">studio@lumiatelier.com</a>
           <a href="https://instagram.com/lumi.atelier_" className="contact-cta-link" target="_blank" rel="noopener noreferrer">@lumi.atelier_</a>
           <a href="book.html" className="contact-cta-link">Reservar →</a>
