@@ -264,6 +264,45 @@
         }
 
         /* ─── SERVICE SELECTOR ────────────────────────── */
+        /* ─── ARTIST SELECTOR ────────────────────────── */
+        .artist-selector {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            padding-bottom: 32px;
+        }
+        .artist-selector-label {
+            font-size: 0.62rem;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--text);
+        }
+        .artist-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .artist-radio { display: none; }
+        .artist-pill {
+            padding: 10px 20px;
+            border: 1px solid var(--taupe);
+            border-radius: 999px;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.68rem;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--text);
+            transition: color 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+            user-select: none;
+        }
+        .artist-radio:checked + .artist-pill {
+            border-color: var(--ink);
+            color: var(--ink);
+            background: rgba(30,23,19,0.05);
+        }
+        .artist-pill:hover { color: var(--ink); border-color: var(--ink); }
+
         .service-selector {
             margin-bottom: 52px;
         }
@@ -722,6 +761,15 @@
         </div>
     </div>
 
+    <!-- ─── ARTIST SELECTOR ─────────────────────────── -->
+    <div class="artist-selector">
+        <span class="artist-selector-label" data-i18n="artist-label">Escolhe a tua artista</span>
+        <div class="artist-pills">
+            <input type="radio" name="artist" id="artist-stephany" value="stephany-ribeiro" class="artist-radio" checked>
+            <label for="artist-stephany" class="artist-pill">Stephany Ribeiro</label>
+        </div>
+    </div>
+
     <!-- ─── FORM INTRO ────────────────────────────────── -->
     <p class="form-intro" data-i18n="form-intro">Preenche este formulário com os detalhes da tua sessão. Leva apenas alguns minutos e ajuda-nos a proporcionar-te a melhor experiência possível.</p>
     <p class="form-intro-sub" data-i18n="form-intro-sub">Todas as informações são confidenciais.</p>
@@ -730,6 +778,7 @@
         <input type="hidden" name="access_key" value="b9a7bfaa-cca2-49d3-b412-005cc8c09000">
         <input type="hidden" name="redirect" value="false">
         <input type="hidden" name="service" id="form-service" value="tattoo">
+        <input type="hidden" name="artist" id="form-artist" value="stephany-ribeiro">
 
         <!-- ─── COMMON FIELDS ─────────────────────────── -->
         <div class="form-row">
@@ -1043,6 +1092,7 @@
             'page-title': 'FORMULÁRIO DE ADMISSÃO',
             'service-label': 'Que serviço pretendes?',
             'svc-tattoo': 'Tatuagem', 'svc-piercing': 'Piercing',
+            'artist-label': 'Escolhe a tua artista',
             'form-intro': 'Preenche este formulário com os detalhes da tua sessão. Leva apenas alguns minutos e ajuda-nos a proporcionar-te a melhor experiência possível.',
             'form-intro-sub': 'Todas as informações são confidenciais.',
             'label-name': 'Nome Completo', 'ph-name': 'O teu nome',
@@ -1102,6 +1152,7 @@
             'page-title': 'INTAKE FORM',
             'service-label': 'Which service are you booking?',
             'svc-tattoo': 'Tattoo', 'svc-piercing': 'Piercing',
+            'artist-label': 'Choose your artist',
             'form-intro': 'Fill in this form with your session details. It takes just a few minutes and helps us give you the best possible experience.',
             'form-intro-sub': 'All information is confidential.',
             'label-name': 'Full Name', 'ph-name': 'Your name',
@@ -1204,8 +1255,14 @@
     const tattooFields = document.getElementById('tattoo-fields');
     const piercingFields = document.getElementById('piercing-fields');
     const formServiceInput = document.getElementById('form-service');
+    const formArtistInput = document.getElementById('form-artist');
     const consentTattooCheck = document.getElementById('consent-tattoo-check');
     const consentPiercingCheck = document.getElementById('consent-piercing-check');
+
+    // ─── ARTIST SWITCHING ─────────────────────────────
+    document.querySelectorAll('input[name="artist"]').forEach(radio => {
+        radio.addEventListener('change', function() { formArtistInput.value = this.value; });
+    });
 
     function switchService(service) {
         const isTattoo = service === 'tattoo';
@@ -1312,6 +1369,8 @@
         btn.textContent = t['sending'];
 
         let message;
+        const selectedArtist = formArtistInput.value;
+
         if (isTattoo) {
             const zone = get('zone');
             const zoneCustom = fd.get('zone_custom');
@@ -1319,6 +1378,9 @@
             const schedules = fd.getAll('schedule');
             const refLines = imageUrls.length ? imageUrls.map((url, i) => `Imagem ${i + 1}: ${url}`) : ['—'];
             message = [
+                '━━━ ARTISTA ━━━',
+                `Artista:     ${selectedArtist}`,
+                '',
                 '━━━ CLIENTE ━━━',
                 `Nome:        ${get('name')}`,
                 `Email:       ${get('email')}`,
@@ -1351,6 +1413,9 @@
         } else {
             const schedulesP = fd.getAll('schedule_p');
             message = [
+                '━━━ ARTISTA ━━━',
+                `Artista:     ${selectedArtist}`,
+                '',
                 '━━━ CLIENTE ━━━',
                 `Nome:        ${get('name')}`,
                 `Email:       ${get('email')}`,
@@ -1396,11 +1461,12 @@
                 fetch('/api/confirm', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ name: get('name'), email: fd.get('email') || '', service, lang: currentLang }),
+                    body: JSON.stringify({ name: get('name'), email: fd.get('email') || '', service, lang: currentLang, artist: formArtistInput.value }),
                 }).catch(() => {});
 
                 const sheetPayload = isTattoo ? {
                     service: 'tattoo',
+                    artist: formArtistInput.value,
                     name: get('name'), email: fd.get('email') || '', phone: get('phone'), city: get('city'),
                     zone: get('zone') + (fd.get('zone_custom') ? ' — ' + fd.get('zone_custom') : ''),
                     size: get('size'), first_tattoo: get('first_tattoo'),
@@ -1412,6 +1478,7 @@
                     lang: currentLang,
                 } : {
                     service: 'piercing',
+                    artist: formArtistInput.value,
                     name: get('name'), email: fd.get('email') || '', phone: get('phone'), city: get('city'),
                     piercing_type: get('piercing_type'), piercing_location: get('piercing_location'),
                     first_piercing: get('first_piercing'), jewelry_material: get('jewelry_material'),
