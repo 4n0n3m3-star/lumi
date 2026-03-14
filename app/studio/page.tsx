@@ -26,6 +26,12 @@ interface Booking {
   piercing_location?: string;
   first_piercing?: string;
   jewelry_material?: string;
+  session_date?: string;
+  session_duration?: string;
+  booking_uid?: string;
+  sessao_sent?: string;
+  lembrete_sent?: string;
+  aftercare_sent?: string;
 }
 
 interface FollowUpType {
@@ -42,9 +48,16 @@ const FOLLOWUP_TYPES: FollowUpType[] = [
   { key: 'deposito', label: 'Depósito', icon: '🏦', fields: ['budget'] },
   { key: 'deposito_confirmado', label: 'Depósito OK', icon: '✓', fields: ['eta'] },
   { key: 'esboço', label: 'Esboço', icon: '✏️', fields: ['sketch_url', 'duration'] },
-  { key: 'sessao', label: 'Sessão', icon: '📅', fields: ['session_date', 'duration'] },
-  { key: 'lembrete', label: 'Lembrete', icon: '🔔', fields: ['session_date', 'duration'] },
-  { key: 'aftercare', label: 'Aftercare', icon: '🩹' },
+];
+
+const SESSION_DURATIONS = [
+  { value: '1 hora', label: '1 hora' },
+  { value: '1.5 horas', label: '1.5 horas' },
+  { value: '2 horas', label: '2 horas' },
+  { value: '3 horas', label: '3 horas' },
+  { value: '4 horas', label: '4 horas' },
+  { value: '5 horas', label: '5 horas' },
+  { value: '6 horas', label: '6 horas' },
 ];
 
 const REJECTION_REASONS = [
@@ -754,6 +767,34 @@ export default function StudioPage() {
                 </div>
               )}
 
+              {/* Session info */}
+              {selected.session_date && selected.session_date !== '—' && (
+                <div style={{ background: 'rgba(74,130,87,0.06)', border: '1px solid rgba(74,130,87,0.15)', padding: '16px', marginBottom: '24px', borderRadius: '8px' }}>
+                  <p style={{ ...styles.panelLabel, color: '#4A8257', marginBottom: '10px' }}>Sessão agendada</p>
+                  <p style={{ fontSize: '14px', color: '#2C1A0E', fontWeight: 400, marginBottom: '4px' }}>
+                    {new Date(selected.session_date).toLocaleDateString('pt-PT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Lisbon' })}
+                  </p>
+                  {selected.session_duration && selected.session_duration !== '—' && (
+                    <p style={{ fontSize: '12px', color: '#806A58', fontWeight: 300 }}>Duração: {selected.session_duration}</p>
+                  )}
+                  <div style={{ display: 'flex', gap: '6px', marginTop: '10px', flexWrap: 'wrap' }}>
+                    <span style={{ fontSize: '8px', fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase', padding: '3px 8px', borderRadius: '999px', background: 'rgba(74,130,87,0.1)', color: '#4A8257' }}>✓ Sessão</span>
+                    {selected.lembrete_sent && selected.lembrete_sent !== '—' && (
+                      <span style={{ fontSize: '8px', fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase', padding: '3px 8px', borderRadius: '999px', background: 'rgba(74,130,87,0.1)', color: '#4A8257' }}>✓ Lembrete</span>
+                    )}
+                    {selected.aftercare_sent && selected.aftercare_sent !== '—' && (
+                      <span style={{ fontSize: '8px', fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase', padding: '3px 8px', borderRadius: '999px', background: 'rgba(74,130,87,0.1)', color: '#4A8257' }}>✓ Aftercare</span>
+                    )}
+                    {(!selected.lembrete_sent || selected.lembrete_sent === '—') && (
+                      <span style={{ fontSize: '8px', fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase', padding: '3px 8px', borderRadius: '999px', background: 'rgba(176,144,128,0.1)', color: '#B09080' }}>Lembrete agendado</span>
+                    )}
+                    {(!selected.aftercare_sent || selected.aftercare_sent === '—') && (
+                      <span style={{ fontSize: '8px', fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase', padding: '3px 8px', borderRadius: '999px', background: 'rgba(176,144,128,0.1)', color: '#B09080' }}>Aftercare agendado</span>
+                    )}
+                  </div>
+                </div>
+              )}
+
               {/* Divider */}
               <div style={{ height: '1px', background: '#ECD9D0', margin: '8px 0 24px' }} />
 
@@ -865,13 +906,16 @@ export default function StudioPage() {
                     {fields.includes('duration') && (
                       <div>
                         <label style={styles.fieldLabel}>Duração estimada</label>
-                        <input
-                          type="text"
-                          placeholder="Ex: 2-3 horas"
+                        <select
                           value={formData.duration || ''}
                           onChange={e => setFormData({ ...formData, duration: e.target.value })}
-                          style={styles.fieldInput}
-                        />
+                          style={styles.fieldSelect}
+                        >
+                          <option value="">Selecionar duração...</option>
+                          {SESSION_DURATIONS.map(d => (
+                            <option key={d.value} value={d.value}>{d.label}</option>
+                          ))}
+                        </select>
                       </div>
                     )}
 
