@@ -1125,7 +1125,6 @@ footer {
     .footer-bottom { padding: 24px 32px; }
     .hero-scroll { right: 32px; }
     .art-grid { grid-template-columns: 1fr 1fr; }
-    .hero-main-title { font-size: clamp(2rem, 16.5vw, 12.5vw); white-space: nowrap; padding: 0 32px; }
     .hero-title-section { padding-top: 72px; padding-bottom: 16px; }
     .hero-bottom { display: flex; flex-direction: column; align-items: stretch; padding: 0 32px 48px; gap: 20px; min-height: unset; }
     .hero-bottom-images { order: 1; align-self: stretch; width: 100%; }
@@ -1153,7 +1152,6 @@ footer {
     .footer-bottom { padding: 20px 24px; flex-direction: column; gap: 12px; text-align: center; }
     .hero-scroll { display: none; }
     .hero-title-section { padding-top: 56px; padding-bottom: 12px; }
-    .hero-main-title { font-size: clamp(2rem, 16.5vw, 10vw); padding: 0 24px; }
     .hero-bottom { padding: 0 24px 40px; gap: 16px; }
     .hero-bottom-image { width: 100%; flex: 1; }
     .hero-left-line { font-size: clamp(0.9rem, 4.5vw, 1.4rem); }
