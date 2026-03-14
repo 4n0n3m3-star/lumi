@@ -1342,7 +1342,7 @@
 <!-- ─── MOBILE MENU ──────────────────────────────────── -->
 <div class="mobile-menu" id="mobileMenu" aria-hidden="true">
     <div class="mobile-menu-top">
-        <a href="#home" class="mobile-menu-brand" onclick="closeMenu()">Lumi Atelier</a>
+        <a href="/" class="mobile-menu-brand" onclick="closeMenu()">Lumi Atelier</a>
         <button class="mobile-menu-close" onclick="closeMenu()" data-i18n="nav-close">Fechar</button>
     </div>
     <ul class="mobile-menu-links">
@@ -1376,7 +1376,7 @@
             <li><a href="#art" data-i18n="nav-art"><span data-text="Arte">Arte</span></a></li>
         </ul>
     </div>
-    <a href="#home" class="nav-center-icon">
+    <a href="/" class="nav-center-icon">
         <svg viewBox="0 0 100 100" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
             <path d="M50 2 Q57 43 98 50 Q57 57 50 98 Q43 57 2 50 Q43 43 50 2 Z" />
         </svg>
@@ -1832,51 +1832,59 @@
 
         function ease(t) { return t * t * (3 - 2 * t); }
 
-        var timer = setInterval(function() {
-            current++;
-            var t = Math.min(current / STEPS, 1);
-            var p = ease(t);
-            var pct = Math.round(p * 100);
-            lSub.textContent = pct + '%';
-            lBar.style.width = pct + '%';
-            if (t >= 1) {
-                clearInterval(timer);
-                lSub.classList.add('hidden');
-                // Measure hero, then grow + translate simultaneously
-                setTimeout(function() {
-                    var heroTitle = document.getElementById('heroTitle');
-                    if (heroTitle && lTitle) {
-                        var heroRect = heroTitle.getBoundingClientRect();
-                        var loaderRect = lTitle.getBoundingClientRect();
-                        var scaleRatio = (window.innerWidth * 0.125) / (window.innerWidth * 0.05);
-                        var grownCenterX = loaderRect.left + loaderRect.width / 2;
-                        var grownCenterY = loaderRect.top + loaderRect.height / 2;
-                        lTitle.style.transform = 'translate(' +
-                            ((heroRect.left + heroRect.width / 2) - grownCenterX) + 'px, ' +
-                            ((heroRect.top + heroRect.height / 2) - grownCenterY) + 'px)';
-                    }
-                    lTitle.style.fontSize = '12.5vw';
-                    lTitle.style.letterSpacing = '0.04em';
-                }, 300);
-                setTimeout(function() {
-                    loader.style.transition = 'opacity 1.4s cubic-bezier(0.25,0.1,0.25,1)';
-                    loader.style.opacity = '0';
-                    loader.style.pointerEvents = 'none';
-                    var heroTitle = document.getElementById('heroTitle');
-                    if (heroTitle) heroTitle.classList.add('revealed');
-                }, 1800);
-                setTimeout(function() {
-                    document.body.style.overflow = '';
-                    loader.style.display = 'none';
-                    var heroLeft  = document.getElementById('heroLeft');
-                    var heroImage = document.getElementById('heroImage');
-                    var heroRight = document.getElementById('heroRight');
-                    setTimeout(function() { if (heroLeft)  heroLeft.classList.add('revealed'); }, 90);
-                    setTimeout(function() { if (heroImage) heroImage.classList.add('revealed'); }, 190);
-                    setTimeout(function() { if (heroRight) heroRight.classList.add('revealed'); }, 280);
-                }, 3000);
-            }
-        }, INTERVAL);
+        function startLoader() {
+            var timer = setInterval(function() {
+                current++;
+                var t = Math.min(current / STEPS, 1);
+                var p = ease(t);
+                var pct = Math.round(p * 100);
+                lSub.textContent = pct + '%';
+                lBar.style.width = pct + '%';
+                if (t >= 1) {
+                    clearInterval(timer);
+                    lSub.classList.add('hidden');
+                    // Measure hero, then grow + translate simultaneously
+                    setTimeout(function() {
+                        var heroTitle = document.getElementById('heroTitle');
+                        if (heroTitle && lTitle) {
+                            var heroRect = heroTitle.getBoundingClientRect();
+                            var loaderRect = lTitle.getBoundingClientRect();
+                            var grownCenterX = loaderRect.left + loaderRect.width / 2;
+                            var grownCenterY = loaderRect.top + loaderRect.height / 2;
+                            lTitle.style.transform = 'translate(' +
+                                ((heroRect.left + heroRect.width / 2) - grownCenterX) + 'px, ' +
+                                ((heroRect.top + heroRect.height / 2) - grownCenterY) + 'px)';
+                        }
+                        lTitle.style.fontSize = '12.5vw';
+                        lTitle.style.letterSpacing = '0.04em';
+                    }, 300);
+                    setTimeout(function() {
+                        loader.style.transition = 'opacity 1.4s cubic-bezier(0.25,0.1,0.25,1)';
+                        loader.style.opacity = '0';
+                        loader.style.pointerEvents = 'none';
+                        var heroTitle = document.getElementById('heroTitle');
+                        if (heroTitle) heroTitle.classList.add('revealed');
+                    }, 1800);
+                    setTimeout(function() {
+                        document.body.style.overflow = '';
+                        loader.style.display = 'none';
+                        var heroLeft  = document.getElementById('heroLeft');
+                        var heroImage = document.getElementById('heroImage');
+                        var heroRight = document.getElementById('heroRight');
+                        setTimeout(function() { if (heroLeft)  heroLeft.classList.add('revealed'); }, 90);
+                        setTimeout(function() { if (heroImage) heroImage.classList.add('revealed'); }, 190);
+                        setTimeout(function() { if (heroRight) heroRight.classList.add('revealed'); }, 280);
+                    }, 3000);
+                }
+            }, INTERVAL);
+        }
+
+        // Wait for fonts to load before starting — ensures correct measurements
+        if (document.fonts && document.fonts.ready) {
+            document.fonts.ready.then(startLoader);
+        } else {
+            startLoader();
+        }
     })();
 
 </script>
