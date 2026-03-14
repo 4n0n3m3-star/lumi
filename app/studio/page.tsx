@@ -45,9 +45,9 @@ const FOLLOWUP_TYPES: FollowUpType[] = [
   { key: 'Orçamento', label: 'Orçamento', icon: '💰', fields: ['budget'] },
   { key: 'Mais Detalhes', label: 'Mais Detalhes', icon: '📝' },
   { key: 'Recusado', label: 'Recusar', icon: '✕', fields: ['reason'] },
-  { key: 'deposito', label: 'Depósito', icon: '🏦', fields: ['budget'] },
+  { key: 'deposito', label: 'Follow Up', icon: '💬' },
   { key: 'deposito_confirmado', label: 'Depósito OK', icon: '✓', fields: ['eta'] },
-  { key: 'esboço', label: 'Esboço', icon: '✏️', fields: ['sketch_url', 'duration'] },
+  { key: 'estudo', label: 'Estudo', icon: '✏️', fields: ['sketch_url', 'duration'] },
 ];
 
 const SESSION_DURATIONS = [
@@ -95,23 +95,23 @@ const styles = {
     fontWeight: 400,
     letterSpacing: '0.28em',
     textTransform: 'uppercase' as const,
-    color: '#ECD9D0',
+    color: '#EFD9CC',
     marginBottom: '8px',
   } as React.CSSProperties,
   loginSub: {
     fontSize: '9px',
     letterSpacing: '0.22em',
     textTransform: 'uppercase' as const,
-    color: '#B09080',
+    color: '#BFA08C',
     marginBottom: '48px',
   } as React.CSSProperties,
   loginInput: {
     width: '100%',
     padding: '14px 20px',
     background: 'transparent',
-    border: '1px solid rgba(236,217,208,0.2)',
-    borderRadius: '0',
-    color: '#ECD9D0',
+    border: '1px solid rgba(239,217,204,0.2)',
+    borderRadius: '6px',
+    color: '#EFD9CC',
     fontFamily: "'Montserrat', sans-serif",
     fontSize: '14px',
     letterSpacing: '0.08em',
@@ -124,6 +124,7 @@ const styles = {
     padding: '14px',
     background: 'transparent',
     border: '1px solid #A77049',
+    borderRadius: '6px',
     color: '#A77049',
     fontFamily: "'Montserrat', sans-serif",
     fontSize: '10px',
@@ -144,6 +145,7 @@ const styles = {
     top: 0,
     zIndex: 50,
     background: '#1A0E06',
+    borderRadius: '0 0 6px 6px',
     padding: '16px 24px',
     display: 'flex',
     alignItems: 'center',
@@ -154,12 +156,12 @@ const styles = {
     fontWeight: 400,
     letterSpacing: '0.28em',
     textTransform: 'uppercase' as const,
-    color: '#ECD9D0',
+    color: '#EFD9CC',
   } as React.CSSProperties,
   headerBtn: {
     background: 'none',
     border: 'none',
-    color: '#B09080',
+    color: '#BFA08C',
     fontFamily: "'Montserrat', sans-serif",
     fontSize: '9px',
     letterSpacing: '0.18em',
@@ -184,7 +186,7 @@ const styles = {
   } as React.CSSProperties,
   filterPill: (active: boolean) => ({
     padding: '8px 16px',
-    border: `1px solid ${active ? '#3F2F24' : '#D0B8AC'}`,
+    border: `1px solid ${active ? '#3F2F24' : '#BFA08C'}`,
     borderRadius: '999px',
     background: active ? '#3F2F24' : 'transparent',
     color: active ? '#FAF7F1' : '#806A58',
@@ -200,8 +202,9 @@ const styles = {
 
   // Cards
   card: {
-    background: '#FDFAF7',
-    border: '1px solid rgba(208,184,172,0.3)',
+    background: '#FAF7F1',
+    border: '1px solid rgba(191,160,140,0.3)',
+    borderRadius: '16px',
     padding: '20px',
     marginBottom: '12px',
     cursor: 'pointer',
@@ -216,7 +219,7 @@ const styles = {
   cardName: {
     fontSize: '15px',
     fontWeight: 400,
-    color: '#2C1A0E',
+    color: '#1E1713',
     lineHeight: 1.3,
   } as React.CSSProperties,
   cardBadge: (service: string) => ({
@@ -232,7 +235,7 @@ const styles = {
   } as React.CSSProperties),
   cardMeta: {
     fontSize: '11px',
-    color: '#B09080',
+    color: '#BFA08C',
     lineHeight: 1.6,
   } as React.CSSProperties,
   cardIdea: {
@@ -260,16 +263,16 @@ const styles = {
     left: 0,
     right: 0,
     maxHeight: '90vh',
-    background: '#FDFAF7',
+    background: '#FAF7F1',
     zIndex: 100,
     overflowY: 'auto' as const,
     borderRadius: '16px 16px 0 0',
-    boxShadow: '0 -4px 32px rgba(26,14,6,0.15)',
+    boxShadow: '0 -4px 24px rgba(63,47,36,0.06), 0 -1px 4px rgba(63,47,36,0.04)',
   } as React.CSSProperties,
   panelHandle: {
     width: '40px',
     height: '4px',
-    background: '#D0B8AC',
+    background: '#BFA08C',
     borderRadius: '2px',
     margin: '12px auto 0',
   } as React.CSSProperties,
@@ -279,7 +282,7 @@ const styles = {
   panelName: {
     fontSize: '22px',
     fontWeight: 300,
-    color: '#2C1A0E',
+    color: '#1E1713',
     marginBottom: '4px',
   } as React.CSSProperties,
   panelSection: {
@@ -290,7 +293,7 @@ const styles = {
     fontWeight: 500,
     letterSpacing: '0.3em',
     textTransform: 'uppercase' as const,
-    color: '#B09080',
+    color: '#BFA08C',
     marginBottom: '6px',
   } as React.CSSProperties,
   panelValue: {
@@ -318,7 +321,7 @@ const styles = {
     alignItems: 'center',
     gap: '6px',
     padding: '14px 8px',
-    border: `1px solid ${active ? '#A77049' : 'rgba(208,184,172,0.4)'}`,
+    border: `1px solid ${active ? '#A77049' : 'rgba(191,160,140,0.4)'}`,
     background: active ? 'rgba(167,112,73,0.08)' : 'transparent',
     borderRadius: '8px',
     cursor: 'pointer',
@@ -342,15 +345,16 @@ const styles = {
     fontWeight: 500,
     letterSpacing: '0.2em',
     textTransform: 'uppercase' as const,
-    color: '#B09080',
+    color: '#BFA08C',
     marginBottom: '6px',
     display: 'block',
   } as React.CSSProperties,
   fieldInput: {
     width: '100%',
     padding: '10px 14px',
-    border: '1px solid #D0B8AC',
-    background: '#FDFAF7',
+    border: '1px solid #BFA08C',
+    borderRadius: '6px',
+    background: '#FAF7F1',
     fontFamily: "'Montserrat', sans-serif",
     fontSize: '13px',
     color: '#3F2F24',
@@ -360,8 +364,9 @@ const styles = {
   fieldSelect: {
     width: '100%',
     padding: '10px 14px',
-    border: '1px solid #D0B8AC',
-    background: '#FDFAF7',
+    border: '1px solid #BFA08C',
+    borderRadius: '6px',
+    background: '#FAF7F1',
     fontFamily: "'Montserrat', sans-serif",
     fontSize: '13px',
     color: '#3F2F24',
@@ -374,7 +379,8 @@ const styles = {
     padding: '14px',
     background: '#A77049',
     border: 'none',
-    color: '#FDFAF7',
+    borderRadius: '6px',
+    color: '#FAF7F1',
     fontFamily: "'Montserrat', sans-serif",
     fontSize: '10px',
     fontWeight: 400,
@@ -391,22 +397,22 @@ const styles = {
     left: '50%',
     transform: `translateX(-50%) translateY(${show ? '0' : '20px'})`,
     opacity: show ? 1 : 0,
-    background: isError ? '#8B3A3A' : '#2C1A0E',
-    color: '#ECD9D0',
+    background: isError ? '#8B3A3A' : '#1E1713',
+    borderRadius: '999px',
+    color: '#EFD9CC',
     padding: '12px 24px',
     fontSize: '12px',
     letterSpacing: '0.1em',
     zIndex: 200,
     transition: 'all 0.3s ease',
     pointerEvents: 'none' as const,
-    borderRadius: '8px',
   } as React.CSSProperties),
 
   // Empty state
   empty: {
     textAlign: 'center' as const,
     padding: '80px 24px',
-    color: '#B09080',
+    color: '#BFA08C',
   } as React.CSSProperties,
   emptyIcon: {
     fontSize: '48px',
@@ -419,10 +425,22 @@ const styles = {
     letterSpacing: '0.05em',
   } as React.CSSProperties,
 
+  copyBtn: {
+    background: 'none',
+    border: 'none',
+    cursor: 'pointer',
+    padding: '4px',
+    borderRadius: '4px',
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexShrink: 0,
+  } as React.CSSProperties,
+
   refreshBtn: {
     background: 'none',
-    border: '1px solid rgba(236,217,208,0.3)',
-    color: '#B09080',
+    border: '1px solid rgba(239,217,204,0.3)',
+    color: '#BFA08C',
     fontFamily: "'Montserrat', sans-serif",
     fontSize: '9px',
     letterSpacing: '0.18em',
@@ -432,6 +450,31 @@ const styles = {
     borderRadius: '4px',
   } as React.CSSProperties,
 };
+
+/* ── Helpers ──────────────────────────────────────────── */
+
+function shortDate(raw: string): string {
+  if (!raw) return '';
+  try {
+    const d = new Date(raw);
+    if (isNaN(d.getTime())) throw 0;
+    const dd = String(d.getDate()).padStart(2, '0');
+    const mm = String(d.getMonth() + 1).padStart(2, '0');
+    const yyyy = d.getFullYear();
+    return `${dd}-${mm}-${yyyy}`;
+  } catch {
+    // Fallback: try to extract from string like "5/25/2026 ..."
+    const m = raw.match(/(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})/);
+    if (m) return `${m[2].padStart(2, '0')}-${m[1].padStart(2, '0')}-${m[3]}`;
+    return raw.split(' ')[0] || raw;
+  }
+}
+
+function cleanDate(raw: string): string {
+  if (!raw) return '';
+  // Strip timezone noise like ":06 GMT+0000 (Western European Standard Time)"
+  return raw.replace(/\s*GMT[^\)]*\([^)]*\)/g, '').replace(/:\d{2}\s*$/, '').trim();
+}
 
 /* ── Component ────────────────────────────────────────── */
 
@@ -567,7 +610,7 @@ export default function StudioPage() {
 
   // ── Login screen
   if (checking) {
-    return <div style={{ ...styles.loginWrap }}><p style={{ color: '#B09080', fontSize: '12px' }}>...</p></div>;
+    return <div style={{ ...styles.loginWrap }}><p style={{ color: '#BFA08C', fontSize: '12px' }}>...</p></div>;
   }
 
   if (!authed) {
@@ -642,11 +685,8 @@ export default function StudioPage() {
                   </span>
                 </div>
                 <div style={styles.cardMeta}>
-                  {b.date} · {b.email}
+                  {shortDate(b.date)} · {b.email}{b.phone && b.phone !== '—' ? ` · ${b.phone}` : ''}
                 </div>
-                {b.idea && b.idea !== '—' && (
-                  <div style={styles.cardIdea}>{b.idea}</div>
-                )}
                 {sent.length > 0 && (
                   <div style={{ display: 'flex', gap: '6px', marginTop: '10px', flexWrap: 'wrap' }}>
                     {sent.map(s => {
@@ -683,19 +723,35 @@ export default function StudioPage() {
             <div style={styles.panelContent}>
               <p style={styles.panelName}>{selected.name}</p>
               <p style={{ ...styles.cardMeta, marginBottom: '24px' }}>
-                {selected.date} · {selected.service === 'tattoo' ? 'Tatuagem' : 'Piercing'}
+                {cleanDate(selected.date)} · {selected.service === 'tattoo' ? 'Tatuagem' : 'Piercing'}
               </p>
 
-              {/* Details grid */}
+              {/* Email & Phone with copy */}
               <div style={styles.panelGrid}>
                 <div style={styles.panelSection}>
                   <p style={styles.panelLabel}>Email</p>
-                  <p style={styles.panelValue}>{selected.email}</p>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <p style={{ ...styles.panelValue, margin: 0 }}>{selected.email}</p>
+                    <button onClick={(e) => { e.stopPropagation(); navigator.clipboard.writeText(selected.email); showToast('Email copiado'); }} style={styles.copyBtn} title="Copiar">
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#BFA08C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                    </button>
+                  </div>
                 </div>
                 <div style={styles.panelSection}>
                   <p style={styles.panelLabel}>Telemóvel</p>
-                  <p style={styles.panelValue}>{selected.phone}</p>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <p style={{ ...styles.panelValue, margin: 0 }}>{selected.phone}</p>
+                    {selected.phone && selected.phone !== '—' && (
+                      <button onClick={(e) => { e.stopPropagation(); navigator.clipboard.writeText(selected.phone); showToast('Telemóvel copiado'); }} style={styles.copyBtn} title="Copiar">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#BFA08C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                      </button>
+                    )}
+                  </div>
                 </div>
+              </div>
+
+              {/* Other details */}
+              <div style={styles.panelGrid}>
                 <div style={styles.panelSection}>
                   <p style={styles.panelLabel}>Cidade</p>
                   <p style={styles.panelValue}>{selected.city}</p>
@@ -748,7 +804,7 @@ export default function StudioPage() {
                                 alignItems: 'center',
                                 gap: '6px',
                                 padding: '8px 14px',
-                                border: '1px solid #D0B8AC',
+                                border: '1px solid #BFA08C',
                                 borderRadius: '6px',
                                 fontSize: '10px',
                                 fontWeight: 500,
@@ -805,7 +861,7 @@ export default function StudioPage() {
               {selected.session_date && selected.session_date !== '—' && (
                 <div style={{ background: 'rgba(74,130,87,0.06)', border: '1px solid rgba(74,130,87,0.15)', padding: '16px', marginBottom: '24px', borderRadius: '8px' }}>
                   <p style={{ ...styles.panelLabel, color: '#4A8257', marginBottom: '10px' }}>Sessão agendada</p>
-                  <p style={{ fontSize: '14px', color: '#2C1A0E', fontWeight: 400, marginBottom: '4px' }}>
+                  <p style={{ fontSize: '14px', color: '#1E1713', fontWeight: 400, marginBottom: '4px' }}>
                     {new Date(selected.session_date).toLocaleDateString('pt-PT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Lisbon' })}
                   </p>
                   {selected.session_duration && selected.session_duration !== '—' && (
@@ -820,17 +876,17 @@ export default function StudioPage() {
                       <span style={{ fontSize: '8px', fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase', padding: '3px 8px', borderRadius: '999px', background: 'rgba(74,130,87,0.1)', color: '#4A8257' }}>✓ Aftercare</span>
                     )}
                     {(!selected.lembrete_sent || selected.lembrete_sent === '—') && (
-                      <span style={{ fontSize: '8px', fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase', padding: '3px 8px', borderRadius: '999px', background: 'rgba(176,144,128,0.1)', color: '#B09080' }}>Lembrete agendado</span>
+                      <span style={{ fontSize: '8px', fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase', padding: '3px 8px', borderRadius: '999px', background: 'rgba(191,160,140,0.1)', color: '#BFA08C' }}>Lembrete agendado</span>
                     )}
                     {(!selected.aftercare_sent || selected.aftercare_sent === '—') && (
-                      <span style={{ fontSize: '8px', fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase', padding: '3px 8px', borderRadius: '999px', background: 'rgba(176,144,128,0.1)', color: '#B09080' }}>Aftercare agendado</span>
+                      <span style={{ fontSize: '8px', fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase', padding: '3px 8px', borderRadius: '999px', background: 'rgba(191,160,140,0.1)', color: '#BFA08C' }}>Aftercare agendado</span>
                     )}
                   </div>
                 </div>
               )}
 
               {/* Divider */}
-              <div style={{ height: '1px', background: '#ECD9D0', margin: '8px 0 24px' }} />
+              <div style={{ height: '1px', background: '#EFD9CC', margin: '8px 0 24px' }} />
 
               {/* Follow-up actions */}
               <p style={{ ...styles.panelLabel, marginBottom: '12px' }}>Enviar email</p>
@@ -893,7 +949,7 @@ export default function StudioPage() {
                     )}
                     {fields.includes('eta') && (
                       <div>
-                        <label style={styles.fieldLabel}>Data prevista do esboço</label>
+                        <label style={styles.fieldLabel}>Data prevista do estudo</label>
                         <input
                           type="date"
                           value={formData.eta || ''}
@@ -904,7 +960,7 @@ export default function StudioPage() {
                     )}
                     {fields.includes('sketch_url') && (
                       <div>
-                        <label style={styles.fieldLabel}>URL do esboço</label>
+                        <label style={styles.fieldLabel}>URL do estudo</label>
                         <input
                           type="url"
                           placeholder="https://..."

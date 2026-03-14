@@ -38,13 +38,13 @@ export async function POST(req: Request) {
     subject = isPt ? `✨ O teu pedido — ${a.name}` : `✨ Your request — ${a.name}`;
     html = buildRejectionEmail({ isPt, name, reason, a });
   } else if (type === 'deposito') {
-    subject = isPt ? `✨ Próximos passos — ${a.name}` : `✨ Next steps — ${a.name}`;
-    html = buildDepositRequestEmail({ isPt, name, budget, a });
+    subject = isPt ? `✨ Ainda estou por aqui — ${a.name}` : `✨ Just checking in — ${a.name}`;
+    html = buildFollowUpEmail({ isPt, name, a });
   } else if (type === 'deposito_confirmado') {
     subject = isPt ? `✨ Depósito confirmado — ${a.name}` : `✨ Deposit confirmed — ${a.name}`;
     html = buildDepositConfirmedEmail({ isPt, name, eta, a });
-  } else if (type === 'esboço') {
-    subject = isPt ? '✨ O teu esboço está pronto!' : '✨ Your sketch is ready!';
+  } else if (type === 'estudo') {
+    subject = isPt ? '✨ O teu estudo está pronto!' : '✨ Your study is ready!';
     html = buildSketchEmail({ isPt, name, sketch_url, duration, session_url: session_url || a.cal, a });
   } else if (type === 'sessao') {
     subject = isPt ? `✨ Sessão confirmada — ${a.name}` : `✨ Session confirmed — ${a.name}`;
@@ -81,43 +81,43 @@ function buildEmail(isPt: boolean, name: string, bodyHtml: string, a: ArtistConf
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 </head>
-<body style="margin:0;padding:0;background:#ECD9D0;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">
-<table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="background:#ECD9D0;padding:48px 24px;">
+<body style="margin:0;padding:0;background:#EFD9CC;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">
+<table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="background:#EFD9CC;padding:48px 24px;">
   <tr>
     <td align="center">
-      <table width="560" cellpadding="0" cellspacing="0" role="presentation" style="max-width:560px;width:100%;background:#FDFAF7;">
+      <table width="560" cellpadding="0" cellspacing="0" role="presentation" style="max-width:560px;width:100%;background:#FAF7F1;border-radius:16px;overflow:hidden;">
 
         <tr>
-          <td style="background:#2C1A0E;padding:40px 48px;text-align:center;">
-            <p style="margin:0;font-size:14px;font-weight:400;letter-spacing:0.28em;text-transform:uppercase;color:#ECD9D0;">LUMI Atelier</p>
-            <p style="margin:10px 0 0;font-size:8px;letter-spacing:0.22em;text-transform:uppercase;color:#B09080;">${isPt ? 'Creative Studio · Venda do Pinheiro' : 'Creative Studio · Venda do Pinheiro'}</p>
+          <td style="background:#1E1713;padding:40px 48px;text-align:center;">
+            <p style="margin:0;font-size:14px;font-weight:400;letter-spacing:0.28em;text-transform:uppercase;color:#EFD9CC;">LUMI Atelier</p>
+            <p style="margin:10px 0 0;font-size:8px;letter-spacing:0.22em;text-transform:uppercase;color:#BFA08C;">${isPt ? 'Creative Studio · Venda do Pinheiro' : 'Creative Studio · Venda do Pinheiro'}</p>
           </td>
         </tr>
 
         <tr>
           <td style="padding:52px 48px 8px;">
-            <p style="margin:0 0 6px;font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:#B09080;">${isPt ? 'Olá' : 'Hello'}</p>
-            <p style="margin:0 0 28px;font-size:30px;font-weight:300;color:#2C1A0E;line-height:1.2;">${name}</p>
-            <div style="width:32px;height:1px;background:#D0B8AC;margin:0 0 32px;"></div>
+            <p style="margin:0 0 6px;font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:#BFA08C;">${isPt ? 'Olá' : 'Hello'}</p>
+            <p style="margin:0 0 28px;font-size:30px;font-weight:300;color:#1E1713;line-height:1.2;">${name}</p>
+            <div style="width:32px;height:1px;background:#BFA08C;margin:0 0 32px;"></div>
             ${bodyHtml}
           </td>
         </tr>
 
         <tr>
-          <td style="padding:0 48px;"><div style="height:1px;background:#ECD9D0;"></div></td>
+          <td style="padding:0 48px;"><div style="height:1px;background:#EFD9CC;"></div></td>
         </tr>
 
         <tr>
           <td style="padding:32px 48px 40px;">
-            <p style="margin:0 0 2px;font-size:13px;color:#2C1A0E;font-weight:400;">${a.name}</p>
-            <p style="margin:0 0 12px;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#B09080;">LUMI Atelier · Venda do Pinheiro, Portugal</p>
+            <p style="margin:0 0 2px;font-size:13px;color:#1E1713;font-weight:400;">${a.name}</p>
+            <p style="margin:0 0 12px;font-size:9px;letter-spacing:0.2em;text-transform:uppercase;color:#BFA08C;">LUMI Atelier · Venda do Pinheiro, Portugal</p>
             <a href="mailto:studio@lumiatelier.pt" style="font-size:11px;color:#A77049;text-decoration:none;letter-spacing:0.05em;">studio@lumiatelier.pt</a>
           </td>
         </tr>
 
         <tr>
           <td style="padding:0 48px 32px;">
-            <p style="margin:0;font-size:10px;color:#B09080;line-height:1.6;">
+            <p style="margin:0;font-size:10px;color:#BFA08C;line-height:1.6;">
               ${isPt ? 'Recebeste este email porque preencheste o formulário de marcação em lumiatelier.pt.' : 'You received this email because you submitted the booking form at lumiatelier.pt.'}
             </p>
           </td>
@@ -136,7 +136,7 @@ function buildEmail(isPt: boolean, name: string, bodyHtml: string, a: ArtistConf
 function btn(href: string, label: string) {
   return `<table cellpadding="0" cellspacing="0" role="presentation" style="margin-bottom:48px;">
             <tr>
-              <td style="border:1px solid #A77049;">
+              <td style="border:1px solid #A77049;border-radius:6px;">
                 <a href="${href}" style="display:inline-block;padding:14px 36px;font-size:10px;font-weight:400;letter-spacing:0.22em;text-transform:uppercase;color:#A77049;text-decoration:none;">
                   ${label}
                 </a>
@@ -179,8 +179,8 @@ function preSessionTips(isPt: boolean) {
   ];
   const title = isPt ? 'Preparei algumas recomendações para ti:' : 'Here are a few tips to prepare:';
   return `
-        <p style="margin:0 0 8px;font-size:14px;color:#2C1A0E;line-height:1.8;font-weight:400;">${title}</p>
-        <ul style="margin:0 0 32px;padding-left:20px;font-size:14px;color:#7A5C48;line-height:2.2;font-weight:300;">
+        <p style="margin:0 0 8px;font-size:14px;color:#1E1713;line-height:1.8;font-weight:400;">${title}</p>
+        <ul style="margin:0 0 32px;padding-left:20px;font-size:14px;color:#806A58;line-height:2.2;font-weight:300;">
           ${tips.map(t => `<li>${t}</li>`).join('\n          ')}
         </ul>`;
 }
@@ -198,21 +198,26 @@ function buildBudgetEmail({ isPt, name, budget, a }: { isPt: boolean; name: stri
     ? 'Adorei a tua ideia! Dediquei toda a atenção a analisá-la e preparei o teu orçamento com muito carinho.'
     : "I loved your idea! I've given it my full attention and prepared your quote with care.";
 
+  const depositText = isPt
+    ? 'Se concordares com o orçamento e quiseres que eu comece a trabalhar na tua peça, basta enviares um depósito de <strong>20€</strong> via MB Way para o número <strong>932 558 951</strong>. O depósito é não reembolsável e serve para reservar o teu lugar na minha agenda.'
+    : 'If you agree with the quote and would like me to start working on your piece, just send a non-refundable deposit of <strong>€20</strong> via MB Way to <strong>932 558 951</strong>. The deposit reserves your spot in my schedule.';
+
   const para2 = isPt
-    ? `Se quiseres avançar, basta responder a este email ou enviar-me mensagem no <a href="${a.instagram}" style="color:#A77049;text-decoration:underline;">Instagram</a>. Vou adorar criar esta peça para ti!`
-    : `If you'd like to go ahead, just reply to this email or message me on <a href="${a.instagram}" style="color:#A77049;text-decoration:underline;">Instagram</a>. I would love to create this piece for you!`;
+    ? `Assim que receber o depósito, confirmo a receção e envio-te uma data estimada para o estudo. Se tiveres alguma dúvida, responde a este email ou envia-me mensagem no <a href="${a.instagram}" style="color:#A77049;text-decoration:underline;">Instagram</a>. Vou adorar criar esta peça para ti!`
+    : `Once I receive the deposit, I'll confirm it and send you an estimated date for the study. If you have any questions, reply to this email or message me on <a href="${a.instagram}" style="color:#A77049;text-decoration:underline;">Instagram</a>. I would love to create this piece for you!`;
 
   return buildEmail(isPt, name, `
-        <p style="margin:0 0 24px;font-size:14px;color:#2C1A0E;line-height:1.8;font-weight:300;">${para1}</p>
+        <p style="margin:0 0 24px;font-size:14px;color:#1E1713;line-height:1.8;font-weight:300;">${para1}</p>
         <table cellpadding="0" cellspacing="0" role="presentation" style="margin:0 0 28px;">
           <tr>
             <td style="border-left:2px solid #A77049;padding:12px 20px;">
-              <p style="margin:0 0 4px;font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:#B09080;">${isPt ? 'Orçamento' : 'Quote'}</p>
-              <p style="margin:0;font-size:28px;font-weight:300;color:#2C1A0E;">${budget}€</p>
+              <p style="margin:0 0 4px;font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:#BFA08C;">${isPt ? 'Orçamento' : 'Quote'}</p>
+              <p style="margin:0;font-size:28px;font-weight:300;color:#1E1713;">${budget}€</p>
             </td>
           </tr>
         </table>
-        <p style="margin:0 0 48px;font-size:14px;color:#7A5C48;line-height:1.8;font-weight:300;">${para2}</p>
+        <p style="margin:0 0 20px;font-size:14px;color:#806A58;line-height:1.8;font-weight:300;">${depositText}</p>
+        <p style="margin:0 0 48px;font-size:14px;color:#806A58;line-height:1.8;font-weight:300;">${para2}</p>
     `, a);
 }
 
@@ -236,13 +241,13 @@ function buildDetailsEmail({ isPt, name, a }: { isPt: boolean; name: string; a: 
     : `Just reply to this email or, if you prefer, send me a message on <a href="${a.instagram}" style="color:#A77049;text-decoration:underline;">Instagram</a> — whatever is easier for you. Can't wait to see more!`;
 
   return buildEmail(isPt, name, `
-        <p style="margin:0 0 20px;font-size:14px;color:#2C1A0E;line-height:1.8;font-weight:300;">${para1}</p>
-        <p style="margin:0 0 8px;font-size:14px;color:#7A5C48;line-height:1.8;font-weight:300;">${isPt ? 'Precisaria que me enviasses:' : "I'd need you to send me:"}</p>
-        <ul style="margin:0 0 32px;padding-left:20px;font-size:14px;color:#7A5C48;line-height:2;font-weight:300;">
+        <p style="margin:0 0 20px;font-size:14px;color:#1E1713;line-height:1.8;font-weight:300;">${para1}</p>
+        <p style="margin:0 0 8px;font-size:14px;color:#806A58;line-height:1.8;font-weight:300;">${isPt ? 'Precisaria que me enviasses:' : "I'd need you to send me:"}</p>
+        <ul style="margin:0 0 32px;padding-left:20px;font-size:14px;color:#806A58;line-height:2;font-weight:300;">
           <li>${bullet1}</li>
           <li>${bullet2}</li>
         </ul>
-        <p style="margin:0 0 48px;font-size:14px;color:#7A5C48;line-height:1.8;font-weight:300;">${para3}</p>
+        <p style="margin:0 0 48px;font-size:14px;color:#806A58;line-height:1.8;font-weight:300;">${para3}</p>
     `, a);
 }
 
@@ -273,39 +278,35 @@ function buildRejectionEmail({ isPt, name, reason, a }: { isPt: boolean; name: s
   }
 
   return buildEmail(isPt, name, `
-        <p style="margin:0 0 20px;font-size:14px;color:#2C1A0E;line-height:1.8;font-weight:300;">${intro}</p>
-        <p style="margin:0 0 20px;font-size:14px;color:#7A5C48;line-height:1.8;font-weight:300;">${reasonText}</p>
-        <p style="margin:0 0 48px;font-size:14px;color:#7A5C48;line-height:1.8;font-weight:300;">${closing}</p>
+        <p style="margin:0 0 20px;font-size:14px;color:#1E1713;line-height:1.8;font-weight:300;">${intro}</p>
+        <p style="margin:0 0 20px;font-size:14px;color:#806A58;line-height:1.8;font-weight:300;">${reasonText}</p>
+        <p style="margin:0 0 48px;font-size:14px;color:#806A58;line-height:1.8;font-weight:300;">${closing}</p>
     `, a);
 }
 
-/* ── Step 5: Budget accepted → deposit request ── */
+/* ── Step 5: Gentle follow-up after budget sent ── */
 
-function buildDepositRequestEmail({ isPt, name, budget, a }: { isPt: boolean; name: string; budget: string; a: ArtistConfig }) {
+function buildFollowUpEmail({ isPt, name, a }: { isPt: boolean; name: string; a: ArtistConfig }) {
   const para1 = isPt
-    ? 'Estou tão feliz que queiras avançar! Vai ser um prazer enorme criar esta peça para ti.'
-    : "I'm so happy you want to go ahead! It's going to be an absolute pleasure creating this piece for you.";
+    ? 'Espero que estejas bem! Estou só a passar por aqui para saber se tiveste oportunidade de ver o orçamento que te enviei.'
+    : "Hope you're doing well! Just checking in to see if you had a chance to look at the quote I sent.";
 
   const para2 = isPt
-    ? 'Para dar início ao trabalho da tua tatuagem, peço um depósito de <strong>20€</strong> via MB Way para o número <strong>932 558 951</strong>. O depósito é não reembolsável e a sessão só fica confirmada após a sua receção.'
-    : 'To get started on your tattoo, a non-refundable deposit of <strong>20€</strong> is required via MB Way to <strong>932 558 951</strong>. Your session is only confirmed once the deposit is received.';
+    ? 'Sem pressa nenhuma — fico por aqui para qualquer dúvida que possas ter. Se quiseres ajustar alguma coisa ou conversar sobre a ideia, estou sempre disponível!'
+    : "No rush at all — I'm here for any questions you might have. If you'd like to adjust anything or talk about the idea, I'm always available!";
+
+  const para3 = isPt
+    ? `Podes responder a este email ou enviar-me mensagem no <a href="${a.instagram}" style="color:#A77049;text-decoration:underline;">Instagram</a>. Adorava poder criar esta peça para ti!`
+    : `You can reply to this email or message me on <a href="${a.instagram}" style="color:#A77049;text-decoration:underline;">Instagram</a>. I'd love to create this piece for you!`;
 
   return buildEmail(isPt, name, `
-        <p style="margin:0 0 20px;font-size:14px;color:#2C1A0E;line-height:1.8;font-weight:300;">${para1}</p>
-        <table cellpadding="0" cellspacing="0" role="presentation" style="margin:0 0 28px;">
-          <tr>
-            <td style="border-left:2px solid #A77049;padding:12px 20px;">
-              <p style="margin:0 0 4px;font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:#B09080;">${isPt ? 'Orçamento' : 'Quote'}</p>
-              <p style="margin:0;font-size:28px;font-weight:300;color:#2C1A0E;">${budget}€</p>
-            </td>
-          </tr>
-        </table>
-        <p style="margin:0 0 20px;font-size:14px;color:#7A5C48;line-height:1.8;font-weight:300;">${para2}</p>
-        <p style="margin:0 0 48px;font-size:14px;color:#7A5C48;line-height:1.8;font-weight:300;">${directContact(isPt, a)}</p>
+        <p style="margin:0 0 20px;font-size:14px;color:#1E1713;line-height:1.8;font-weight:300;">${para1}</p>
+        <p style="margin:0 0 20px;font-size:14px;color:#806A58;line-height:1.8;font-weight:300;">${para2}</p>
+        <p style="margin:0 0 48px;font-size:14px;color:#806A58;line-height:1.8;font-weight:300;">${para3}</p>
     `, a);
 }
 
-/* ── Step 5b: Deposit confirmed + sketch ETA ── */
+/* ── Step 5b: Deposit confirmed + estudo ETA ── */
 
 function buildDepositConfirmedEmail({ isPt, name, eta, a }: { isPt: boolean; name: string; eta: string; a: ArtistConfig }) {
   const formattedEta = formatEta(eta, isPt);
@@ -315,37 +316,37 @@ function buildDepositConfirmedEmail({ isPt, name, eta, a }: { isPt: boolean; nam
     : "Your deposit has been received! Thank you so much — everything is confirmed on your end.";
 
   const etaText = isPt
-    ? `Vou começar a trabalhar no teu esboço e tê-lo pronto até <strong>${formattedEta}</strong>. Mal posso esperar para te mostrar!`
-    : `I'll start working on your sketch and have it ready by <strong>${formattedEta}</strong>. Can't wait to show you!`;
+    ? `Vou começar a trabalhar no teu estudo e tê-lo pronto até <strong>${formattedEta}</strong>. Mal posso esperar para te mostrar!`
+    : `I'll start working on your study and have it ready by <strong>${formattedEta}</strong>. Can't wait to show you!`;
 
   return buildEmail(isPt, name, `
-        <p style="margin:0 0 20px;font-size:14px;color:#2C1A0E;line-height:1.8;font-weight:300;">${para1}</p>
-        <p style="margin:0 0 20px;font-size:14px;color:#7A5C48;line-height:1.8;font-weight:300;">${etaText}</p>
-        <p style="margin:0 0 48px;font-size:14px;color:#7A5C48;line-height:1.8;font-weight:300;">${directContact(isPt, a)}</p>
+        <p style="margin:0 0 20px;font-size:14px;color:#1E1713;line-height:1.8;font-weight:300;">${para1}</p>
+        <p style="margin:0 0 20px;font-size:14px;color:#806A58;line-height:1.8;font-weight:300;">${etaText}</p>
+        <p style="margin:0 0 48px;font-size:14px;color:#806A58;line-height:1.8;font-weight:300;">${directContact(isPt, a)}</p>
     `, a);
 }
 
-/* ── Step 6: Sketch ready + booking ── */
+/* ── Step 6: Arte final ready + booking ── */
 
 function buildSketchEmail({ isPt, name, sketch_url, duration, session_url, a }: { isPt: boolean; name: string; sketch_url: string; duration: string; session_url: string; a: ArtistConfig }) {
   const para1 = isPt
-    ? 'O teu esboço está pronto e estou muito orgulhosa do resultado! Espero que gostes tanto quanto eu — criei-o a pensar em ti.'
-    : "Your sketch is ready and I'm so proud of how it turned out! I hope you love it as much as I do — I created it with you in mind.";
+    ? 'O teu estudo está pronto e estou muito orgulhosa do resultado! Espero que gostes tanto quanto eu — criei-o a pensar em ti.'
+    : "Your study is ready and I'm so proud of how it turned out! I hope you love it as much as I do — I created it with you in mind.";
 
   const durationText = isPt
     ? `A sessão tem duração estimada de <strong>${duration}</strong>. Escolhe o dia que te der mais jeito no link abaixo:`
     : `The session has an estimated duration of <strong>${duration}</strong>. Pick the day that works best for you:`;
 
   const para3 = isPt
-    ? `Se tiveres alguma dúvida sobre o esboço ou quiseres ajustar algum detalhe, não hesites em falar comigo — responde a este email ou envia mensagem no <a href="${a.instagram}" style="color:#A77049;text-decoration:underline;">Instagram</a>.`
-    : `If you have any questions about the sketch or want to adjust any detail, don't hesitate to reach out — reply to this email or message me on <a href="${a.instagram}" style="color:#A77049;text-decoration:underline;">Instagram</a>.`;
+    ? `Se tiveres alguma dúvida sobre o estudo ou quiseres ajustar algum detalhe, não hesites em falar comigo — responde a este email ou envia mensagem no <a href="${a.instagram}" style="color:#A77049;text-decoration:underline;">Instagram</a>.`
+    : `If you have any questions about the study or want to adjust any detail, don't hesitate to reach out — reply to this email or message me on <a href="${a.instagram}" style="color:#A77049;text-decoration:underline;">Instagram</a>.`;
 
   return buildEmail(isPt, name, `
-        <p style="margin:0 0 24px;font-size:14px;color:#2C1A0E;line-height:1.8;font-weight:300;">${para1}</p>
-        <img src="${sketch_url}" alt="Sketch" style="width:100%;max-width:464px;border-radius:4px;margin:0 0 28px;display:block;" />
-        <p style="margin:0 0 24px;font-size:14px;color:#7A5C48;line-height:1.8;font-weight:300;">${durationText}</p>
+        <p style="margin:0 0 24px;font-size:14px;color:#1E1713;line-height:1.8;font-weight:300;">${para1}</p>
+        <img src="${sketch_url}" alt="Estudo" style="width:100%;max-width:464px;border-radius:16px;margin:0 0 28px;display:block;" />
+        <p style="margin:0 0 24px;font-size:14px;color:#806A58;line-height:1.8;font-weight:300;">${durationText}</p>
         ${btn(session_url, isPt ? 'Marcar Sessão' : 'Book Session')}
-        <p style="margin:0 0 48px;font-size:14px;color:#7A5C48;line-height:1.8;font-weight:300;">${para3}</p>
+        <p style="margin:0 0 48px;font-size:14px;color:#806A58;line-height:1.8;font-weight:300;">${para3}</p>
     `, a);
 }
 
@@ -357,20 +358,20 @@ function buildSessionEmail({ isPt, name, session_date, duration, a }: { isPt: bo
     : "Your session is officially confirmed! I'm so excited to meet you and bring this piece to life.";
 
   return buildEmail(isPt, name, `
-        <p style="margin:0 0 24px;font-size:14px;color:#2C1A0E;line-height:1.8;font-weight:300;">${para1}</p>
+        <p style="margin:0 0 24px;font-size:14px;color:#1E1713;line-height:1.8;font-weight:300;">${para1}</p>
         <table cellpadding="0" cellspacing="0" role="presentation" style="margin:0 0 32px;">
           <tr>
             <td style="border-left:2px solid #A77049;padding:12px 20px;">
-              <p style="margin:0 0 4px;font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:#B09080;">${isPt ? 'Data' : 'Date'}</p>
-              <p style="margin:0 0 12px;font-size:20px;font-weight:300;color:#2C1A0E;">${session_date}</p>
-              <p style="margin:0 0 4px;font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:#B09080;">${isPt ? 'Duração estimada' : 'Estimated duration'}</p>
-              <p style="margin:0;font-size:20px;font-weight:300;color:#2C1A0E;">${duration}</p>
+              <p style="margin:0 0 4px;font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:#BFA08C;">${isPt ? 'Data' : 'Date'}</p>
+              <p style="margin:0 0 12px;font-size:20px;font-weight:300;color:#1E1713;">${session_date}</p>
+              <p style="margin:0 0 4px;font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:#BFA08C;">${isPt ? 'Duração estimada' : 'Estimated duration'}</p>
+              <p style="margin:0;font-size:20px;font-weight:300;color:#1E1713;">${duration}</p>
             </td>
           </tr>
         </table>
         ${preSessionTips(isPt)}
-        <p style="margin:0 0 20px;font-size:14px;color:#2C1A0E;line-height:1.8;font-weight:300;">${lumiLink(isPt)}</p>
-        <p style="margin:0 0 48px;font-size:14px;color:#7A5C48;line-height:1.8;font-weight:300;">${directContact(isPt, a)}</p>
+        <p style="margin:0 0 20px;font-size:14px;color:#1E1713;line-height:1.8;font-weight:300;">${lumiLink(isPt)}</p>
+        <p style="margin:0 0 48px;font-size:14px;color:#806A58;line-height:1.8;font-weight:300;">${directContact(isPt, a)}</p>
     `, a);
 }
 
@@ -386,20 +387,20 @@ function buildReminderEmail({ isPt, name, session_date, duration, a }: { isPt: b
     : "I can't wait to welcome you and create something beautiful together!";
 
   return buildEmail(isPt, name, `
-        <p style="margin:0 0 24px;font-size:14px;color:#2C1A0E;line-height:1.8;font-weight:300;">${para1}</p>
+        <p style="margin:0 0 24px;font-size:14px;color:#1E1713;line-height:1.8;font-weight:300;">${para1}</p>
         <table cellpadding="0" cellspacing="0" role="presentation" style="margin:0 0 32px;">
           <tr>
             <td style="border-left:2px solid #A77049;padding:12px 20px;">
-              <p style="margin:0 0 4px;font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:#B09080;">${isPt ? 'Data' : 'Date'}</p>
-              <p style="margin:0 0 12px;font-size:20px;font-weight:300;color:#2C1A0E;">${session_date}</p>
-              <p style="margin:0 0 4px;font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:#B09080;">${isPt ? 'Duração estimada' : 'Estimated duration'}</p>
-              <p style="margin:0;font-size:20px;font-weight:300;color:#2C1A0E;">${duration}</p>
+              <p style="margin:0 0 4px;font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:#BFA08C;">${isPt ? 'Data' : 'Date'}</p>
+              <p style="margin:0 0 12px;font-size:20px;font-weight:300;color:#1E1713;">${session_date}</p>
+              <p style="margin:0 0 4px;font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:#BFA08C;">${isPt ? 'Duração estimada' : 'Estimated duration'}</p>
+              <p style="margin:0;font-size:20px;font-weight:300;color:#1E1713;">${duration}</p>
             </td>
           </tr>
         </table>
         ${preSessionTips(isPt)}
-        <p style="margin:0 0 20px;font-size:14px;color:#2C1A0E;line-height:1.8;font-weight:300;">${lumiLink(isPt)}</p>
-        <p style="margin:0 0 48px;font-size:14px;color:#7A5C48;line-height:1.8;font-weight:300;">${para2}</p>
+        <p style="margin:0 0 20px;font-size:14px;color:#1E1713;line-height:1.8;font-weight:300;">${lumiLink(isPt)}</p>
+        <p style="margin:0 0 48px;font-size:14px;color:#806A58;line-height:1.8;font-weight:300;">${para2}</p>
     `, a);
 }
 
@@ -439,13 +440,13 @@ function buildAftercareEmail({ isPt, name, a }: { isPt: boolean; name: string; a
     : 'If you enjoyed the experience, it would make my day if you could leave a few words — it means the world to me and helps the studio grow:';
 
   return buildEmail(isPt, name, `
-        <p style="margin:0 0 24px;font-size:14px;color:#2C1A0E;line-height:1.8;font-weight:300;">${para1}</p>
-        <p style="margin:0 0 8px;font-size:14px;color:#2C1A0E;line-height:1.8;font-weight:400;">${careTitle}</p>
-        <ul style="margin:0 0 32px;padding-left:20px;font-size:14px;color:#7A5C48;line-height:2.2;font-weight:300;">
+        <p style="margin:0 0 24px;font-size:14px;color:#1E1713;line-height:1.8;font-weight:300;">${para1}</p>
+        <p style="margin:0 0 8px;font-size:14px;color:#1E1713;line-height:1.8;font-weight:400;">${careTitle}</p>
+        <ul style="margin:0 0 32px;padding-left:20px;font-size:14px;color:#806A58;line-height:2.2;font-weight:300;">
           ${tips.map(t => `<li>${t}</li>`).join('\n          ')}
         </ul>
-        <p style="margin:0 0 24px;font-size:14px;color:#7A5C48;line-height:1.8;font-weight:300;">${para2}</p>
-        <p style="margin:0 0 20px;font-size:14px;color:#7A5C48;line-height:1.8;font-weight:300;">${reviewText}</p>
+        <p style="margin:0 0 24px;font-size:14px;color:#806A58;line-height:1.8;font-weight:300;">${para2}</p>
+        <p style="margin:0 0 20px;font-size:14px;color:#806A58;line-height:1.8;font-weight:300;">${reviewText}</p>
         ${btn('https://share.google/XwF5Gg3xCGjqV1AZ2', isPt ? 'Deixar Avaliação' : 'Leave a Review')}
     `, a);
 }
