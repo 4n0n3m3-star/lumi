@@ -1119,8 +1119,8 @@ footer {
     .services-grid-numbered { grid-template-columns: 1fr; padding: 0 32px; }
     .service-item { aspect-ratio: 3/4; }
     #art { padding: 80px 32px; }
-    .art-footer { text-align: right; align-items: flex-end; }
-    .art-footer-title { font-size: clamp(1.4rem, 6.5vw, 2.2rem); }
+    .art-footer { align-items: flex-end; }
+    .art-footer-title { font-size: clamp(1.4rem, 6.5vw, 2.2rem); text-align: left; }
     .art-footer-sub { font-size: 0.55rem; white-space: normal; }
     .art-subscribe { max-width: 100%; }
     .art-subscribe input { font-size: 0.65rem; padding: 12px 18px; }
