@@ -259,6 +259,9 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ─── IMAGE SLIDER ─────────────────────────────── */}
+      <ImageAutoSlider />
+
       {/* ─── SERVICES ─────────────────────────────────── */}
       <section id="services">
         <div className="services-header fade-up">
@@ -290,9 +293,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      {/* ─── IMAGE SLIDER ─────────────────────────────── */}
-      <ImageAutoSlider />
 
       {/* ─── ART MARQUEE ────────────────────────────────── */}
       <div className="velocity-scroll-section" style={{ position: 'relative', width: '100%' }}>
