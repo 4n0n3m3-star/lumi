@@ -1805,13 +1805,15 @@
     }
 
     // ─── EMAIL FORMS ──────────────────────────────────
-    document.getElementById('artForm').addEventListener('submit', function(e) {
+    var artForm = document.getElementById('artForm');
+    if (artForm) artForm.addEventListener('submit', function(e) {
         e.preventDefault();
         this.style.display = 'none';
         document.getElementById('artConfirm').style.display = 'block';
     });
 
-    document.getElementById('jewelryForm').addEventListener('submit', function(e) {
+    var jewelryForm = document.getElementById('jewelryForm');
+    if (jewelryForm) jewelryForm.addEventListener('submit', function(e) {
         e.preventDefault();
         this.style.display = 'none';
         document.getElementById('jewelryConfirm').style.display = 'block';
