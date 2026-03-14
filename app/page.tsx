@@ -219,7 +219,7 @@ export default function Home() {
             <p className="hero-right-desc">
               Cada peça é criada exclusivamente para si e está disponível apenas mediante marcação. Preencha o formulário de admissão, descreva a sua visão e dedicaremos toda a atenção possível para concretizar a sua ideia.
             </p>
-            <a href="book.html" className="hero-cta">{t['hero-cta']} <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ display: 'inline-block', marginLeft: '6px', verticalAlign: 'middle' }}><path d="M3.5 8.5L8.5 3.5M8.5 3.5H4M8.5 3.5V8" /></svg></a>
+            <a href="book" className="hero-cta">{t['hero-cta']} <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ display: 'inline-block', marginLeft: '6px', verticalAlign: 'middle' }}><path d="M3.5 8.5L8.5 3.5M8.5 3.5H4M8.5 3.5V8" /></svg></a>
           </div>
         </div>
       </section>
@@ -278,7 +278,7 @@ export default function Home() {
               <span className="service-item-num">01</span>
               <h3 className="service-item-name">Tattoo</h3>
               <p className="service-item-sub">Fineline · Ilustração · Script</p>
-              <a href="book.html?service=tattoo" className="service-item-arrow">Reservar →</a>
+              <a href="book?service=tattoo" className="service-item-arrow">Reservar →</a>
             </div>
           </div>
           <div className="service-item fade-up delay-1">
@@ -288,7 +288,7 @@ export default function Home() {
               <span className="service-item-num">02</span>
               <h3 className="service-item-name">Piercing</h3>
               <p className="service-item-sub">Ouvido · Facial · Corpo</p>
-              <a href="book.html?service=piercing" className="service-item-arrow">Reservar →</a>
+              <a href="book?service=piercing" className="service-item-arrow">Reservar →</a>
             </div>
           </div>
         </div>
@@ -371,7 +371,7 @@ export default function Home() {
           </div>
           <div className="contact-right fade-up delay-1">
             <h2 className="contact-cta-heading">Marca o teu<br/>momento</h2>
-            <a href="book.html" className="contact-book-btn">Marcar Agora <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ display: 'inline-block', marginLeft: '6px', verticalAlign: 'middle' }}><path d="M3.5 8.5L8.5 3.5M8.5 3.5H4M8.5 3.5V8" /></svg></a>
+            <a href="book" className="contact-book-btn">Marcar Agora <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ display: 'inline-block', marginLeft: '6px', verticalAlign: 'middle' }}><path d="M3.5 8.5L8.5 3.5M8.5 3.5H4M8.5 3.5V8" /></svg></a>
           </div>
         </div>
       </section>

@@ -371,8 +371,8 @@
     <ul class="mobile-menu-links">
         <li><a href="/#services" onclick="closeMenu()" data-i18n="nav-services">Serviços</a></li>
         <li><a href="/#art" onclick="closeMenu()" data-i18n="nav-art">Arte</a></li>
-        <li><a href="book.html" style="color:var(--warm-brown);" data-i18n="nav-book">Reservar</a></li>
-        <li><a href="artists.html" onclick="closeMenu()" data-i18n="nav-artists">Artistas</a></li>
+        <li><a href="book" style="color:var(--warm-brown);" data-i18n="nav-book">Reservar</a></li>
+        <li><a href="artists" onclick="closeMenu()" data-i18n="nav-artists">Artistas</a></li>
     </ul>
     <div class="mobile-menu-bottom">
         <div class="mobile-menu-bottom-col">
@@ -407,8 +407,8 @@
             </svg>
         </a>
         <div class="lumi-header-right">
-            <a class="nav-roll nav-roll--accent" href="book.html" data-i18n="nav-book"><span data-text="Reservar">Reservar</span></a>
-            <a class="nav-roll" href="artists.html" data-i18n="nav-artists"><span data-text="Artistas">Artistas</span></a>
+            <a class="nav-roll nav-roll--accent" href="book" data-i18n="nav-book"><span data-text="Reservar">Reservar</span></a>
+            <a class="nav-roll" href="artists" data-i18n="nav-artists"><span data-text="Artistas">Artistas</span></a>
             <button class="nav-menu-btn" id="menuBtn" aria-label="Menu" onclick="toggleMenu()" data-i18n="nav-menu">Menu</button>
         </div>
     </nav>
@@ -435,7 +435,17 @@
                 <a href="https://stephanytattoo.com" class="artist-link" target="_blank" data-i18n="artist-link">Ver portfólio pessoal →</a>
             </div>
         </div>
-        <div class="career-card fade-up delay-1">
+        <div class="artist-card fade-up delay-1">
+            <div class="artist-card-img-wrap" style="aspect-ratio:4/5;">
+                <img src="https://placehold.co/640x800/EDE3D4/806A58?text=Joana" alt="Joana" style="object-position: center 20%;">
+            </div>
+            <div class="artist-card-body">
+                <p class="artist-role" data-i18n="artist2-role">Artista de Piercing</p>
+                <h3 class="artist-name">Joana</h3>
+                <p class="artist-bio" data-i18n="artist2-bio">Especialista em piercing — precisão, cuidado e atenção ao detalhe em cada colocação. Trabalha com os melhores materiais para garantir uma cicatrização segura e um resultado perfeito.</p>
+            </div>
+        </div>
+        <div class="career-card fade-up delay-2" style="grid-column: 1 / -1;">
             <span class="career-eyebrow" data-i18n="career-eyebrow">Estamos a crescer — encontra o teu lugar aqui.</span>
             <h3 class="career-title" data-i18n="career-title">Junta-te ao<br>Atelier</h3>
             <p class="career-body" data-i18n="career-body">O LUMI Atelier está à procura de artistas que partilhem a nossa crença em trabalho lento e intencional. Se trabalhas com fineline, ilustração ou tattoo botânica — adorávamos conhecer-te.</p>
@@ -465,6 +475,8 @@
             'artist-role': 'Artista de Tattoo · Fundadora do Estúdio',
             'artist-bio': 'Especialista em tattoos fineline — traços delicados, motivos botânicos, formas abstractas e lettering lírico. Cada peça é desenhada a partir do zero para se tornar parte de ti.',
             'artist-link': 'Ver portfólio pessoal →',
+            'artist2-role': 'Artista de Piercing',
+            'artist2-bio': 'Especialista em piercing — precisão, cuidado e atenção ao detalhe em cada colocação. Trabalha com os melhores materiais para garantir uma cicatrização segura e um resultado perfeito.',
             'career-eyebrow': 'Estamos a crescer — encontra o teu lugar aqui.',
             'career-title': 'Junta-te ao<br>Atelier',
             'career-body': 'O LUMI Atelier está à procura de artistas que partilhem a nossa crença em trabalho lento e intencional. Se trabalhas com fineline, ilustração ou tattoo botânica — adorávamos conhecer-te.',
@@ -478,6 +490,8 @@
             'artist-role': 'Tattoo Artist · Studio Founder',
             'artist-bio': 'Specialist in fineline tattoos — delicate lines, botanical motifs, abstract shapes, and lyrical script. Every piece is custom-drawn to become a part of you.',
             'artist-link': 'View personal portfolio →',
+            'artist2-role': 'Piercing Artist',
+            'artist2-bio': 'Piercing specialist — precision, care, and attention to detail in every placement. Works with the finest materials to ensure safe healing and a perfect result.',
             'career-eyebrow': "We're growing — find your home here.",
             'career-title': 'Join the<br>Atelier',
             'career-body': "LUMI Atelier is looking for artists who share our belief in slow, intentional craft. If you work with fineline, illustration, or botanical tattooing — we'd love to meet you.",

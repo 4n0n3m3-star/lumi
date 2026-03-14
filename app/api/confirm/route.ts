@@ -18,6 +18,17 @@ const ARTISTS: Record<string, { name: string; email: string; from: string; insta
       en: 'Art that lives on your skin',
     },
   },
+  'joana': {
+    name: 'Joana',
+    email: 'studio@lumiatelier.pt',
+    from: 'LUMI Atelier <studio@lumiatelier.pt>',
+    instagram: 'https://www.instagram.com/lumi.atelier_/',
+    cal: 'https://cal.com/lumiatelier',
+    tagline: {
+      pt: 'Precisão e cuidado em cada detalhe',
+      en: 'Precision and care in every detail',
+    },
+  },
 };
 
 export async function POST(req: Request) {

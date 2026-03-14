@@ -10,6 +10,11 @@ const ARTISTS: Record<string, { name: string; from: string; instagram: string }>
     from: 'LUMI Atelier <studio@lumiatelier.pt>',
     instagram: 'https://www.instagram.com/stephany.tattoo/',
   },
+  'joana': {
+    name: 'Joana',
+    from: 'LUMI Atelier <studio@lumiatelier.pt>',
+    instagram: 'https://www.instagram.com/lumi.atelier_/',
+  },
 };
 
 function getResend() {

@@ -12,6 +12,12 @@ const ARTISTS: Record<string, { name: string; from: string; instagram: string; c
     instagram: 'https://www.instagram.com/stephany.tattoo/',
     cal: 'https://cal.com/lumiatelier',
   },
+  'joana': {
+    name: 'Joana',
+    from: 'LUMI Atelier <studio@lumiatelier.pt>',
+    instagram: 'https://www.instagram.com/lumi.atelier_/',
+    cal: 'https://cal.com/lumiatelier',
+  },
 };
 
 function getResend() {

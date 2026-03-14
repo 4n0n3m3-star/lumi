@@ -11,8 +11,8 @@ const navLinks = [
 ];
 
 const navLinksRight = [
-	{ label: 'Reservar', href: 'book.html', accent: true },
-	{ label: 'Artistas', href: 'artists.html' },
+	{ label: 'Reservar', href: 'book', accent: true },
+	{ label: 'Artistas', href: 'artists' },
 ];
 
 export function Header() {

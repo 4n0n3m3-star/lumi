@@ -684,8 +684,8 @@
     <ul class="mobile-menu-links">
         <li><a href="/#services" onclick="closeMenu()" data-i18n="nav-services">Serviços</a></li>
         <li><a href="/#art" onclick="closeMenu()" data-i18n="nav-art">Arte</a></li>
-        <li><a href="book.html" style="color:var(--warm-brown);" data-i18n="nav-book">Reservar</a></li>
-        <li><a href="artists.html" onclick="closeMenu()" data-i18n="nav-artists">Artistas</a></li>
+        <li><a href="book" style="color:var(--warm-brown);" data-i18n="nav-book">Reservar</a></li>
+        <li><a href="artists" onclick="closeMenu()" data-i18n="nav-artists">Artistas</a></li>
     </ul>
     <div class="mobile-menu-bottom">
         <div class="mobile-menu-bottom-col">
@@ -720,8 +720,8 @@
             </svg>
         </a>
         <div class="lumi-header-right">
-            <a class="nav-roll nav-roll--accent" href="book.html" data-i18n="nav-book"><span data-text="Reservar">Reservar</span></a>
-            <a class="nav-roll" href="artists.html" data-i18n="nav-artists"><span data-text="Artistas">Artistas</span></a>
+            <a class="nav-roll nav-roll--accent" href="book" data-i18n="nav-book"><span data-text="Reservar">Reservar</span></a>
+            <a class="nav-roll" href="artists" data-i18n="nav-artists"><span data-text="Artistas">Artistas</span></a>
             <button class="nav-menu-btn" id="menuBtn" aria-label="Menu" onclick="toggleMenu()" data-i18n="nav-menu">Menu</button>
         </div>
     </nav>
@@ -752,6 +752,8 @@
         <div class="artist-pills">
             <input type="radio" name="artist" id="artist-stephany" value="stephany-ribeiro" class="artist-radio" checked>
             <label for="artist-stephany" class="artist-pill">Stephany Ribeiro</label>
+            <input type="radio" name="artist" id="artist-joana" value="joana" class="artist-radio">
+            <label for="artist-joana" class="artist-pill">Joana</label>
         </div>
     </div>
 
@@ -1262,6 +1264,9 @@
         formServiceInput.value = service;
         if (consentTattooCheck) consentTattooCheck.required = isTattoo;
         if (consentPiercingCheck) consentPiercingCheck.required = !isTattoo;
+        // Auto-select artist based on service
+        const artistRadio = document.getElementById(isTattoo ? 'artist-stephany' : 'artist-joana');
+        if (artistRadio) { artistRadio.checked = true; formArtistInput.value = artistRadio.value; }
     }
 
     document.querySelectorAll('input[name="service_type"]').forEach(radio => {
