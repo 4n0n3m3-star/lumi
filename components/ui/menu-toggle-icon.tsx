@@ -2,7 +2,7 @@
 import React from 'react';
 import { cn } from '@/lib/utils';
 
-type MenuToggleProps = React.ComponentProps<'svg'> & {
+type MenuToggleProps = React.ComponentProps<'div'> & {
 	open: boolean;
 	duration?: number;
 };
@@ -10,45 +10,42 @@ type MenuToggleProps = React.ComponentProps<'svg'> & {
 export function MenuToggleIcon({
 	open,
 	className,
-	fill = 'none',
-	stroke = 'currentColor',
-	strokeWidth = 2.5,
-	strokeLinecap = 'round',
-	strokeLinejoin = 'round',
-	duration = 500,
+	duration = 400,
 	...props
 }: MenuToggleProps) {
+	const transition = `transform ${duration}ms cubic-bezier(0.16, 1, 0.3, 1), opacity ${duration * 0.6}ms ease`;
+
 	return (
-		<svg
-			strokeWidth={strokeWidth}
-			fill={fill}
-			stroke={stroke}
-			viewBox="0 0 32 32"
-			strokeLinecap={strokeLinecap}
-			strokeLinejoin={strokeLinejoin}
-			className={cn(
-				'transition-transform ease-in-out',
-				open && '-rotate-45',
-				className,
-			)}
-			style={{
-				transitionDuration: `${duration}ms`,
-			}}
+		<div
+			className={cn('relative flex flex-col items-end justify-center gap-[5px]', className)}
+			style={{ width: 20, height: 20 }}
 			{...props}
 		>
-			<path
-				className={cn(
-					'transition-all ease-in-out',
-					open
-						? '[stroke-dasharray:20_300] [stroke-dashoffset:-32.42px]'
-						: '[stroke-dasharray:12_63]',
-				)}
+			<span
 				style={{
-					transitionDuration: `${duration}ms`,
+					display: 'block',
+					width: open ? 18 : 18,
+					height: 1.5,
+					borderRadius: 2,
+					background: 'var(--taupe)',
+					transition,
+					transform: open ? 'translateY(3.25px) rotate(45deg)' : 'translateY(0) rotate(0)',
+					transformOrigin: 'center',
 				}}
-				d="M27 10 13 10C10.8 10 9 8.2 9 6 9 3.5 10.8 2 13 2 15.2 2 17 3.8 17 6L17 26C17 28.2 18.8 30 21 30 23.2 30 25 28.2 25 26 25 23.8 23.2 22 21 22L7 22"
 			/>
-			<path d="M7 16 27 16" />
-		</svg>
+			<span
+				style={{
+					display: 'block',
+					width: open ? 18 : 12,
+					height: 1.5,
+					borderRadius: 2,
+					background: 'var(--taupe)',
+					transition,
+					transform: open ? 'translateY(-3.25px) rotate(-45deg)' : 'translateY(0) rotate(0)',
+					opacity: open ? 1 : 1,
+					transformOrigin: 'center',
+				}}
+			/>
+		</div>
 	);
 }

@@ -182,7 +182,7 @@ body::before {
     box-shadow: 0 4px 24px rgba(63, 47, 36, 0.06), 0 1px 4px rgba(63, 47, 36, 0.04);
 }
 .lumi-header--open {
-    background: var(--cream-light);
+    background: transparent;
 }
 .lumi-header-star {
     display: flex;
@@ -193,7 +193,7 @@ body::before {
 }
 .lumi-header-star:hover { opacity: 0.55; }
 .lumi-mobile-menu {
-    background: var(--cream-light);
+    display: none;
 }
 .nav-roll {
     display: inline-block;
