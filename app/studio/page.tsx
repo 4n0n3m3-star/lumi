@@ -438,11 +438,32 @@ export default function StudioPage() {
   const [sending, setSending] = useState(false);
 
   const [toast, setToast] = useState({ show: false, message: '', isError: false });
+  const [sentMap, setSentMap] = useState<Record<string, string[]>>({});
 
   const showToast = (message: string, isError = false) => {
     setToast({ show: true, message, isError });
     setTimeout(() => setToast(t => ({ ...t, show: false })), 3000);
   };
+
+  // Load sent status from localStorage
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem('lumi-sent');
+      if (stored) setSentMap(JSON.parse(stored));
+    } catch {}
+  }, []);
+
+  const markSent = (bookingId: string, type: string) => {
+    setSentMap(prev => {
+      const types = prev[bookingId] || [];
+      if (types.includes(type)) return prev;
+      const next = { ...prev, [bookingId]: [...types, type] };
+      try { localStorage.setItem('lumi-sent', JSON.stringify(next)); } catch {}
+      return next;
+    });
+  };
+
+  const getSentTypes = (bookingId: string): string[] => sentMap[bookingId] || [];
 
   // Check if already authed
   useEffect(() => {
@@ -515,10 +536,10 @@ export default function StudioPage() {
         body: JSON.stringify(payload),
       });
       if (res.ok) {
+        markSent(selected.id, followUp);
         showToast(`Email "${FOLLOWUP_TYPES.find(t => t.key === followUp)?.label}" enviado!`);
         setFollowUp(null);
         setFormData({});
-        setSelected(null);
       } else {
         const err = await res.json();
         showToast(err.error || 'Erro ao enviar', true);
@@ -596,22 +617,47 @@ export default function StudioPage() {
             <p style={styles.emptyText}>Sem marcações</p>
           </div>
         ) : (
-          filtered.map(b => (
-            <div key={b.id} style={styles.card} onClick={() => { setSelected(b); setFollowUp(null); setFormData({}); }}>
-              <div style={styles.cardTop}>
-                <span style={styles.cardName}>{b.name}</span>
-                <span style={styles.cardBadge(b.service)}>
-                  {b.service === 'tattoo' ? 'Tattoo' : 'Piercing'}
-                </span>
+          filtered.map(b => {
+            const sent = getSentTypes(b.id);
+            const lastSent = sent.length > 0 ? FOLLOWUP_TYPES.find(t => t.key === sent[sent.length - 1]) : null;
+            return (
+              <div key={b.id} style={styles.card} onClick={() => { setSelected(b); setFollowUp(null); setFormData({}); }}>
+                <div style={styles.cardTop}>
+                  <span style={styles.cardName}>{b.name}</span>
+                  <span style={styles.cardBadge(b.service)}>
+                    {b.service === 'tattoo' ? 'Tattoo' : 'Piercing'}
+                  </span>
+                </div>
+                <div style={styles.cardMeta}>
+                  {b.date} · {b.email}
+                </div>
+                {b.idea && b.idea !== '—' && (
+                  <div style={styles.cardIdea}>{b.idea}</div>
+                )}
+                {sent.length > 0 && (
+                  <div style={{ display: 'flex', gap: '6px', marginTop: '10px', flexWrap: 'wrap' }}>
+                    {sent.map(s => {
+                      const t = FOLLOWUP_TYPES.find(ft => ft.key === s);
+                      return (
+                        <span key={s} style={{
+                          fontSize: '8px',
+                          fontWeight: 500,
+                          letterSpacing: '0.12em',
+                          textTransform: 'uppercase',
+                          padding: '3px 8px',
+                          borderRadius: '999px',
+                          background: 'rgba(74,130,87,0.1)',
+                          color: '#4A8257',
+                        }}>
+                          ✓ {t?.label || s}
+                        </span>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
-              <div style={styles.cardMeta}>
-                {b.date} · {b.email}
-              </div>
-              {b.idea && b.idea !== '—' && (
-                <div style={styles.cardIdea}>{b.idea}</div>
-              )}
-            </div>
-          ))
+            );
+          })
         )}
       </main>
 
@@ -715,16 +761,25 @@ export default function StudioPage() {
               <p style={{ ...styles.panelLabel, marginBottom: '12px' }}>Enviar email</p>
 
               <div style={styles.followUpGrid}>
-                {FOLLOWUP_TYPES.map(t => (
-                  <button
-                    key={t.key}
-                    onClick={() => { setFollowUp(followUp === t.key ? null : t.key); setFormData({}); }}
-                    style={styles.followUpBtn(followUp === t.key)}
-                  >
-                    <span style={styles.followUpIcon}>{t.icon}</span>
-                    <span style={styles.followUpLabel}>{t.label}</span>
-                  </button>
-                ))}
+                {FOLLOWUP_TYPES.map(t => {
+                  const wasSent = selected ? getSentTypes(selected.id).includes(t.key) : false;
+                  return (
+                    <button
+                      key={t.key}
+                      onClick={() => { setFollowUp(followUp === t.key ? null : t.key); setFormData({}); }}
+                      style={{
+                        ...styles.followUpBtn(followUp === t.key),
+                        ...(wasSent ? { background: 'rgba(74,130,87,0.08)', borderColor: 'rgba(74,130,87,0.3)' } : {}),
+                      }}
+                    >
+                      <span style={styles.followUpIcon}>{wasSent ? '✓' : t.icon}</span>
+                      <span style={{
+                        ...styles.followUpLabel,
+                        ...(wasSent ? { color: '#4A8257' } : {}),
+                      }}>{t.label}</span>
+                    </button>
+                  );
+                })}
               </div>
 
               {/* Follow-up form fields */}
