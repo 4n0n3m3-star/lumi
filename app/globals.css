@@ -1125,14 +1125,14 @@ footer {
     .footer-bottom { padding: 24px 32px; }
     .hero-scroll { right: 32px; }
     .art-grid { grid-template-columns: 1fr 1fr; }
-    .hero-main-title { white-space: normal; font-size: 18vw; }
-    .hero-title-section { padding-bottom: 32px; }
-    .hero-bottom { display: flex; flex-direction: column; align-items: stretch; padding: 0 32px 64px; gap: 32px; min-height: unset; }
+    .hero-main-title { font-size: clamp(2rem, 13vw, 12.5vw); white-space: nowrap; }
+    .hero-title-section { padding-top: 72px; padding-bottom: 20px; }
+    .hero-bottom { display: flex; flex-direction: column; align-items: stretch; padding: 0 32px 48px; gap: 24px; min-height: unset; }
     .hero-bottom-images { order: 1; align-self: stretch; width: 100%; }
     .hero-bottom-image { width: 100%; flex: 1; }
     .hero-bottom-image img { aspect-ratio: 3/4; }
     .hero-bottom-left { order: 2; align-self: flex-start; text-align: left; }
-    .hero-left-line { text-align: left; }
+    .hero-left-line { text-align: left; font-size: clamp(0.75rem, 3.2vw, 1.2rem); }
     .hero-bottom-right { order: 3; align-self: stretch; align-items: flex-start; text-align: left; max-width: none; }
     .hero-right-desc { text-align: justify; }
     .hero-cta { display: block; width: 100%; text-align: center; }
@@ -1151,9 +1151,11 @@ footer {
     .footer-hero { padding: 64px 24px; }
     .footer-bottom { padding: 20px 24px; flex-direction: column; gap: 12px; text-align: center; }
     .hero-scroll { display: none; }
-    .hero-bottom { padding: 0 24px 56px; gap: 24px; }
+    .hero-title-section { padding-top: 56px; padding-bottom: 16px; }
+    .hero-main-title { font-size: clamp(2rem, 12vw, 10vw); }
+    .hero-bottom { padding: 0 24px 40px; gap: 20px; }
     .hero-bottom-image { width: 100%; flex: 1; }
-    .hero-left-line { font-size: clamp(0.9rem, 4.5vw, 1.4rem); }
+    .hero-left-line { font-size: clamp(0.7rem, 3vw, 1rem); }
     .art-grid { grid-template-columns: 1fr; }
     .art-subscribe { flex-direction: column; }
     .art-subscribe input { border-right: 1px solid var(--cream); border-bottom: none; }
