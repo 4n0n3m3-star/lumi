@@ -5,12 +5,13 @@ function getResend() {
   return new Resend(process.env.RESEND_API_KEY);
 }
 
-const ARTISTS: Record<string, { name: string; email: string; from: string; instagram: string }> = {
+const ARTISTS: Record<string, { name: string; email: string; from: string; instagram: string; cal: string }> = {
   'stephany-ribeiro': {
     name: 'Stephany Ribeiro',
     email: 'studio@lumiatelier.pt',
     from: 'LUMI Atelier <studio@lumiatelier.pt>',
     instagram: 'https://www.instagram.com/stephany.tattoo/',
+    cal: 'https://cal.com/lumiatelier',
   },
 };
 
@@ -44,7 +45,7 @@ export async function POST(req: Request) {
     html = buildDepositConfirmedEmail({ isPt, name, eta, a });
   } else if (type === 'esboço') {
     subject = isPt ? '✨ O teu esboço está pronto!' : '✨ Your sketch is ready!';
-    html = buildSketchEmail({ isPt, name, sketch_url, duration, session_url, a });
+    html = buildSketchEmail({ isPt, name, sketch_url, duration, session_url: session_url || a.cal, a });
   } else if (type === 'sessao') {
     subject = isPt ? `✨ Sessão confirmada — ${a.name}` : `✨ Session confirmed — ${a.name}`;
     html = buildSessionEmail({ isPt, name, session_date, duration, a });
@@ -69,7 +70,7 @@ export async function POST(req: Request) {
 
 /* ── types ── */
 
-interface ArtistConfig { name: string; email: string; from: string; instagram: string }
+interface ArtistConfig { name: string; email: string; from: string; instagram: string; cal: string }
 
 /* ── shared email wrapper ── */
 

@@ -6,12 +6,13 @@ function getResend() {
 }
 
 // Artist config — add more artists here in the future
-const ARTISTS: Record<string, { name: string; email: string; from: string; instagram: string; tagline: { pt: string; en: string } }> = {
+const ARTISTS: Record<string, { name: string; email: string; from: string; instagram: string; cal: string; tagline: { pt: string; en: string } }> = {
   'stephany-ribeiro': {
     name: 'Stephany Ribeiro',
     email: 'studio@lumiatelier.pt',
     from: 'LUMI Atelier <studio@lumiatelier.pt>',
     instagram: 'https://www.instagram.com/stephany.tattoo/',
+    cal: 'https://cal.com/lumiatelier',
     tagline: {
       pt: 'Arte que vive na tua pele',
       en: 'Art that lives on your skin',

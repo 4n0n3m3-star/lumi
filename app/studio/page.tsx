@@ -41,7 +41,7 @@ const FOLLOWUP_TYPES: FollowUpType[] = [
   { key: 'Recusado', label: 'Recusar', icon: '✕', fields: ['reason'] },
   { key: 'deposito', label: 'Depósito', icon: '🏦', fields: ['budget'] },
   { key: 'deposito_confirmado', label: 'Depósito OK', icon: '✓', fields: ['eta'] },
-  { key: 'esboço', label: 'Esboço', icon: '✏️', fields: ['sketch_url', 'duration', 'session_url'] },
+  { key: 'esboço', label: 'Esboço', icon: '✏️', fields: ['sketch_url', 'duration'] },
   { key: 'sessao', label: 'Sessão', icon: '📅', fields: ['session_date', 'duration'] },
   { key: 'lembrete', label: 'Lembrete', icon: '🔔', fields: ['session_date', 'duration'] },
   { key: 'aftercare', label: 'Aftercare', icon: '🩹' },
