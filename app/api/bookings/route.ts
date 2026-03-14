@@ -19,8 +19,14 @@ export async function GET() {
     const json = await res.json();
 
     if (json.result === 'ok') {
-      cache = { data: json.bookings, timestamp: Date.now() };
-      return NextResponse.json(json.bookings);
+      // Filter out empty/spam entries
+      const valid = (json.bookings || []).filter((b: Record<string, string>) =>
+        b.name && b.name !== '—' && b.name.trim() !== '' &&
+        b.email && b.email !== '—' && b.email.trim() !== '' &&
+        /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(b.email)
+      );
+      cache = { data: valid, timestamp: Date.now() };
+      return NextResponse.json(valid);
     }
 
     return NextResponse.json({ error: 'Sheet error', details: json }, { status: 502 });
