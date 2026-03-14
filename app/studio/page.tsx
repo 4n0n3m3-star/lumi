@@ -732,7 +732,41 @@ export default function StudioPage() {
                   {selected.references && selected.references !== '—' && (
                     <div style={styles.panelSection}>
                       <p style={styles.panelLabel}>Referências</p>
-                      <p style={styles.panelValue}>{selected.references}</p>
+                      <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+                        {selected.references.split(',').map((url, i) => {
+                          const trimmed = url.trim();
+                          if (!trimmed || !trimmed.startsWith('http')) return null;
+                          return (
+                            <a
+                              key={i}
+                              href={trimmed}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              download
+                              style={{
+                                display: 'inline-flex',
+                                alignItems: 'center',
+                                gap: '6px',
+                                padding: '8px 14px',
+                                border: '1px solid #D0B8AC',
+                                borderRadius: '6px',
+                                fontSize: '10px',
+                                fontWeight: 500,
+                                letterSpacing: '0.12em',
+                                textTransform: 'uppercase' as const,
+                                color: '#A77049',
+                                textDecoration: 'none',
+                                fontFamily: "'Montserrat', sans-serif",
+                              }}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                              }}
+                            >
+                              📷 Imagem {i + 1}
+                            </a>
+                          );
+                        })}
+                      </div>
                     </div>
                   )}
                 </>
