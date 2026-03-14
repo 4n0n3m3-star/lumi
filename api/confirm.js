@@ -97,8 +97,8 @@ export default async function handler(req, res) {
           <td style="padding:0 48px 32px;">
             <p style="margin:0;font-size:10px;color:#B09080;line-height:1.6;">
               ${isPt
-                ? 'Recebeste este email porque preencheste o formulário de marcação em lumiatelierpt.com.'
-                : 'You received this email because you submitted the booking form at lumiatelierpt.com.'}
+                ? 'Recebeste este email porque preencheste o formulário de marcação em lumiatelier.pt.'
+                : 'You received this email because you submitted the booking form at lumiatelier.pt.'}
             </p>
           </td>
         </tr>

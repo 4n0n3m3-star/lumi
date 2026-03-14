@@ -13,11 +13,11 @@ export const metadata: Metadata = {
     type: "website",
     title: "LUMI Atelier — Tattoo & Piercing",
     description: "Estúdio de tattoo fineline e piercing em Venda do Pinheiro. Onde a luz encontra a pele.",
-    url: "https://lumiatelierpt.com",
-    images: [{ url: "https://lumiatelierpt.com/media/DSCF4917.jpg" }],
+    url: "https://lumiatelier.pt",
+    images: [{ url: "https://lumiatelier.pt/media/DSCF4917.jpg" }],
   },
   twitter: { card: "summary_large_image" },
-  alternates: { canonical: "https://lumiatelierpt.com" },
+  alternates: { canonical: "https://lumiatelier.pt" },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

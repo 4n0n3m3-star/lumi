@@ -361,7 +361,7 @@ export default function Home() {
             <div className="contact-meta">
               <div className="contact-meta-row">
                 <span className="contact-meta-label">Email</span>
-                <a href="mailto:studio@lumiatelier.com" className="contact-meta-value contact-cta-link"><span data-text="studio@lumiatelier.com">studio@lumiatelier.com</span></a>
+                <a href="mailto:studio@lumiatelier.pt" className="contact-meta-value contact-cta-link"><span data-text="studio@lumiatelier.pt">studio@lumiatelier.pt</span></a>
               </div>
               <div className="contact-meta-row">
                 <span className="contact-meta-label">Instagram</span>
