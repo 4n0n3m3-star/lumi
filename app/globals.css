@@ -1119,6 +1119,12 @@ footer {
     .services-grid-numbered { grid-template-columns: 1fr; padding: 0 32px; }
     .service-item { aspect-ratio: 3/4; }
     #art { padding: 80px 32px; }
+    .art-footer { text-align: right; align-items: flex-end; }
+    .art-footer-title { font-size: clamp(1.4rem, 6.5vw, 2.2rem); }
+    .art-footer-sub { font-size: 0.55rem; white-space: normal; }
+    .art-subscribe { max-width: 100%; }
+    .art-subscribe input { font-size: 0.65rem; padding: 12px 18px; }
+    .art-subscribe button { font-size: 0.55rem; padding: 12px 20px; }
     #contact-cta { padding: 100px 32px; }
     .contact-inner { flex-direction: column-reverse; gap: 40px; }
     .contact-cta-heading { text-align: left; }
