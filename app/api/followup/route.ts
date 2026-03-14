@@ -17,7 +17,7 @@ const ARTISTS: Record<string, { name: string; email: string; from: string; insta
 
 export async function POST(req: Request) {
   const body = await req.json();
-  const { type, name, email, lang, artist, budget, reason, eta, sketch_url, duration, session_url, session_date } = body;
+  const { type, name, email, lang, artist, budget, reason, eta, sketch_url, duration, session_url, session_date, _afterDetails } = body;
 
   if (!email || !name || !type) {
     return NextResponse.json({ error: 'Missing fields' }, { status: 400 });
@@ -30,7 +30,7 @@ export async function POST(req: Request) {
 
   if (type === 'Orçamento') {
     subject = isPt ? `✨ O teu orçamento — ${a.name}` : `✨ Your quote — ${a.name}`;
-    html = buildBudgetEmail({ isPt, name, budget, a });
+    html = buildBudgetEmail({ isPt, name, budget, a, afterDetails: !!_afterDetails });
   } else if (type === 'Mais Detalhes') {
     subject = isPt ? `✨ Preciso de mais detalhes — ${a.name}` : `✨ A few more details needed — ${a.name}`;
     html = buildDetailsEmail({ isPt, name, a });
@@ -55,6 +55,12 @@ export async function POST(req: Request) {
   } else if (type === 'aftercare') {
     subject = isPt ? `✨ Cuidados pós-tatuagem — ${a.name}` : `✨ Aftercare guide — ${a.name}`;
     html = buildAftercareEmail({ isPt, name, a });
+  } else if (type === 'reagendar') {
+    subject = isPt ? `✨ Reagendamento da sessão — ${a.name}` : `✨ Session rescheduling — ${a.name}`;
+    html = buildRescheduleEmail({ isPt, name, a });
+  } else if (type === 'healing') {
+    subject = isPt ? `✨ Como está a cicatrizar? — ${a.name}` : `✨ How is it healing? — ${a.name}`;
+    html = buildHealingCheckEmail({ isPt, name, a });
   } else {
     return NextResponse.json({ error: 'Invalid type' }, { status: 400 });
   }
@@ -157,8 +163,8 @@ function formatEta(raw: string | undefined, isPt: boolean) {
 
 function directContact(isPt: boolean, a: ArtistConfig) {
   return isPt
-    ? `Se precisares de alguma coisa, podes sempre responder a este email ou enviar-me mensagem diretamente no <a href="${a.instagram}" style="color:#A77049;text-decoration:underline;">Instagram</a>. Estou aqui para ti!`
-    : `If you need anything, you can always reply to this email or message me directly on <a href="${a.instagram}" style="color:#A77049;text-decoration:underline;">Instagram</a>. I'm here for you!`;
+    ? `Se precisares de alguma coisa, podes sempre responder a este email, enviar-me mensagem no <a href="${a.instagram}" style="color:#A77049;text-decoration:underline;">Instagram</a> ou no <a href="https://wa.me/351932558951" style="color:#A77049;text-decoration:underline;">WhatsApp</a>. Estou aqui para ti!`
+    : `If you need anything, you can always reply to this email, message me on <a href="${a.instagram}" style="color:#A77049;text-decoration:underline;">Instagram</a> or <a href="https://wa.me/351932558951" style="color:#A77049;text-decoration:underline;">WhatsApp</a>. I'm here for you!`;
 }
 
 function preSessionTips(isPt: boolean) {
@@ -193,10 +199,14 @@ function lumiLink(isPt: boolean) {
 
 /* ── Step 4a: Budget quote ── */
 
-function buildBudgetEmail({ isPt, name, budget, a }: { isPt: boolean; name: string; budget: string; a: ArtistConfig }) {
-  const para1 = isPt
-    ? 'Adorei a tua ideia! Dediquei toda a atenção a analisá-la e preparei o teu orçamento com muito carinho.'
-    : "I loved your idea! I've given it my full attention and prepared your quote with care.";
+function buildBudgetEmail({ isPt, name, budget, a, afterDetails = false }: { isPt: boolean; name: string; budget: string; a: ArtistConfig; afterDetails?: boolean }) {
+  const para1 = afterDetails
+    ? (isPt
+      ? 'Agora que tenho mais detalhes sobre a tua ideia, posso seguramente dar-te o orçamento. Preparei tudo com muito carinho!'
+      : "Now that I have more details about your idea, I can confidently give you a quote. I've prepared everything with care!")
+    : (isPt
+      ? 'Adorei a tua ideia! Dediquei toda a atenção a analisá-la e preparei o teu orçamento com muito carinho.'
+      : "I loved your idea! I've given it my full attention and prepared your quote with care.");
 
   const depositText = isPt
     ? 'Se concordares com o orçamento e quiseres que eu comece a trabalhar na tua peça, basta enviares um depósito de <strong>20€</strong> via MB Way para o número <strong>932 558 951</strong>. O depósito é não reembolsável e serve para reservar o teu lugar na minha agenda.'
@@ -448,5 +458,46 @@ function buildAftercareEmail({ isPt, name, a }: { isPt: boolean; name: string; a
         <p style="margin:0 0 24px;font-size:14px;color:#806A58;line-height:1.8;font-weight:300;">${para2}</p>
         <p style="margin:0 0 20px;font-size:14px;color:#806A58;line-height:1.8;font-weight:300;">${reviewText}</p>
         ${btn('https://share.google/XwF5Gg3xCGjqV1AZ2', isPt ? 'Deixar Avaliação' : 'Leave a Review')}
+    `, a);
+}
+
+/* ── Step 10: Reschedule / cancel ── */
+
+function buildRescheduleEmail({ isPt, name, a }: { isPt: boolean; name: string; a: ArtistConfig }) {
+  const para1 = isPt
+    ? 'Estou a contactar-te porque preciso de reagendar a tua sessão. Peço desculpa por qualquer inconveniente — quero garantir que temos o tempo e as condições perfeitas para a tua peça.'
+    : "I'm reaching out because I need to reschedule your session. I apologize for any inconvenience — I want to make sure we have the perfect time and conditions for your piece.";
+
+  const para2 = isPt
+    ? 'Escolhe uma nova data que te dê jeito no link abaixo:'
+    : 'Pick a new date that works for you using the link below:';
+
+  return buildEmail(isPt, name, `
+        <p style="margin:0 0 24px;font-size:14px;color:#1E1713;line-height:1.8;font-weight:300;">${para1}</p>
+        <p style="margin:0 0 24px;font-size:14px;color:#806A58;line-height:1.8;font-weight:300;">${para2}</p>
+        ${btn(a.cal, isPt ? 'Escolher Nova Data' : 'Pick a New Date')}
+        <p style="margin:0 0 48px;font-size:14px;color:#806A58;line-height:1.8;font-weight:300;">${directContact(isPt, a)}</p>
+    `, a);
+}
+
+/* ── Step 11: Healing check-in (7 days after session) ── */
+
+function buildHealingCheckEmail({ isPt, name, a }: { isPt: boolean; name: string; a: ArtistConfig }) {
+  const para1 = isPt
+    ? 'Já passou uma semana desde a tua sessão e queria saber como está a correr a cicatrização! Espero que esteja tudo bem.'
+    : "It's been a week since your session and I wanted to check in on how the healing is going! I hope everything is looking great.";
+
+  const para2 = isPt
+    ? 'Se puderes, adorava ver como está a ficar! Envia-me uma fotinha por aqui, pelo Instagram ou pelo WhatsApp — fico sempre curiosa para ver o resultado final.'
+    : "If you can, I'd love to see how it's looking! Send me a photo here, on Instagram, or on WhatsApp — I'm always curious to see the final result.";
+
+  const para3 = isPt
+    ? 'Lembra-te: se notares algo fora do normal durante a cicatrização, não hesites em contactar-me. Estou sempre aqui para ajudar!'
+    : "Remember: if you notice anything unusual during the healing process, don't hesitate to reach out. I'm always here to help!";
+
+  return buildEmail(isPt, name, `
+        <p style="margin:0 0 24px;font-size:14px;color:#1E1713;line-height:1.8;font-weight:300;">${para1}</p>
+        <p style="margin:0 0 24px;font-size:14px;color:#806A58;line-height:1.8;font-weight:300;">${para2}</p>
+        <p style="margin:0 0 48px;font-size:14px;color:#806A58;line-height:1.8;font-weight:300;">${para3}</p>
     `, a);
 }

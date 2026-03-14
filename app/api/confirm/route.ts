@@ -85,8 +85,8 @@ export async function POST(req: Request) {
             </p>
             <p style="margin:0 0 40px;font-size:14px;color:#806A58;line-height:1.8;font-weight:300;">
               ${isPt
-                ? 'Enquanto isso, espreita mais do nosso trabalho no Instagram. Se tiveres alguma dúvida urgente, podes sempre enviar-nos mensagem diretamente por lá ou responder a este email.'
-                : "In the meantime, feel free to check out more of our work on Instagram. If you have any urgent questions, you can always message us directly there or reply to this email."}
+                ? 'Enquanto isso, espreita mais do nosso trabalho no Instagram. Se tiveres alguma dúvida urgente, podes sempre enviar-nos mensagem no <a href="https://wa.me/351932558951" style="color:#A77049;text-decoration:underline;">WhatsApp</a>, no Instagram ou responder a este email.'
+                : 'In the meantime, feel free to check out more of our work on Instagram. If you have any urgent questions, message us on <a href="https://wa.me/351932558951" style="color:#A77049;text-decoration:underline;">WhatsApp</a>, Instagram, or reply to this email.'}
             </p>
             <table cellpadding="0" cellspacing="0" role="presentation" style="margin-bottom:48px;">
               <tr>

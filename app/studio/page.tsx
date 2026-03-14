@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 
 /* ── Types ────────────────────────────────────────────── */
 
@@ -48,6 +48,8 @@ const FOLLOWUP_TYPES: FollowUpType[] = [
   { key: 'deposito', label: 'Follow Up', icon: '💬' },
   { key: 'deposito_confirmado', label: 'Depósito OK', icon: '✓', fields: ['eta'] },
   { key: 'estudo', label: 'Estudo', icon: '✏️', fields: ['sketch_url', 'duration'] },
+  { key: 'reagendar', label: 'Reagendar', icon: '📅' },
+  { key: 'healing', label: 'Cicatrização', icon: '💚' },
 ];
 
 const SESSION_DURATIONS = [
@@ -65,6 +67,8 @@ const REJECTION_REASONS = [
   { value: 'Não consigo fazer cover', label: 'Não consigo fazer cover' },
   { value: 'Agenda cheia', label: 'Agenda cheia' },
 ];
+
+const WA_NUMBER = '351932558951';
 
 /* ── Styles ───────────────────────────────────────────── */
 
@@ -177,11 +181,54 @@ const styles = {
     margin: '0 auto',
   } as React.CSSProperties,
 
+  // Stats bar
+  statsBar: {
+    display: 'flex',
+    gap: '12px',
+    marginBottom: '16px',
+    padding: '12px 16px',
+    background: '#FAF7F1',
+    border: '1px solid rgba(191,160,140,0.2)',
+    borderRadius: '16px',
+  } as React.CSSProperties,
+  statItem: {
+    flex: 1,
+    textAlign: 'center' as const,
+  } as React.CSSProperties,
+  statNumber: {
+    fontSize: '18px',
+    fontWeight: 300,
+    color: '#3F2F24',
+    lineHeight: 1.2,
+  } as React.CSSProperties,
+  statLabel: {
+    fontSize: '7px',
+    fontWeight: 500,
+    letterSpacing: '0.2em',
+    textTransform: 'uppercase' as const,
+    color: '#BFA08C',
+    marginTop: '2px',
+  } as React.CSSProperties,
+
+  // Search
+  searchInput: {
+    width: '100%',
+    padding: '10px 14px 10px 36px',
+    border: '1px solid rgba(191,160,140,0.3)',
+    borderRadius: '999px',
+    background: '#FAF7F1',
+    fontFamily: "'Montserrat', sans-serif",
+    fontSize: '12px',
+    color: '#3F2F24',
+    outline: 'none',
+    marginBottom: '12px',
+  } as React.CSSProperties,
+
   // Filters
   filters: {
     display: 'flex',
     gap: '8px',
-    marginBottom: '20px',
+    marginBottom: '16px',
     overflowX: 'auto' as const,
   } as React.CSSProperties,
   filterPill: (active: boolean) => ({
@@ -210,6 +257,9 @@ const styles = {
     cursor: 'pointer',
     transition: 'transform 0.2s ease',
   } as React.CSSProperties,
+  cardArchived: {
+    opacity: 0.5,
+  } as React.CSSProperties,
   cardTop: {
     display: 'flex',
     justifyContent: 'space-between',
@@ -237,17 +287,6 @@ const styles = {
     fontSize: '11px',
     color: '#BFA08C',
     lineHeight: 1.6,
-  } as React.CSSProperties,
-  cardIdea: {
-    fontSize: '12px',
-    color: '#806A58',
-    fontWeight: 300,
-    lineHeight: 1.6,
-    marginTop: '8px',
-    display: '-webkit-box',
-    WebkitLineClamp: 2,
-    WebkitBoxOrient: 'vertical' as const,
-    overflow: 'hidden',
   } as React.CSSProperties,
 
   // Detail panel
@@ -390,6 +429,69 @@ const styles = {
     marginTop: '8px',
   } as React.CSSProperties,
 
+  // Small action buttons (WhatsApp, archive, etc.)
+  actionBtn: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: '6px',
+    padding: '8px 14px',
+    border: '1px solid rgba(191,160,140,0.4)',
+    borderRadius: '6px',
+    background: 'transparent',
+    fontFamily: "'Montserrat', sans-serif",
+    fontSize: '9px',
+    fontWeight: 500,
+    letterSpacing: '0.12em',
+    textTransform: 'uppercase' as const,
+    color: '#806A58',
+    textDecoration: 'none',
+    cursor: 'pointer',
+  } as React.CSSProperties,
+  waBtn: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: '6px',
+    padding: '8px 14px',
+    border: '1px solid rgba(37,211,102,0.3)',
+    borderRadius: '6px',
+    background: 'rgba(37,211,102,0.06)',
+    fontFamily: "'Montserrat', sans-serif",
+    fontSize: '9px',
+    fontWeight: 500,
+    letterSpacing: '0.12em',
+    textTransform: 'uppercase' as const,
+    color: '#25D366',
+    textDecoration: 'none',
+    cursor: 'pointer',
+  } as React.CSSProperties,
+
+  copyBtn: {
+    background: 'none',
+    border: 'none',
+    cursor: 'pointer',
+    padding: '4px',
+    borderRadius: '4px',
+    display: 'inline-flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexShrink: 0,
+  } as React.CSSProperties,
+
+  // Notes
+  notesTextarea: {
+    width: '100%',
+    padding: '10px 14px',
+    border: '1px solid rgba(191,160,140,0.3)',
+    borderRadius: '6px',
+    background: '#FAF7F1',
+    fontFamily: "'Montserrat', sans-serif",
+    fontSize: '12px',
+    color: '#3F2F24',
+    outline: 'none',
+    resize: 'vertical' as const,
+    minHeight: '60px',
+  } as React.CSSProperties,
+
   // Toast
   toast: (show: boolean, isError: boolean) => ({
     position: 'fixed' as const,
@@ -425,18 +527,6 @@ const styles = {
     letterSpacing: '0.05em',
   } as React.CSSProperties,
 
-  copyBtn: {
-    background: 'none',
-    border: 'none',
-    cursor: 'pointer',
-    padding: '4px',
-    borderRadius: '4px',
-    display: 'inline-flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexShrink: 0,
-  } as React.CSSProperties,
-
   refreshBtn: {
     background: 'none',
     border: '1px solid rgba(239,217,204,0.3)',
@@ -451,6 +541,20 @@ const styles = {
   } as React.CSSProperties,
 };
 
+/* ── SVG Icons ────────────────────────────────────────── */
+
+const CopyIcon = () => (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#BFA08C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+);
+
+const SearchIcon = () => (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#BFA08C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+);
+
+const WhatsAppIcon = () => (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+);
+
 /* ── Helpers ──────────────────────────────────────────── */
 
 function shortDate(raw: string): string {
@@ -463,7 +567,6 @@ function shortDate(raw: string): string {
     const yyyy = d.getFullYear();
     return `${dd}-${mm}-${yyyy}`;
   } catch {
-    // Fallback: try to extract from string like "5/25/2026 ..."
     const m = raw.match(/(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{4})/);
     if (m) return `${m[2].padStart(2, '0')}-${m[1].padStart(2, '0')}-${m[3]}`;
     return raw.split(' ')[0] || raw;
@@ -472,8 +575,14 @@ function shortDate(raw: string): string {
 
 function cleanDate(raw: string): string {
   if (!raw) return '';
-  // Strip timezone noise like ":06 GMT+0000 (Western European Standard Time)"
   return raw.replace(/\s*GMT[^\)]*\([^)]*\)/g, '').replace(/:\d{2}\s*$/, '').trim();
+}
+
+function waLink(phone: string, name: string): string {
+  const cleanPhone = phone?.replace(/\D/g, '') || WA_NUMBER;
+  const p = cleanPhone.startsWith('351') ? cleanPhone : WA_NUMBER;
+  const text = encodeURIComponent(`Olá ${name}! 😊`);
+  return `https://wa.me/${p}?text=${text}`;
 }
 
 /* ── Component ────────────────────────────────────────── */
@@ -487,6 +596,9 @@ export default function StudioPage() {
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [loading, setLoading] = useState(false);
   const [filter, setFilter] = useState<'all' | 'tattoo' | 'piercing'>('all');
+  const [showArchived, setShowArchived] = useState(false);
+  const [search, setSearch] = useState('');
+  const [sortNewest, setSortNewest] = useState(true);
 
   const [selected, setSelected] = useState<Booking | null>(null);
   const [followUp, setFollowUp] = useState<string | null>(null);
@@ -495,17 +607,33 @@ export default function StudioPage() {
 
   const [toast, setToast] = useState({ show: false, message: '', isError: false });
   const [sentMap, setSentMap] = useState<Record<string, string[]>>({});
+  const [notesMap, setNotesMap] = useState<Record<string, string>>({});
+  const [archivedSet, setArchivedSet] = useState<Set<string>>(new Set());
+
+  // Pull-to-refresh
+  const contentRef = useRef<HTMLDivElement>(null);
+  const [pullY, setPullY] = useState(0);
+  const [pulling, setPulling] = useState(false);
+  const touchStartY = useRef(0);
 
   const showToast = (message: string, isError = false) => {
     setToast({ show: true, message, isError });
     setTimeout(() => setToast(t => ({ ...t, show: false })), 3000);
   };
 
-  // Load sent status from localStorage
+  // Load localStorage data
   useEffect(() => {
     try {
       const stored = localStorage.getItem('lumi-sent');
       if (stored) setSentMap(JSON.parse(stored));
+    } catch {}
+    try {
+      const stored = localStorage.getItem('lumi-notes');
+      if (stored) setNotesMap(JSON.parse(stored));
+    } catch {}
+    try {
+      const stored = localStorage.getItem('lumi-archived');
+      if (stored) setArchivedSet(new Set(JSON.parse(stored)));
     } catch {}
   }, []);
 
@@ -521,7 +649,25 @@ export default function StudioPage() {
 
   const getSentTypes = (bookingId: string): string[] => sentMap[bookingId] || [];
 
-  // Check if already authed
+  const saveNote = (bookingId: string, note: string) => {
+    setNotesMap(prev => {
+      const next = { ...prev, [bookingId]: note };
+      if (!note) delete next[bookingId];
+      try { localStorage.setItem('lumi-notes', JSON.stringify(next)); } catch {}
+      return next;
+    });
+  };
+
+  const toggleArchive = (bookingId: string) => {
+    setArchivedSet(prev => {
+      const next = new Set(prev);
+      if (next.has(bookingId)) next.delete(bookingId); else next.add(bookingId);
+      try { localStorage.setItem('lumi-archived', JSON.stringify([...next])); } catch {}
+      return next;
+    });
+  };
+
+  // Auth check
   useEffect(() => {
     fetch('/api/bookings')
       .then(r => { if (r.ok) { setAuthed(true); } })
@@ -546,6 +692,24 @@ export default function StudioPage() {
   useEffect(() => {
     if (authed) fetchBookings();
   }, [authed, fetchBookings]);
+
+  // Pull-to-refresh handlers
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (contentRef.current && contentRef.current.scrollTop === 0) {
+      touchStartY.current = e.touches[0].clientY;
+      setPulling(true);
+    }
+  };
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!pulling) return;
+    const diff = e.touches[0].clientY - touchStartY.current;
+    if (diff > 0 && diff < 120) setPullY(diff);
+  };
+  const handleTouchEnd = () => {
+    if (pullY > 60) fetchBookings();
+    setPullY(0);
+    setPulling(false);
+  };
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -606,7 +770,32 @@ export default function StudioPage() {
     setSending(false);
   };
 
-  const filtered = filter === 'all' ? bookings : bookings.filter(b => b.service === filter);
+  // Filter, search, sort, archive
+  const processed = bookings
+    .filter(b => {
+      if (!showArchived && archivedSet.has(b.id)) return false;
+      if (showArchived && !archivedSet.has(b.id)) return false;
+      if (filter !== 'all' && b.service !== filter) return false;
+      if (search) {
+        const q = search.toLowerCase();
+        return b.name.toLowerCase().includes(q) || b.email.toLowerCase().includes(q) || (b.phone || '').includes(q);
+      }
+      return true;
+    })
+    .sort((a, b) => {
+      const da = new Date(a.date).getTime() || 0;
+      const db = new Date(b.date).getTime() || 0;
+      return sortNewest ? db - da : da - db;
+    });
+
+  // Stats
+  const activeBookings = bookings.filter(b => !archivedSet.has(b.id));
+  const pendingCount = activeBookings.filter(b => getSentTypes(b.id).length === 0).length;
+  const inProgressCount = activeBookings.filter(b => {
+    const s = getSentTypes(b.id);
+    return s.length > 0 && !s.includes('Recusado');
+  }).length;
+  const archivedCount = bookings.filter(b => archivedSet.has(b.id)).length;
 
   // ── Login screen
   if (checking) {
@@ -643,7 +832,7 @@ export default function StudioPage() {
       <header style={styles.header}>
         <span style={styles.headerTitle}>LUMI Studio</span>
         <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-          <button onClick={() => { cache_bust(); fetchBookings(); }} style={styles.refreshBtn}>
+          <button onClick={fetchBookings} style={styles.refreshBtn}>
             {loading ? '...' : 'Atualizar'}
           </button>
           <button onClick={handleLogout} style={styles.headerBtn}>Sair</button>
@@ -651,15 +840,64 @@ export default function StudioPage() {
       </header>
 
       {/* Content */}
-      <main style={styles.content}>
+      <main
+        ref={contentRef}
+        style={styles.content}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+      >
+        {/* Pull-to-refresh indicator */}
+        {pullY > 10 && (
+          <div style={{ textAlign: 'center', padding: '8px 0', color: '#BFA08C', fontSize: '10px', letterSpacing: '0.15em', textTransform: 'uppercase' }}>
+            {pullY > 60 ? 'Soltar para atualizar' : 'Puxar para atualizar'}
+          </div>
+        )}
+
+        {/* Stats */}
+        <div style={styles.statsBar}>
+          <div style={styles.statItem}>
+            <div style={styles.statNumber}>{pendingCount}</div>
+            <div style={styles.statLabel}>Novos</div>
+          </div>
+          <div style={{ width: '1px', background: 'rgba(191,160,140,0.2)' }} />
+          <div style={styles.statItem}>
+            <div style={styles.statNumber}>{inProgressCount}</div>
+            <div style={styles.statLabel}>Em curso</div>
+          </div>
+          <div style={{ width: '1px', background: 'rgba(191,160,140,0.2)' }} />
+          <div style={styles.statItem}>
+            <div style={styles.statNumber}>{archivedCount}</div>
+            <div style={styles.statLabel}>Arquivo</div>
+          </div>
+        </div>
+
+        {/* Search */}
+        <div style={{ position: 'relative' }}>
+          <div style={{ position: 'absolute', left: '14px', top: '11px' }}><SearchIcon /></div>
+          <input
+            type="text"
+            placeholder="Procurar por nome, email ou telefone..."
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            style={styles.searchInput}
+          />
+        </div>
+
         {/* Filters */}
         <div style={styles.filters}>
           {(['all', 'tattoo', 'piercing'] as const).map(f => (
-            <button key={f} onClick={() => setFilter(f)} style={styles.filterPill(filter === f)}>
+            <button key={f} onClick={() => setFilter(f)} style={styles.filterPill(filter === f && !showArchived)}>
               {f === 'all' ? 'Todos' : f === 'tattoo' ? 'Tatuagem' : 'Piercing'}
-              {f === 'all' ? ` (${bookings.length})` : ` (${bookings.filter(b => b.service === f).length})`}
+              {f === 'all' ? ` (${activeBookings.length})` : ` (${activeBookings.filter(b => b.service === f).length})`}
             </button>
           ))}
+          <button onClick={() => setShowArchived(!showArchived)} style={styles.filterPill(showArchived)}>
+            Arquivo ({archivedCount})
+          </button>
+          <button onClick={() => setSortNewest(!sortNewest)} style={{ ...styles.filterPill(false), fontSize: '9px' }}>
+            {sortNewest ? '↓ Recentes' : '↑ Antigos'}
+          </button>
         </div>
 
         {/* Bookings */}
@@ -667,17 +905,19 @@ export default function StudioPage() {
           <div style={styles.empty}>
             <p style={styles.emptyText}>A carregar...</p>
           </div>
-        ) : filtered.length === 0 ? (
+        ) : processed.length === 0 ? (
           <div style={styles.empty}>
             <div style={styles.emptyIcon}>✦</div>
-            <p style={styles.emptyText}>Sem marcações</p>
+            <p style={styles.emptyText}>{search ? 'Sem resultados' : showArchived ? 'Arquivo vazio' : 'Sem marcações'}</p>
           </div>
         ) : (
-          filtered.map(b => {
+          processed.map(b => {
             const sent = getSentTypes(b.id);
             const lastSent = sent.length > 0 ? FOLLOWUP_TYPES.find(t => t.key === sent[sent.length - 1]) : null;
+            const isArchived = archivedSet.has(b.id);
+            const note = notesMap[b.id];
             return (
-              <div key={b.id} style={styles.card} onClick={() => { setSelected(b); setFollowUp(null); setFormData({}); }}>
+              <div key={b.id} style={{ ...styles.card, ...(isArchived ? styles.cardArchived : {}) }} onClick={() => { setSelected(b); setFollowUp(null); setFormData({}); }}>
                 <div style={styles.cardTop}>
                   <span style={styles.cardName}>{b.name}</span>
                   <span style={styles.cardBadge(b.service)}>
@@ -687,25 +927,20 @@ export default function StudioPage() {
                 <div style={styles.cardMeta}>
                   {shortDate(b.date)} · {b.email}{b.phone && b.phone !== '—' ? ` · ${b.phone}` : ''}
                 </div>
-                {sent.length > 0 && (
-                  <div style={{ display: 'flex', gap: '6px', marginTop: '10px', flexWrap: 'wrap' }}>
-                    {sent.map(s => {
-                      const t = FOLLOWUP_TYPES.find(ft => ft.key === s);
-                      return (
-                        <span key={s} style={{
-                          fontSize: '8px',
-                          fontWeight: 500,
-                          letterSpacing: '0.12em',
-                          textTransform: 'uppercase',
-                          padding: '3px 8px',
-                          borderRadius: '999px',
-                          background: 'rgba(74,130,87,0.1)',
-                          color: '#4A8257',
-                        }}>
-                          ✓ {t?.label || s}
-                        </span>
-                      );
-                    })}
+                {(lastSent || note) && (
+                  <div style={{ display: 'flex', gap: '6px', marginTop: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
+                    {lastSent && (
+                      <span style={{
+                        fontSize: '8px', fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase',
+                        padding: '3px 8px', borderRadius: '999px', background: 'rgba(74,130,87,0.1)', color: '#4A8257',
+                      }}>✓ {lastSent.label}</span>
+                    )}
+                    {note && (
+                      <span style={{
+                        fontSize: '8px', fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase',
+                        padding: '3px 8px', borderRadius: '999px', background: 'rgba(167,112,73,0.1)', color: '#A77049',
+                      }}>📝 Nota</span>
+                    )}
                   </div>
                 )}
               </div>
@@ -722,9 +957,28 @@ export default function StudioPage() {
             <div style={styles.panelHandle} />
             <div style={styles.panelContent}>
               <p style={styles.panelName}>{selected.name}</p>
-              <p style={{ ...styles.cardMeta, marginBottom: '24px' }}>
+              <p style={{ ...styles.cardMeta, marginBottom: '16px' }}>
                 {cleanDate(selected.date)} · {selected.service === 'tattoo' ? 'Tatuagem' : 'Piercing'}
               </p>
+
+              {/* Quick actions: WhatsApp + Archive */}
+              <div style={{ display: 'flex', gap: '8px', marginBottom: '24px', flexWrap: 'wrap' }}>
+                <a
+                  href={waLink(selected.phone, selected.name)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={styles.waBtn}
+                  onClick={e => e.stopPropagation()}
+                >
+                  <WhatsAppIcon /> WhatsApp
+                </a>
+                <button
+                  onClick={(e) => { e.stopPropagation(); toggleArchive(selected.id); showToast(archivedSet.has(selected.id) ? 'Removido do arquivo' : 'Arquivado'); }}
+                  style={styles.actionBtn}
+                >
+                  {archivedSet.has(selected.id) ? '↩ Restaurar' : '📦 Arquivar'}
+                </button>
+              </div>
 
               {/* Email & Phone with copy */}
               <div style={styles.panelGrid}>
@@ -733,7 +987,7 @@ export default function StudioPage() {
                   <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <p style={{ ...styles.panelValue, margin: 0 }}>{selected.email}</p>
                     <button onClick={(e) => { e.stopPropagation(); navigator.clipboard.writeText(selected.email); showToast('Email copiado'); }} style={styles.copyBtn} title="Copiar">
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#BFA08C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                      <CopyIcon />
                     </button>
                   </div>
                 </div>
@@ -743,7 +997,7 @@ export default function StudioPage() {
                     <p style={{ ...styles.panelValue, margin: 0 }}>{selected.phone}</p>
                     {selected.phone && selected.phone !== '—' && (
                       <button onClick={(e) => { e.stopPropagation(); navigator.clipboard.writeText(selected.phone); showToast('Telemóvel copiado'); }} style={styles.copyBtn} title="Copiar">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#BFA08C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                        <CopyIcon />
                       </button>
                     )}
                   </div>
@@ -793,33 +1047,10 @@ export default function StudioPage() {
                           const trimmed = url.trim();
                           if (!trimmed || !trimmed.startsWith('http')) return null;
                           return (
-                            <a
-                              key={i}
-                              href={trimmed}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              download
-                              style={{
-                                display: 'inline-flex',
-                                alignItems: 'center',
-                                gap: '6px',
-                                padding: '8px 14px',
-                                border: '1px solid #BFA08C',
-                                borderRadius: '6px',
-                                fontSize: '10px',
-                                fontWeight: 500,
-                                letterSpacing: '0.12em',
-                                textTransform: 'uppercase' as const,
-                                color: '#A77049',
-                                textDecoration: 'none',
-                                fontFamily: "'Montserrat', sans-serif",
-                              }}
-                              onClick={(e) => {
-                                e.stopPropagation();
-                              }}
-                            >
-                              📷 Imagem {i + 1}
-                            </a>
+                            <a key={i} href={trimmed} target="_blank" rel="noopener noreferrer" download
+                              style={{ ...styles.actionBtn, color: '#A77049' }}
+                              onClick={e => e.stopPropagation()}
+                            >📷 Imagem {i + 1}</a>
                           );
                         })}
                       </div>
@@ -845,7 +1076,7 @@ export default function StudioPage() {
 
               {selected.notes && selected.notes !== '—' && (
                 <div style={styles.panelSection}>
-                  <p style={styles.panelLabel}>Notas</p>
+                  <p style={styles.panelLabel}>Notas do cliente</p>
                   <p style={styles.panelValue}>{selected.notes}</p>
                 </div>
               )}
@@ -856,6 +1087,18 @@ export default function StudioPage() {
                   <p style={styles.panelValue}>{selected.health}</p>
                 </div>
               )}
+
+              {/* Internal notes */}
+              <div style={styles.panelSection}>
+                <p style={styles.panelLabel}>Notas internas</p>
+                <textarea
+                  value={notesMap[selected.id] || ''}
+                  onChange={e => saveNote(selected.id, e.target.value)}
+                  placeholder="Adicionar notas privadas..."
+                  style={styles.notesTextarea}
+                  onClick={e => e.stopPropagation()}
+                />
+              </div>
 
               {/* Session info */}
               {selected.session_date && selected.session_date !== '—' && (
@@ -892,25 +1135,43 @@ export default function StudioPage() {
               <p style={{ ...styles.panelLabel, marginBottom: '12px' }}>Enviar email</p>
 
               <div style={styles.followUpGrid}>
-                {FOLLOWUP_TYPES.map(t => {
-                  const wasSent = selected ? getSentTypes(selected.id).includes(t.key) : false;
-                  return (
-                    <button
-                      key={t.key}
-                      onClick={() => { setFollowUp(followUp === t.key ? null : t.key); setFormData({}); }}
-                      style={{
-                        ...styles.followUpBtn(followUp === t.key),
-                        ...(wasSent ? { background: 'rgba(74,130,87,0.08)', borderColor: 'rgba(74,130,87,0.3)' } : {}),
-                      }}
-                    >
-                      <span style={styles.followUpIcon}>{wasSent ? '✓' : t.icon}</span>
-                      <span style={{
-                        ...styles.followUpLabel,
-                        ...(wasSent ? { color: '#4A8257' } : {}),
-                      }}>{t.label}</span>
-                    </button>
-                  );
-                })}
+                {(() => {
+                  const sent = selected ? getSentTypes(selected.id) : [];
+                  const hasOrcamento = sent.includes('Orçamento');
+                  const hasDepositoOk = sent.includes('deposito_confirmado');
+                  const hasMaisDetalhes = sent.includes('Mais Detalhes');
+                  const hasEstudo = sent.includes('estudo');
+
+                  let visible = FOLLOWUP_TYPES;
+                  if (hasEstudo) {
+                    // After estudo, only reagendar and healing make sense
+                    visible = FOLLOWUP_TYPES.filter(t => ['reagendar', 'healing'].includes(t.key));
+                  } else if (hasDepositoOk) {
+                    visible = FOLLOWUP_TYPES.filter(t => t.key === 'estudo');
+                  } else if (hasOrcamento) {
+                    visible = FOLLOWUP_TYPES.filter(t => !['Mais Detalhes', 'Recusado'].includes(t.key));
+                  }
+
+                  return visible.map(t => {
+                    const wasSent = sent.includes(t.key);
+                    return (
+                      <button
+                        key={t.key}
+                        onClick={() => { setFollowUp(followUp === t.key ? null : t.key); setFormData(hasMaisDetalhes && t.key === 'Orçamento' ? { _afterDetails: '1' } : {}); }}
+                        style={{
+                          ...styles.followUpBtn(followUp === t.key),
+                          ...(wasSent ? { background: 'rgba(74,130,87,0.08)', borderColor: 'rgba(74,130,87,0.3)' } : {}),
+                        }}
+                      >
+                        <span style={styles.followUpIcon}>{wasSent ? '✓' : t.icon}</span>
+                        <span style={{
+                          ...styles.followUpLabel,
+                          ...(wasSent ? { color: '#4A8257' } : {}),
+                        }}>{t.label}</span>
+                      </button>
+                    );
+                  });
+                })()}
               </div>
 
               {/* Follow-up form fields */}
@@ -970,29 +1231,6 @@ export default function StudioPage() {
                         />
                       </div>
                     )}
-                    {fields.includes('session_url') && (
-                      <div>
-                        <label style={styles.fieldLabel}>URL para marcar sessão</label>
-                        <input
-                          type="url"
-                          placeholder="https://calendly.com/..."
-                          value={formData.session_url || ''}
-                          onChange={e => setFormData({ ...formData, session_url: e.target.value })}
-                          style={styles.fieldInput}
-                        />
-                      </div>
-                    )}
-                    {fields.includes('session_date') && (
-                      <div>
-                        <label style={styles.fieldLabel}>Data da sessão</label>
-                        <input
-                          type="date"
-                          value={formData.session_date || ''}
-                          onChange={e => setFormData({ ...formData, session_date: e.target.value })}
-                          style={styles.fieldInput}
-                        />
-                      </div>
-                    )}
                     {fields.includes('duration') && (
                       <div>
                         <label style={styles.fieldLabel}>Duração estimada</label>
@@ -1028,9 +1266,4 @@ export default function StudioPage() {
       <div style={styles.toast(toast.show, toast.isError)}>{toast.message}</div>
     </div>
   );
-}
-
-// Cache buster — forces a fresh fetch
-function cache_bust() {
-  // No-op on client side, the API handles caching
 }
