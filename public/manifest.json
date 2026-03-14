@@ -1,0 +1,16 @@
+{
+  "name": "LUMI Studio",
+  "short_name": "LUMI",
+  "description": "Gestão de marcações — LUMI Atelier",
+  "start_url": "/studio",
+  "display": "standalone",
+  "background_color": "#1A0E06",
+  "theme_color": "#1A0E06",
+  "icons": [
+    {
+      "src": "/studio-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
