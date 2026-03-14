@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 
 const SHEET_URL = process.env.GOOGLE_SHEET_URL
-  || 'https://script.google.com/macros/s/AKfycbzaVVZtNYuneffJWyF7JxIgSKXqJmLh8Rnj5Gh4EGokeVTZTABSvrKnaA1r6ThaGwB5/exec';
+  || 'https://script.google.com/macros/s/AKfycbz9psqxbGmws9RbwbKrwgYfexPJ_0fSIii8q4uohrbsv19cyG65up3qLlMBdW5e2ZLD/exec';
 
 const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
 let cache: { data: unknown; timestamp: number } | null = null;
