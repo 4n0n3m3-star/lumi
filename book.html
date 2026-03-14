@@ -751,9 +751,9 @@
         <span class="artist-selector-label" data-i18n="artist-label">Escolhe a tua artista</span>
         <div class="artist-pills">
             <input type="radio" name="artist" id="artist-stephany" value="stephany-ribeiro" class="artist-radio" checked>
-            <label for="artist-stephany" class="artist-pill">Stephany Ribeiro</label>
+            <label for="artist-stephany" class="artist-pill" data-service="tattoo">Stephany Ribeiro</label>
             <input type="radio" name="artist" id="artist-joana" value="joana" class="artist-radio">
-            <label for="artist-joana" class="artist-pill">Joana</label>
+            <label for="artist-joana" class="artist-pill" data-service="piercing">Joana</label>
         </div>
     </div>
 
@@ -1264,7 +1264,12 @@
         formServiceInput.value = service;
         if (consentTattooCheck) consentTattooCheck.required = isTattoo;
         if (consentPiercingCheck) consentPiercingCheck.required = !isTattoo;
-        // Auto-select artist based on service
+        // Show/hide artists based on service and auto-select
+        document.querySelectorAll('.artist-pill').forEach(label => {
+            const show = !label.dataset.service || label.dataset.service === service;
+            label.style.display = show ? '' : 'none';
+            label.previousElementSibling.style.display = show ? '' : 'none';
+        });
         const artistRadio = document.getElementById(isTattoo ? 'artist-stephany' : 'artist-joana');
         if (artistRadio) { artistRadio.checked = true; formArtistInput.value = artistRadio.value; }
     }
