@@ -31,6 +31,8 @@
             --text:        #3F2F24;
             --text-light:  #806A58;
             --ink:         #1E1713;
+            --hero-title-size: 12.5vw;
+            --hero-title-spacing: 0.04em;
         }
 
         html { scroll-behavior: smooth; }
@@ -360,8 +362,8 @@
         }
         .hero-main-title {
             font-family: 'Tenor Sans', serif;
-            font-size: 12.5vw;
-            letter-spacing: 0.04em;
+            font-size: var(--hero-title-size);
+            letter-spacing: var(--hero-title-spacing);
             text-transform: uppercase;
             color: var(--text);
             line-height: 0.88;
@@ -1275,6 +1277,7 @@
 
         /* ─── RESPONSIVE ────────────────────────────── */
         @media (max-width: 900px) {
+            :root { --hero-title-size: calc((100vw - 64px) / 7.6); --hero-title-spacing: 0.03em; }
             nav { padding: 24px 32px; }
             nav.scrolled { padding: 16px 32px; }
             .nav-links { display: none; }
@@ -1306,6 +1309,7 @@
             .career-card { min-height: auto; padding: 48px 36px; }
         }
         @media (max-width: 600px) {
+            :root { --hero-title-size: calc((100vw - 48px) / 7.6); --hero-title-spacing: 0.03em; }
             nav { padding: 20px 24px; }
             nav.scrolled { padding: 14px 24px; }
             .hero-main-title { font-size: 18vw; letter-spacing: 0.02em; }
@@ -1856,8 +1860,9 @@
                             ((heroRect.left + heroRect.width / 2) - grownCenterX) + 'px, ' +
                             ((heroRect.top + heroRect.height / 2) - grownCenterY) + 'px)';
                     }
-                    lTitle.style.fontSize = '12.5vw';
-                    lTitle.style.letterSpacing = '0.04em';
+                    var styles = getComputedStyle(document.documentElement);
+                    lTitle.style.fontSize = styles.getPropertyValue('--hero-title-size').trim() || '12.5vw';
+                    lTitle.style.letterSpacing = styles.getPropertyValue('--hero-title-spacing').trim() || '0.04em';
                 }, 300);
                 setTimeout(function() {
                     loader.style.transition = 'opacity 1.4s cubic-bezier(0.25,0.1,0.25,1)';

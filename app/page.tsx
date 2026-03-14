@@ -152,12 +152,6 @@ export default function Home() {
             // Measure where the hero title will be
             const heroRect = heroTitleRef.current.getBoundingClientRect();
             const loaderRect = loaderEl.getBoundingClientRect();
-            // Calculate offset for the grown size (12.5vw)
-            const targetFontSize = window.innerWidth * 0.125;
-            const currentFontSize = window.innerWidth * 0.05;
-            const scaleRatio = targetFontSize / currentFontSize;
-            const grownWidth = loaderRect.width * scaleRatio;
-            const grownHeight = loaderRect.height * scaleRatio;
             const grownCenterX = loaderRect.left + loaderRect.width / 2;
             const grownCenterY = loaderRect.top + loaderRect.height / 2;
             setLoaderTitleTranslate({
@@ -187,8 +181,8 @@ export default function Home() {
       {!loaderDone && (
         <div id="loader" style={{ opacity: loaderOut ? 0 : 1, pointerEvents: loaderOut ? 'none' : undefined, transition: loaderOut ? 'opacity 1.4s cubic-bezier(0.25,0.1,0.25,1)' : undefined }}>
           <div id="loader-title" style={{
-            fontSize: loaderTitleBig ? '12.5vw' : undefined,
-            letterSpacing: loaderTitleBig ? '0.04em' : undefined,
+            fontSize: loaderTitleBig ? 'var(--hero-title-size)' : undefined,
+            letterSpacing: loaderTitleBig ? 'var(--hero-title-spacing)' : undefined,
             transform: `translate(${loaderTitleTranslate.x}px, ${loaderTitleTranslate.y}px)`,
           }}>LUMI ATELIER</div>
           <div id="loader-sub" className={loaderLabelsVisible ? '' : 'hidden'}>
