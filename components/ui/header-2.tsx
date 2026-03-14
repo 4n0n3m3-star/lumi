@@ -92,16 +92,13 @@ export function Header() {
 					{/* Mobile menu button */}
 					<button
 						onClick={() => setOpen(!open)}
-						className="md:hidden ml-auto"
+						className="md:hidden ml-auto flex items-center justify-center"
 						aria-label={open ? 'Close menu' : 'Open menu'}
 						style={{
 							background: 'transparent',
 							border: 'none',
 							cursor: 'pointer',
 							padding: 8,
-							display: 'flex',
-							alignItems: 'center',
-							justifyContent: 'center',
 						}}
 					>
 						<MenuToggleIcon open={open} />

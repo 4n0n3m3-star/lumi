@@ -217,7 +217,7 @@ export default function Home() {
           </div>
           <div className={`hero-bottom-right${heroRevealed ? ' revealed' : ''}`}>
             <p className="hero-right-desc">
-              Cada peça é criada exclusivamente para si e está disponível apenas mediante marcação. Preencha o formulário de admissão, descreva a sua visão e dedicaremos toda a atenção possível para concretizar a sua ideia.
+              A verdadeira arte não decora o corpo — revela-o. No Lumi Atelier, cada tatuagem e piercing é um gesto filosófico de luz: gravamos na pele as narrativas da alma como marcas eternas.
             </p>
             <a href="book" className="hero-cta">{t['hero-cta']} <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" style={{ display: 'inline-block', marginLeft: '6px', verticalAlign: 'middle' }}><path d="M3.5 8.5L8.5 3.5M8.5 3.5H4M8.5 3.5V8" /></svg></a>
           </div>
