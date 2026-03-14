@@ -17,7 +17,10 @@ export const metadata: Metadata = {
     images: [{ url: "https://lumiatelier.pt/media/DSCF4917.jpg" }],
   },
   twitter: { card: "summary_large_image" },
-  alternates: { canonical: "https://lumiatelier.pt" },
+  alternates: {
+    canonical: "https://lumiatelier.pt",
+    languages: { pt: "https://lumiatelier.pt", en: "https://lumiatelier.pt" },
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -30,6 +33,33 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link
           href="https://fonts.googleapis.com/css2?family=Tenor+Sans&family=Montserrat:wght@200;300;400;500&display=swap"
           rel="stylesheet"
+        />
+        <link rel="apple-touch-icon" href="/favicon.ico" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "TattooParlor",
+              name: "LUMI Atelier",
+              description: "Estúdio de tattoo fineline e piercing em Venda do Pinheiro, Portugal.",
+              url: "https://lumiatelier.pt",
+              logo: "https://lumiatelier.pt/favicon.ico",
+              image: "https://lumiatelier.pt/media/DSCF4917.jpg",
+              telephone: "+351932558951",
+              email: "studio@lumiatelier.pt",
+              address: { "@type": "PostalAddress", addressLocality: "Venda do Pinheiro", addressCountry: "PT" },
+              geo: { "@type": "GeoCoordinates", latitude: 38.8695, longitude: -9.2395 },
+              sameAs: ["https://www.instagram.com/lumi.atelier_/", "https://www.instagram.com/stephany.tattoo/"],
+              priceRange: "$$",
+              openingHoursSpecification: {
+                "@type": "OpeningHoursSpecification",
+                dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+                opens: "10:00",
+                closes: "19:00",
+              },
+            }),
+          }}
         />
       </head>
       <body>{children}</body>
