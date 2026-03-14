@@ -32,6 +32,7 @@ interface Booking {
   sessao_sent?: string;
   lembrete_sent?: string;
   aftercare_sent?: string;
+  healing_sent?: string;
 }
 
 interface FollowUpType {
@@ -49,7 +50,6 @@ const FOLLOWUP_TYPES: FollowUpType[] = [
   { key: 'deposito_confirmado', label: 'Depósito OK', icon: '✓', fields: ['eta'] },
   { key: 'estudo', label: 'Estudo', icon: '✏️', fields: ['sketch_url', 'duration'] },
   { key: 'reagendar', label: 'Reagendar', icon: '📅' },
-  { key: 'healing', label: 'Cicatrização', icon: '💚' },
 ];
 
 const SESSION_DURATIONS = [
@@ -927,13 +927,19 @@ export default function StudioPage() {
                 <div style={styles.cardMeta}>
                   {shortDate(b.date)} · {b.email}{b.phone && b.phone !== '—' ? ` · ${b.phone}` : ''}
                 </div>
-                {(lastSent || note) && (
+                {(lastSent || note || (b.healing_sent && b.healing_sent !== '—')) && (
                   <div style={{ display: 'flex', gap: '6px', marginTop: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
                     {lastSent && (
                       <span style={{
                         fontSize: '8px', fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase',
                         padding: '3px 8px', borderRadius: '999px', background: 'rgba(74,130,87,0.1)', color: '#4A8257',
                       }}>✓ {lastSent.label}</span>
+                    )}
+                    {b.healing_sent && b.healing_sent !== '—' && (
+                      <span style={{
+                        fontSize: '8px', fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase',
+                        padding: '3px 8px', borderRadius: '999px', background: 'rgba(74,130,87,0.1)', color: '#4A8257',
+                      }}>✓ Cicatrização</span>
                     )}
                     {note && (
                       <span style={{
@@ -1124,6 +1130,12 @@ export default function StudioPage() {
                     {(!selected.aftercare_sent || selected.aftercare_sent === '—') && (
                       <span style={{ fontSize: '8px', fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase', padding: '3px 8px', borderRadius: '999px', background: 'rgba(191,160,140,0.1)', color: '#BFA08C' }}>Aftercare agendado</span>
                     )}
+                    {selected.healing_sent && selected.healing_sent !== '—' && (
+                      <span style={{ fontSize: '8px', fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase', padding: '3px 8px', borderRadius: '999px', background: 'rgba(74,130,87,0.1)', color: '#4A8257' }}>✓ Cicatrização</span>
+                    )}
+                    {selected.aftercare_sent && selected.aftercare_sent !== '—' && (!selected.healing_sent || selected.healing_sent === '—') && (
+                      <span style={{ fontSize: '8px', fontWeight: 500, letterSpacing: '0.12em', textTransform: 'uppercase', padding: '3px 8px', borderRadius: '999px', background: 'rgba(191,160,140,0.1)', color: '#BFA08C' }}>Cicatrização agendada</span>
+                    )}
                   </div>
                 </div>
               )}
@@ -1144,8 +1156,8 @@ export default function StudioPage() {
 
                   let visible = FOLLOWUP_TYPES;
                   if (hasEstudo) {
-                    // After estudo, only reagendar and healing make sense
-                    visible = FOLLOWUP_TYPES.filter(t => ['reagendar', 'healing'].includes(t.key));
+                    // After estudo, only reagendar makes sense
+                    visible = FOLLOWUP_TYPES.filter(t => t.key === 'reagendar');
                   } else if (hasDepositoOk) {
                     visible = FOLLOWUP_TYPES.filter(t => t.key === 'estudo');
                   } else if (hasOrcamento) {

@@ -3,8 +3,8 @@
 // Then deploy as Web App (Execute as: Me, Access: Anyone)
 //
 // Create 2 sheets (tabs) in the spreadsheet:
-//   1. "Tatuagem" — with headers: Date | Artist | Name | Email | Phone | City | Idea | Zone | Size | First Tattoo | Schedule | Health | Notes | References | Consent | Marketing | Lang | Session Date | Session Duration | Booking UID | Sessao Sent | Lembrete Sent | Aftercare Sent
-//   2. "Piercing" — with headers: Date | Artist | Name | Email | Phone | City | Type | Location | First Piercing | Jewelry | Schedule | Health | Notes | Consent | Marketing | Lang | Session Date | Session Duration | Booking UID | Sessao Sent | Lembrete Sent | Aftercare Sent
+//   1. "Tatuagem" — with headers: Date | Artist | Name | Email | Phone | City | Idea | Zone | Size | First Tattoo | Schedule | Health | Notes | References | Consent | Marketing | Lang | Session Date | Session Duration | Booking UID | Sessao Sent | Lembrete Sent | Aftercare Sent | Healing Sent
+//   2. "Piercing" — with headers: Date | Artist | Name | Email | Phone | City | Type | Location | First Piercing | Jewelry | Schedule | Health | Notes | Consent | Marketing | Lang | Session Date | Session Duration | Booking UID | Sessao Sent | Lembrete Sent | Aftercare Sent | Healing Sent
 
 // ─── READ bookings (GET) ─────────────────────────────
 function doGet(e) {
@@ -16,7 +16,7 @@ function doGet(e) {
     // Read tattoo bookings
     var tattooSheet = ss.getSheetByName('Tatuagem') || ss.getSheetByName('Tattoo');
     if (tattooSheet && tattooSheet.getLastRow() > 1) {
-      var tattooHeaders = ['date','artist','name','email','phone','city','idea','zone','size','first_tattoo','schedule','health','notes','references','consent','marketing','lang','session_date','session_duration','booking_uid','sessao_sent','lembrete_sent','aftercare_sent'];
+      var tattooHeaders = ['date','artist','name','email','phone','city','idea','zone','size','first_tattoo','schedule','health','notes','references','consent','marketing','lang','session_date','session_duration','booking_uid','sessao_sent','lembrete_sent','aftercare_sent','healing_sent'];
       var lastRow = tattooSheet.getLastRow();
       var startRow = Math.max(2, lastRow - limit + 1);
       var numCols = Math.min(tattooHeaders.length, tattooSheet.getLastColumn());
@@ -36,7 +36,7 @@ function doGet(e) {
     // Read piercing bookings
     var piercingSheet = ss.getSheetByName('Piercing');
     if (piercingSheet && piercingSheet.getLastRow() > 1) {
-      var piercingHeaders = ['date','artist','name','email','phone','city','piercing_type','piercing_location','first_piercing','jewelry_material','schedule','health','notes','consent','marketing','lang','session_date','session_duration','booking_uid','sessao_sent','lembrete_sent','aftercare_sent'];
+      var piercingHeaders = ['date','artist','name','email','phone','city','piercing_type','piercing_location','first_piercing','jewelry_material','schedule','health','notes','consent','marketing','lang','session_date','session_duration','booking_uid','sessao_sent','lembrete_sent','aftercare_sent','healing_sent'];
       var lastRowP = piercingSheet.getLastRow();
       var startRowP = Math.max(2, lastRowP - limit + 1);
       var numColsP = Math.min(piercingHeaders.length, piercingSheet.getLastColumn());
@@ -194,9 +194,14 @@ function getPendingEmails(ss) {
 
   var pending = [];
 
+  // 6 days ago
+  var sixDaysAgo = new Date(lisbon);
+  sixDaysAgo.setDate(sixDaysAgo.getDate() - 6);
+  var sixDaysAgoStr = Utilities.formatDate(sixDaysAgo, 'Europe/Lisbon', 'yyyy-MM-dd');
+
   var sheets = [
-    { sheet: ss.getSheetByName('Tatuagem') || ss.getSheetByName('Tattoo'), emailCol: 4, nameCol: 3, langCol: 17, artistCol: 2, sessionCol: 18, durationCol: 19, lembreteCol: 22, aftercareCol: 23 },
-    { sheet: ss.getSheetByName('Piercing'), emailCol: 4, nameCol: 3, langCol: 16, artistCol: 2, sessionCol: 17, durationCol: 18, lembreteCol: 21, aftercareCol: 22 },
+    { sheet: ss.getSheetByName('Tatuagem') || ss.getSheetByName('Tattoo'), emailCol: 4, nameCol: 3, langCol: 17, artistCol: 2, sessionCol: 18, durationCol: 19, lembreteCol: 22, aftercareCol: 23, healingCol: 24 },
+    { sheet: ss.getSheetByName('Piercing'), emailCol: 4, nameCol: 3, langCol: 16, artistCol: 2, sessionCol: 17, durationCol: 18, lembreteCol: 21, aftercareCol: 22, healingCol: 23 },
   ];
 
   for (var s = 0; s < sheets.length; s++) {
@@ -206,7 +211,7 @@ function getPendingEmails(ss) {
     if (lastRow < 2) continue;
 
     // Ensure columns exist
-    while (cfg.sheet.getLastColumn() < cfg.aftercareCol) {
+    while (cfg.sheet.getLastColumn() < cfg.healingCol) {
       cfg.sheet.insertColumnAfter(cfg.sheet.getLastColumn());
     }
 
@@ -219,6 +224,7 @@ function getPendingEmails(ss) {
     var artists = cfg.sheet.getRange(2, cfg.artistCol, numRows, 1).getValues();
     var lembreteSent = cfg.sheet.getRange(2, cfg.lembreteCol, numRows, 1).getValues();
     var aftercareSent = cfg.sheet.getRange(2, cfg.aftercareCol, numRows, 1).getValues();
+    var healingSent = cfg.sheet.getRange(2, cfg.healingCol, numRows, 1).getValues();
 
     for (var i = 0; i < numRows; i++) {
       var sessionRaw = String(sessionDates[i][0] || '').trim();
@@ -254,6 +260,27 @@ function getPendingEmails(ss) {
           artist: String(artists[i][0] || 'stephany-ribeiro'),
           aftercare_col: cfg.aftercareCol,
         });
+      }
+
+      // Healing check-in: 6 days after aftercare was sent, not yet sent
+      var aftercareTs = String(aftercareSent[i][0] || '').trim();
+      if (aftercareTs && !healingSent[i][0]) {
+        var aftercareDate = new Date(aftercareTs);
+        if (!isNaN(aftercareDate.getTime())) {
+          var aftercareDay = Utilities.formatDate(aftercareDate, 'Europe/Lisbon', 'yyyy-MM-dd');
+          if (aftercareDay <= sixDaysAgoStr) {
+            pending.push({
+              type: 'healing',
+              row_num: i + 2,
+              sheet_name: cfg.sheet.getName(),
+              name: String(names[i][0]),
+              email: String(emails[i][0]),
+              lang: String(langs[i][0] || 'pt'),
+              artist: String(artists[i][0] || 'stephany-ribeiro'),
+              healing_col: cfg.healingCol,
+            });
+          }
+        }
       }
     }
   }

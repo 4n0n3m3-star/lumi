@@ -57,6 +57,10 @@ export async function GET(req: Request) {
         subject = isPt ? `✨ Cuidados pós-tatuagem — ${a.name}` : `✨ Aftercare guide — ${a.name}`;
         html = buildAftercareEmail({ isPt, name: item.name, a });
         markCol = item.aftercare_col;
+      } else if (item.type === 'healing') {
+        subject = isPt ? `✨ Como está a cicatrizar? — ${a.name}` : `✨ How is it healing? — ${a.name}`;
+        html = buildHealingCheckEmail({ isPt, name: item.name, a });
+        markCol = item.healing_col;
       } else {
         continue;
       }
@@ -236,5 +240,23 @@ function buildAftercareEmail({ isPt, name, a }: { isPt: boolean; name: string; a
             </a>
           </td></tr>
         </table>
+    `, a);
+}
+
+function buildHealingCheckEmail({ isPt, name, a }: { isPt: boolean; name: string; a: ArtistInfo }) {
+  const para1 = isPt
+    ? 'Já passou uma semana desde a tua sessão e queria saber como está a correr a cicatrização! Espero que esteja tudo bem.'
+    : "It's been a week since your session and I wanted to check in on how the healing is going! I hope everything is looking great.";
+  const para2 = isPt
+    ? `Se puderes, adorava ver como está a ficar! Envia-me uma fotinha por aqui, pelo <a href="${a.instagram}" style="color:#A77049;text-decoration:underline;">Instagram</a> ou pelo <a href="https://wa.me/351932558951" style="color:#A77049;text-decoration:underline;">WhatsApp</a> — fico sempre curiosa para ver o resultado final.`
+    : `If you can, I'd love to see how it's looking! Send me a photo here, on <a href="${a.instagram}" style="color:#A77049;text-decoration:underline;">Instagram</a>, or on <a href="https://wa.me/351932558951" style="color:#A77049;text-decoration:underline;">WhatsApp</a> — I'm always curious to see the final result.`;
+  const para3 = isPt
+    ? 'Lembra-te: se notares algo fora do normal durante a cicatrização, não hesites em contactar-me. Estou sempre aqui para ajudar!'
+    : "Remember: if you notice anything unusual during the healing process, don't hesitate to reach out. I'm always here to help!";
+
+  return buildEmail(isPt, name, `
+        <p style="margin:0 0 24px;font-size:14px;color:#1E1713;line-height:1.8;font-weight:300;">${para1}</p>
+        <p style="margin:0 0 24px;font-size:14px;color:#806A58;line-height:1.8;font-weight:300;">${para2}</p>
+        <p style="margin:0 0 48px;font-size:14px;color:#806A58;line-height:1.8;font-weight:300;">${para3}</p>
     `, a);
 }
