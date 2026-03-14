@@ -145,75 +145,54 @@
 
         .nav-menu-btn {
             display: none; background: none; border: none; cursor: pointer;
-            font-family: 'Montserrat', sans-serif; font-size: 0.62rem;
-            font-weight: 400; letter-spacing: 0.28em; text-transform: uppercase;
-            color: var(--text-light); padding: 0; transition: color 0.3s ease;
+            padding: 8px; position: relative; width: 36px; height: 36px;
         }
-        .nav-menu-btn:hover { color: var(--text); }
-
-        /* ─── MOBILE MENU ────────────────────────────── */
-        .mobile-menu {
-            position: fixed; inset: 0; z-index: 101;
-            background: var(--ink);
-            display: flex; flex-direction: column;
-            padding: 24px 36px 44px;
-            transform: translateY(-100%);
-            transition: transform 0.55s cubic-bezier(0.76, 0, 0.24, 1);
-            pointer-events: none;
+        .nav-menu-btn .hamburger-line {
+            display: block; position: absolute; right: 8px; height: 1.5px;
+            border-radius: 2px; background: var(--taupe);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .mobile-menu.open { transform: translateY(0); pointer-events: all; }
-        .mobile-menu-top {
-            display: flex; align-items: center; justify-content: space-between;
-            margin-bottom: auto;
+        .nav-menu-btn .hamburger-line:nth-child(1) { top: 13px; width: 18px; }
+        .nav-menu-btn .hamburger-line:nth-child(2) { top: 20px; width: 12px; }
+        .nav-menu-btn.open .hamburger-line:nth-child(1) { transform: translateY(3.5px) rotate(45deg); width: 18px; }
+        .nav-menu-btn.open .hamburger-line:nth-child(2) { transform: translateY(-3.5px) rotate(-45deg); width: 18px; }
+        .mobile-menu-dropdown {
+            position: fixed; top: 56px; right: 16px; left: 16px; z-index: 101; pointer-events: none;
         }
-        .mobile-menu-brand {
-            font-family: 'Tenor Sans', serif; font-size: 0.95rem;
-            letter-spacing: 0.22em; text-transform: uppercase;
-            color: var(--cream); text-decoration: none;
+        .mobile-menu-dropdown.open { pointer-events: auto; }
+        .mobile-menu-panel {
+            background: rgba(250, 247, 241, 0.85); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+            border-radius: 16px; border: 1px solid rgba(191, 160, 140, 0.2);
+            box-shadow: 0 8px 40px rgba(63, 47, 36, 0.1), 0 2px 8px rgba(63, 47, 36, 0.04);
+            padding: 28px 32px; opacity: 0; transform: translateY(-12px) scale(0.97);
+            transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        .mobile-menu-close {
-            font-size: 0.62rem; letter-spacing: 0.28em; text-transform: uppercase;
-            color: rgba(239, 217, 204, 0.4); background: none; border: none;
-            cursor: pointer; font-family: 'Montserrat', sans-serif;
-            font-weight: 400; padding: 0; transition: color 0.3s ease;
+        .mobile-menu-dropdown.open .mobile-menu-panel { opacity: 1; transform: translateY(0) scale(1); }
+        .mobile-menu-panel a {
+            display: block; padding: 10px 0; font-family: 'Montserrat', sans-serif;
+            font-size: 0.7rem; font-weight: 500; letter-spacing: 0.2em;
+            text-transform: uppercase; color: var(--taupe); text-decoration: none; transition: color 0.25s ease;
         }
-        .mobile-menu-close:hover { color: var(--cream); }
-        .mobile-menu-links {
-            list-style: none; padding: 0; margin: auto 0;
+        .mobile-menu-panel a:hover { color: var(--text); }
+        .mobile-menu-panel a.accent { color: var(--warm-brown); }
+        .mobile-menu-panel .menu-footer {
+            margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(191, 160, 140, 0.15); display: flex; gap: 24px;
         }
-        .mobile-menu-links li { overflow: hidden; }
-        .mobile-menu-links a {
-            display: block; font-family: 'Tenor Sans', serif;
-            font-size: clamp(2.2rem, 10vw, 3.8rem);
-            letter-spacing: 0.1em; text-transform: uppercase;
-            color: var(--cream); text-decoration: none;
-            transition: color 0.25s ease; line-height: 1.25;
+        .mobile-menu-panel .menu-footer a { padding: 0; font-size: 0.55rem; letter-spacing: 0.12em; color: var(--rose-taupe); }
+        .mobile-backdrop {
+            position: fixed; inset: 0; z-index: 100; background: rgba(30, 23, 19, 0.1);
+            backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px);
+            opacity: 0; pointer-events: none; transition: opacity 0.35s ease;
         }
-        .mobile-menu-links a:hover { color: var(--warm-brown); }
-        .mobile-menu-bottom {
-            border-top: 1px solid rgba(250, 247, 241, 0.07);
-            padding-top: 28px;
-            display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px;
-        }
-        .mobile-menu-bottom-col span {
-            display: block; font-size: 0.52rem; letter-spacing: 0.32em;
-            text-transform: uppercase; color: rgba(191, 160, 140, 0.55); margin-bottom: 10px;
-        }
-        .mobile-menu-bottom-col a {
-            display: block; font-size: 0.72rem; letter-spacing: 0.05em;
-            color: rgba(239, 217, 204, 0.45); text-decoration: none;
-            transition: color 0.25s ease;
-        }
-        .mobile-menu-bottom-col a:hover { color: var(--cream); }
+        .mobile-backdrop.open { opacity: 1; pointer-events: auto; }
         .lang-toggle--mobile { display: flex; align-items: center; gap: 8px; }
         .lang-toggle--mobile .lang-btn {
-            color: rgba(239, 217, 204, 0.3); font-size: 0.7rem; letter-spacing: 0.28em;
-            background: none; border: none; cursor: pointer;
-            font-family: 'Montserrat', sans-serif; font-weight: 400;
-            text-transform: uppercase; transition: color 0.3s ease; padding: 0;
+            color: var(--rose-taupe); font-size: 0.55rem; letter-spacing: 0.12em;
+            background: none; border: none; cursor: pointer; font-family: 'Montserrat', sans-serif;
+            font-weight: 400; text-transform: uppercase; padding: 0; opacity: 0.5; transition: opacity 0.3s ease;
         }
-        .lang-toggle--mobile .lang-btn.active { color: rgba(239, 217, 204, 0.8); }
-        .lang-toggle--mobile .lang-sep { color: rgba(239, 217, 204, 0.15); font-size: 0.5rem; }
+        .lang-toggle--mobile .lang-btn.active { opacity: 1; }
+        .lang-toggle--mobile .lang-sep { color: rgba(191, 160, 140, 0.3); font-size: 0.45rem; }
 
         /* ─── PAGE ───────────────────────────────────── */
         .page {
@@ -662,7 +641,7 @@
         .footer-personal:hover { color: rgba(191,160,140,0.75); }
 
         /* ─── RESPONSIVE ──────────────────────────────── */
-        @media (max-width: 900px) {
+        @media (max-width: 767px) {
             .lumi-header { border-radius: 0; }
             .lumi-header.scrolled { top: 0; max-width: 100%; border-radius: 0; }
             .lumi-header-left, .lumi-header-right .nav-roll { display: none; }
@@ -698,29 +677,16 @@
 </head>
 <body>
 
-<!-- ─── MOBILE MENU ──────────────────────────────────── -->
-<div class="mobile-menu" id="mobileMenu" aria-hidden="true">
-    <div class="mobile-menu-top">
-        <a href="/" class="mobile-menu-brand" onclick="closeMenu()">Lumi Atelier</a>
-        <button class="mobile-menu-close" onclick="closeMenu()" data-i18n="nav-close">Fechar</button>
-    </div>
-    <ul class="mobile-menu-links">
-        <li><a href="/#services" onclick="closeMenu()" data-i18n="nav-services">Serviços</a></li>
-        <li><a href="/#art" onclick="closeMenu()" data-i18n="nav-art">Arte</a></li>
-        <li><a href="book" style="color:var(--warm-brown);" data-i18n="nav-book">Reservar</a></li>
-        <li><a href="artists" onclick="closeMenu()" data-i18n="nav-artists">Artistas</a></li>
-    </ul>
-    <div class="mobile-menu-bottom">
-        <div class="mobile-menu-bottom-col">
-            <span>Social</span>
+<!-- ─── MOBILE MENU (glass blur dropdown) ────────────── -->
+<div class="mobile-menu-dropdown" id="mobileMenu">
+    <div class="mobile-menu-panel">
+        <a href="/#services" onclick="closeMenu()" data-i18n="nav-services">Serviços</a>
+        <a href="/#art" onclick="closeMenu()" data-i18n="nav-art">Arte</a>
+        <a href="book" class="accent" data-i18n="nav-book">Reservar</a>
+        <a href="artists" onclick="closeMenu()" data-i18n="nav-artists">Artistas</a>
+        <div class="menu-footer">
             <a href="https://instagram.com/lumi.atelier_" target="_blank">@lumi.atelier_</a>
-        </div>
-        <div class="mobile-menu-bottom-col">
-            <span>Contacto</span>
             <a href="mailto:studio@lumiatelier.pt">studio@lumiatelier.pt</a>
-        </div>
-        <div class="mobile-menu-bottom-col">
-            <span>Idioma</span>
             <div class="lang-toggle--mobile">
                 <button class="lang-btn active" data-lang="pt" onclick="setLang('pt')">PT</button>
                 <span class="lang-sep">|</span>
@@ -729,6 +695,7 @@
         </div>
     </div>
 </div>
+<div class="mobile-backdrop" id="mobileBackdrop" onclick="closeMenu()"></div>
 
 <!-- ─── PILL HEADER ─────────────────────────────────── -->
 <header class="lumi-header" id="lumiHeader">
@@ -745,7 +712,7 @@
         <div class="lumi-header-right">
             <a class="nav-roll nav-roll--accent" href="book" data-i18n="nav-book"><span data-text="Reservar">Reservar</span></a>
             <a class="nav-roll" href="artists" data-i18n="nav-artists"><span data-text="Artistas">Artistas</span></a>
-            <button class="nav-menu-btn" id="menuBtn" aria-label="Menu" onclick="toggleMenu()" data-i18n="nav-menu">Menu</button>
+            <button class="nav-menu-btn" id="menuBtn" aria-label="Menu" onclick="toggleMenu()"><span class="hamburger-line"></span><span class="hamburger-line"></span></button>
         </div>
     </nav>
 </header>
@@ -1256,16 +1223,19 @@
 
     // ─── MOBILE MENU ────────────────────────────────
     const mobileMenu = document.getElementById('mobileMenu');
+    const mobileBackdrop = document.getElementById('mobileBackdrop');
+    const menuBtn = document.getElementById('menuBtn');
     function toggleMenu() {
-        const open = mobileMenu.classList.toggle('open');
-        mobileMenu.setAttribute('aria-hidden', open ? 'false' : 'true');
-        document.body.style.overflow = open ? 'hidden' : '';
+        const isOpen = mobileMenu.classList.toggle('open');
+        mobileBackdrop.classList.toggle('open', isOpen);
+        menuBtn.classList.toggle('open', isOpen);
     }
     function closeMenu() {
         mobileMenu.classList.remove('open');
-        mobileMenu.setAttribute('aria-hidden', 'true');
-        document.body.style.overflow = '';
+        mobileBackdrop.classList.remove('open');
+        menuBtn.classList.remove('open');
     }
+    document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeMenu(); });
 
     // ─── SERVICE SWITCHING ─────────────────────────────
     const tattooFields = document.getElementById('tattoo-fields');
