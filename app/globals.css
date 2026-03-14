@@ -1128,8 +1128,8 @@ footer {
     .hero-scroll { right: 32px; }
     .art-grid { grid-template-columns: 1fr 1fr; }
     :root { --hero-title-size: calc((100vw - 64px) / 7.6); --hero-title-spacing: 0.03em; }
-    .hero-title-section { padding-top: 48px; padding-bottom: 12px; }
-    .hero-bottom { display: flex; flex-direction: column; align-items: stretch; padding: 0 32px 48px; gap: 20px; min-height: unset; }
+    .hero-title-section { padding-top: 24px; padding-bottom: 8px; }
+    .hero-bottom { display: flex; flex-direction: column; align-items: stretch; padding: 0 32px 32px; gap: 16px; min-height: unset; }
     .hero-bottom-images { order: 1; align-self: stretch; width: 100%; }
     .hero-bottom-image { width: 100%; flex: 1; }
     .hero-bottom-image img { aspect-ratio: 3/4; }
@@ -1155,7 +1155,7 @@ footer {
     .footer-bottom { padding: 20px 24px; flex-direction: column; gap: 12px; text-align: center; }
     .hero-scroll { display: none; }
     :root { --hero-title-size: calc((100vw - 48px) / 7.6); --hero-title-spacing: 0.03em; }
-    .hero-title-section { padding-top: 40px; padding-bottom: 10px; }
+    .hero-title-section { padding-top: 16px; padding-bottom: 6px; }
     .hero-bottom { padding: 0 24px 40px; gap: 16px; }
     .hero-bottom-image { width: 100%; flex: 1; }
     .hero-left-line { font-size: clamp(0.9rem, 4.5vw, 1.4rem); }
