@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import ZoomParallaxSection from '@/components/zoom-parallax-section';
+import { ImageAutoSlider } from '@/components/ui/image-auto-slider';
 import { VelocityScroll } from '@/components/ui/scroll-based-velocity';
 import { GoogleReviews } from '@/components/ui/google-reviews';
 import { Header } from '@/components/ui/header-2';
@@ -143,32 +143,38 @@ export default function Home() {
       setLoaderPct(Math.round(p * 100));
       if (t >= 1) {
         clearInterval(timer);
-        // Gently fade out percent
+        // Fade out percent
         setLoaderLabelsVisible(false);
-        // Slowly grow title after a breath
-        setTimeout(() => setLoaderTitleBig(true), 300);
-        // After title has settled, measure hero and glide there
+        // Measure hero position, then grow + translate simultaneously
         setTimeout(() => {
-          requestAnimationFrame(() => {
-            const loaderEl = document.getElementById('loader-title');
-            if (heroTitleRef.current && loaderEl) {
-              const heroRect = heroTitleRef.current.getBoundingClientRect();
-              const loaderRect = loaderEl.getBoundingClientRect();
-              setLoaderTitleTranslate({
-                x: (heroRect.left + heroRect.width / 2) - (loaderRect.left + loaderRect.width / 2),
-                y: (heroRect.top + heroRect.height / 2) - (loaderRect.top + loaderRect.height / 2),
-              });
-            }
-          });
-        }, 1200);
-        // Fade loader + reveal hero title after translate settles
-        setTimeout(() => { setLoaderOut(true); setHeroTitleReady(true); }, 2000);
+          const loaderEl = document.getElementById('loader-title');
+          if (heroTitleRef.current && loaderEl) {
+            // Measure where the hero title will be
+            const heroRect = heroTitleRef.current.getBoundingClientRect();
+            const loaderRect = loaderEl.getBoundingClientRect();
+            // Calculate offset for the grown size (12.5vw)
+            const targetFontSize = window.innerWidth * 0.125;
+            const currentFontSize = window.innerWidth * 0.05;
+            const scaleRatio = targetFontSize / currentFontSize;
+            const grownWidth = loaderRect.width * scaleRatio;
+            const grownHeight = loaderRect.height * scaleRatio;
+            const grownCenterX = loaderRect.left + loaderRect.width / 2;
+            const grownCenterY = loaderRect.top + loaderRect.height / 2;
+            setLoaderTitleTranslate({
+              x: (heroRect.left + heroRect.width / 2) - grownCenterX,
+              y: (heroRect.top + heroRect.height / 2) - grownCenterY,
+            });
+          }
+          setLoaderTitleBig(true);
+        }, 300);
+        // Fade loader + reveal hero title
+        setTimeout(() => { setLoaderOut(true); setHeroTitleReady(true); }, 1800);
         // Reveal rest of hero after loader is gone
         setTimeout(() => {
           document.body.style.overflow = '';
           setLoaderDone(true);
           setHeroRevealed(true);
-        }, 3000);
+        }, 2800);
       }
     }, INTERVAL);
 
@@ -206,7 +212,6 @@ export default function Home() {
           <div className={`hero-bottom-left${heroRevealed ? ' revealed' : ''}`}>
             <span className="hero-left-line"><span className="hero-roll" data-text="Creative Studio">Creative Studio</span></span>
             <span className="hero-left-line"><span className="hero-roll" data-text="Arte Permanente">Arte Permanente</span></span>
-            <span className="hero-left-line italic"><span className="hero-roll" data-text="Criado com intenção.">Criado com intenção.</span></span>
           </div>
           <div className={`hero-bottom-images${heroRevealed ? ' revealed' : ''}`}>
             <div className="hero-bottom-image">
@@ -292,8 +297,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ─── ZOOM PARALLAX ────────────────────────────── */}
-      <ZoomParallaxSection />
+      {/* ─── IMAGE SLIDER ─────────────────────────────── */}
+      <ImageAutoSlider />
 
       {/* ─── ART MARQUEE ────────────────────────────────── */}
       <div className="velocity-scroll-section" style={{ position: 'relative', width: '100%' }}>
@@ -383,8 +388,8 @@ export default function Home() {
           <h2 className="footer-hero-title">LUMI ATELIER</h2>
         </div>
         <div className="footer-bottom">
-          <p className="footer-copy">© 2026 LUMI Atelier. Todos os direitos reservados.</p>
-          <a href="https://stephanytattoo.com" className="footer-personal-link" target="_blank" rel="noopener noreferrer">Portfólio da Stephany →</a>
+          <p className="footer-copy">{t['footer-copy']}</p>
+          <a href="https://stephanytattoo.com" className="footer-personal-link" target="_blank" rel="noopener noreferrer">{t['footer-personal']}</a>
         </div>
       </footer>
     </>

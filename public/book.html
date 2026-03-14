@@ -614,37 +614,13 @@
         .contact-link:hover { text-decoration-color: var(--warm-brown); }
 
         /* ─── FOOTER ─────────────────────────────────── */
-        footer {
-            background: #100e0c;
-            padding: 56px 72px 48px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
-            border-top: 1px solid rgba(44, 26, 14, 0.5);
-        }
-        .footer-logo {
-            font-family: 'Tenor Sans', serif;
-            font-size: 1rem;
-            letter-spacing: 0.24em;
-            text-transform: uppercase;
-            color: rgba(239, 217, 204, 0.5);
-            text-decoration: none;
-        }
-        .footer-rule { width: 36px; height: 1px; background: rgba(208, 184, 172, 0.15); }
-        .footer-copy {
-            font-size: 0.65rem;
-            letter-spacing: 0.12em;
-            color: rgba(239, 217, 204, 0.2);
-        }
-        .footer-personal {
-            font-size: 0.65rem;
-            letter-spacing: 0.1em;
-            color: rgba(191, 160, 140, 0.5);
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-        .footer-personal:hover { color: rgba(191, 160, 140, 0.85); }
+        footer { background: #1E1713; padding: 0; }
+        .footer-hero { display: flex; align-items: center; justify-content: center; padding: 120px 72px; overflow: hidden; }
+        .footer-hero-title { font-family: 'Tenor Sans', serif; font-size: 12.5vw; letter-spacing: 0.04em; text-transform: uppercase; color: #FAF7F1; line-height: 0.88; white-space: nowrap; text-align: center; }
+        .footer-bottom { display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(250,247,241,0.06); padding: 32px 72px; }
+        .footer-copy { font-size: 0.55rem; letter-spacing: 0.12em; color: rgba(250,247,241,0.15); }
+        .footer-personal { font-size: 0.55rem; letter-spacing: 0.12em; color: rgba(191,160,140,0.35); text-decoration: none; transition: color 0.3s ease; }
+        .footer-personal:hover { color: rgba(191,160,140,0.75); }
 
         /* ─── RESPONSIVE ──────────────────────────────── */
         @media (max-width: 900px) {
@@ -654,7 +630,8 @@
             .nav-menu-btn { display: block; }
             .page { padding: 120px 32px 80px; }
             .contact-section { padding: 80px 32px; }
-            footer { padding: 48px 32px 40px; }
+            .footer-hero { padding: 80px 32px; }
+            .footer-bottom { padding: 24px 32px; }
             .form-warm-wrap::before { left: -40px; right: -40px; border-radius: 24px 24px 0 0; }
         }
         @media (max-width: 600px) {
@@ -666,7 +643,8 @@
             .contact-link { font-size: clamp(0.9rem, 4vw, 1.2rem); word-break: break-all; }
             .service-pills { flex-direction: column; }
             .service-pill { text-align: center; }
-            footer { padding: 40px 24px 36px; }
+            .footer-hero { padding: 64px 24px; }
+            .footer-bottom { padding: 20px 24px; flex-direction: column; gap: 12px; text-align: center; }
             .form-warm-wrap::before { left: -28px; right: -28px; border-radius: 18px 18px 0 0; }
         }
     </style>
@@ -1042,10 +1020,13 @@
 
 <!-- ─── FOOTER ────────────────────────────────────────── -->
 <footer>
-    <a href="index.html" class="footer-logo">Lumi Atelier</a>
-    <div class="footer-rule"></div>
-    <p class="footer-copy" data-i18n="footer-copy">&copy; 2025 LUMI Atelier. Todos os direitos reservados.</p>
-    <a href="https://stephanytattoo.com" class="footer-personal" target="_blank" data-i18n="footer-personal">Visitar o Portfólio da Stephany →</a>
+    <div class="footer-hero">
+        <h2 class="footer-hero-title">LUMI ATELIER</h2>
+    </div>
+    <div class="footer-bottom">
+        <p class="footer-copy" data-i18n="footer-copy">&copy; 2025 LUMI Atelier. Todos os direitos reservados.</p>
+        <a href="https://stephanytattoo.com" class="footer-personal" target="_blank" data-i18n="footer-personal">Portfólio da Stephany →</a>
+    </div>
 </footer>
 
 <script>

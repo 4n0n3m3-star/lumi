@@ -54,7 +54,7 @@ export function Header() {
 				</div>
 
 				{/* Center icon */}
-				<a href="#home" className="lumi-header-star">
+				<a href="/" className="lumi-header-star">
 					<svg viewBox="0 0 100 100" fill="currentColor" xmlns="http://www.w3.org/2000/svg" style={{ width: 16, height: 16, color: 'var(--warm-brown)' }}>
 						<path d="M50 2 Q57 43 98 50 Q57 57 50 98 Q43 57 2 50 Q43 43 50 2 Z" />
 					</svg>

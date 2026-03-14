@@ -57,6 +57,7 @@
             background-size: 128px 128px;
         }
 
+
         /* ─── NAV ─────────────────────────────────────── */
         nav {
             position: fixed;
@@ -287,48 +288,57 @@
             z-index: 1000;
             background: var(--cream-light);
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             overflow: hidden;
         }
         #loader-title {
             font-family: 'Tenor Sans', serif;
-            font-size: 4.5vw;
+            font-size: 5vw;
             letter-spacing: 0.22em;
             text-transform: uppercase;
             color: var(--text);
             white-space: nowrap;
             position: relative;
             z-index: 2;
-            will-change: font-size, letter-spacing;
+            will-change: font-size, letter-spacing, transform;
+            line-height: 0.88;
+            transition: font-size 1.6s cubic-bezier(0.25,0.1,0.25,1),
+                        letter-spacing 1.6s cubic-bezier(0.25,0.1,0.25,1),
+                        transform 1.2s cubic-bezier(0.25,0.1,0.25,1);
         }
-        #loader-left, #loader-right {
+        #loader-sub {
             position: absolute;
-            top: 50%;
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 300;
-            font-style: italic;
-            font-size: 0.78rem;
-            letter-spacing: 0.08em;
-            color: var(--text-light);
-            white-space: nowrap;
-            will-change: transform, opacity;
-        }
-        #loader-left  { right: calc(50% + 20vw); transform: translateY(-50%); }
-        #loader-right { left:  calc(50% + 20vw); transform: translateY(-50%); }
-        #loader-percent {
-            position: absolute;
-            top: calc(50% + 38px);
+            top: calc(50% + 3vw);
             left: 50%;
             transform: translateX(-50%);
             font-family: 'Montserrat', sans-serif;
             font-weight: 300;
             font-style: italic;
             font-size: 0.72rem;
-            letter-spacing: 0.08em;
+            letter-spacing: 0.14em;
             color: var(--text-light);
-            white-space: nowrap;
-            will-change: opacity;
+            opacity: 1;
+            transition: opacity 1s cubic-bezier(0.25,0.1,0.25,1);
+            font-variant-numeric: tabular-nums;
+            min-width: 3.5em;
+            text-align: center;
+        }
+        #loader-sub.hidden { opacity: 0; }
+        #loader-bar-wrap {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: rgba(63,47,36,0.12);
+        }
+        #loader-bar {
+            height: 1px;
+            background: var(--text);
+            width: 0%;
+            transition: width 0.06s linear;
         }
 
         /* ─── HERO ────────────────────────────────────── */
@@ -346,7 +356,7 @@
             align-items: flex-end;
             justify-content: center;
             padding-top: 100px;
-            padding-bottom: 0;
+            padding-bottom: 56px;
         }
         .hero-main-title {
             font-family: 'Tenor Sans', serif;
@@ -365,7 +375,7 @@
         .hero-bottom {
             display: flex;
             align-items: flex-end;
-            padding: 0 48px 64px;
+            padding: 0 72px 64px;
             min-height: 260px;
         }
         .hero-bottom-left {
@@ -398,14 +408,15 @@
             gap: 10px;
             flex-shrink: 0;
             margin: 0 clamp(32px, 5vw, 80px);
-            align-self: flex-end;
+            align-self: center;
+            justify-self: center;
             opacity: 0;
             transform: translateY(32px);
             transition: opacity 0.7s ease 0.1s, transform 0.75s cubic-bezier(0.16, 1, 0.3, 1) 0.1s;
         }
         .hero-bottom-images.revealed { opacity: 1; transform: translateY(0); }
         .hero-bottom-image {
-            width: clamp(220px, 28vw, 440px);
+            width: clamp(240px, 30vw, 460px);
             flex-shrink: 0;
             overflow: hidden;
         }
@@ -418,8 +429,7 @@
             filter: saturate(0.85);
         }
         .hero-bottom-right {
-            width: clamp(200px, 18vw, 300px);
-            flex-shrink: 0;
+            flex: 1;
             align-self: flex-end;
             display: flex;
             flex-direction: column;
@@ -1221,40 +1231,46 @@
 
         /* ─── FOOTER ────────────────────────────────── */
         footer {
-            background: #100e0c;
-            padding: 56px 72px 48px;
+            background: var(--ink);
+            padding: 0;
+        }
+        .footer-hero {
             display: flex;
-            flex-direction: column;
             align-items: center;
-            gap: 20px;
-            border-top: 1px solid rgba(44, 26, 14, 0.5);
+            justify-content: center;
+            padding: 120px 72px;
+            overflow: hidden;
         }
-        .footer-logo {
+        .footer-hero-title {
             font-family: 'Tenor Sans', serif;
-            font-size: 1rem;
-            letter-spacing: 0.24em;
+            font-size: 12.5vw;
+            letter-spacing: 0.04em;
             text-transform: uppercase;
-            color: rgba(239, 217, 204, 0.5);
-            text-decoration: none;
+            color: var(--cream-light);
+            line-height: 0.88;
+            white-space: nowrap;
+            text-align: center;
         }
-        .footer-rule {
-            width: 36px;
-            height: 1px;
-            background: rgba(208, 184, 172, 0.15);
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid rgba(250, 247, 241, 0.06);
+            padding: 32px 72px;
         }
         .footer-copy {
-            font-size: 0.65rem;
+            font-size: 0.55rem;
             letter-spacing: 0.12em;
-            color: rgba(239, 217, 204, 0.2);
+            color: rgba(250, 247, 241, 0.15);
         }
         .footer-personal {
-            font-size: 0.65rem;
-            letter-spacing: 0.1em;
-            color: rgba(191, 160, 140, 0.5);
+            font-size: 0.55rem;
+            letter-spacing: 0.12em;
+            color: rgba(191, 160, 140, 0.35);
             text-decoration: none;
             transition: color 0.3s ease;
         }
-        .footer-personal:hover { color: rgba(191, 160, 140, 0.85); }
+        .footer-personal:hover { color: rgba(191, 160, 140, 0.75); }
 
         /* ─── RESPONSIVE ────────────────────────────── */
         @media (max-width: 900px) {
@@ -1317,10 +1333,9 @@
 
 <!-- ─── LOADER ──────────────────────────────────────── -->
 <div id="loader">
-    <span id="loader-left">Loading</span>
     <div id="loader-title">LUMI ATELIER</div>
-    <span id="loader-right">in progres</span>
-    <div id="loader-percent">(0%)</div>
+    <div id="loader-sub">0%</div>
+    <div id="loader-bar-wrap"><div id="loader-bar"></div></div>
 </div>
 
 <!-- ─── MOBILE MENU ──────────────────────────────────── -->
@@ -1384,7 +1399,6 @@
         <div class="hero-bottom-left" id="heroLeft">
             <span class="hero-left-line">Creative Studio</span>
             <span class="hero-left-line">Arte Permanente</span>
-            <span class="hero-left-line italic">Criado com intenção.</span>
         </div>
         <div class="hero-bottom-images" id="heroImage">
             <div class="hero-bottom-image">
@@ -1541,10 +1555,13 @@
 
 <!-- ─── FOOTER ────────────────────────────────────────── -->
 <footer>
-    <a href="#home" class="footer-logo">Lumi Atelier</a>
-    <div class="footer-rule"></div>
-    <p class="footer-copy" data-i18n="footer-copy">&copy; 2025 LUMI Atelier. Todos os direitos reservados.</p>
-    <a href="https://stephanytattoo.com" class="footer-personal" target="_blank" data-i18n="footer-personal">Visitar o Portfólio da Stephany →</a>
+    <div class="footer-hero">
+        <h2 class="footer-hero-title">LUMI ATELIER</h2>
+    </div>
+    <div class="footer-bottom">
+        <p class="footer-copy" data-i18n="footer-copy">&copy; 2025 LUMI Atelier. Todos os direitos reservados.</p>
+        <a href="https://stephanytattoo.com" class="footer-personal" target="_blank" data-i18n="footer-personal">Portfólio da Stephany →</a>
+    </div>
 </footer>
 
 <script>
@@ -1804,56 +1821,63 @@
         var loader = document.getElementById('loader');
         if (!loader) return;
         var lTitle = document.getElementById('loader-title');
-        var lLeft  = document.getElementById('loader-left');
-        var lRight = document.getElementById('loader-right');
-        var lPct   = document.getElementById('loader-percent');
+        var lSub   = document.getElementById('loader-sub');
+        var lBar   = document.getElementById('loader-bar');
         document.body.style.overflow = 'hidden';
 
-        var STEPS    = 80;   // number of ticks
-        var INTERVAL = 32;   // ms per tick (~2.56s total)
+        var STEPS    = 80;
+        var INTERVAL = 18;
         var current  = 0;
 
-        function ease(t) { return t < 0.5 ? 2*t*t : -1 + (4 - 2*t)*t; }
+        function ease(t) { return t * t * (3 - 2 * t); }
 
         var timer = setInterval(function() {
             current++;
             var t = Math.min(current / STEPS, 1);
             var p = ease(t);
-            lPct.textContent = '(' + Math.round(p * 100) + '%)';
-            var slide = p * 43;
-            lLeft.style.transform  = 'translateY(-50%) translateX(-' + slide + 'vw)';
-            lRight.style.transform = 'translateY(-50%) translateX('  + slide + 'vw)';
-            if (t >= 1) { clearInterval(timer); onComplete(); }
+            var pct = Math.round(p * 100);
+            lSub.textContent = pct + '%';
+            lBar.style.width = pct + '%';
+            if (t >= 1) {
+                clearInterval(timer);
+                lSub.classList.add('hidden');
+                // Measure hero, then grow + translate simultaneously
+                setTimeout(function() {
+                    var heroTitle = document.getElementById('heroTitle');
+                    if (heroTitle && lTitle) {
+                        var heroRect = heroTitle.getBoundingClientRect();
+                        var loaderRect = lTitle.getBoundingClientRect();
+                        var scaleRatio = (window.innerWidth * 0.125) / (window.innerWidth * 0.05);
+                        var grownCenterX = loaderRect.left + loaderRect.width / 2;
+                        var grownCenterY = loaderRect.top + loaderRect.height / 2;
+                        lTitle.style.transform = 'translate(' +
+                            ((heroRect.left + heroRect.width / 2) - grownCenterX) + 'px, ' +
+                            ((heroRect.top + heroRect.height / 2) - grownCenterY) + 'px)';
+                    }
+                    lTitle.style.fontSize = '12.5vw';
+                    lTitle.style.letterSpacing = '0.04em';
+                }, 300);
+                setTimeout(function() {
+                    loader.style.transition = 'opacity 1.4s cubic-bezier(0.25,0.1,0.25,1)';
+                    loader.style.opacity = '0';
+                    loader.style.pointerEvents = 'none';
+                    var heroTitle = document.getElementById('heroTitle');
+                    if (heroTitle) heroTitle.classList.add('revealed');
+                }, 1800);
+                setTimeout(function() {
+                    document.body.style.overflow = '';
+                    loader.style.display = 'none';
+                    var heroLeft  = document.getElementById('heroLeft');
+                    var heroImage = document.getElementById('heroImage');
+                    var heroRight = document.getElementById('heroRight');
+                    setTimeout(function() { if (heroLeft)  heroLeft.classList.add('revealed'); }, 90);
+                    setTimeout(function() { if (heroImage) heroImage.classList.add('revealed'); }, 190);
+                    setTimeout(function() { if (heroRight) heroRight.classList.add('revealed'); }, 280);
+                }, 3000);
+            }
         }, INTERVAL);
-
-        function onComplete() {
-            [lLeft, lRight, lPct].forEach(function(el) {
-                el.style.transition = 'opacity 0.32s ease';
-                el.style.opacity = '0';
-            });
-            setTimeout(function() {
-                lTitle.style.transition = 'font-size 0.88s cubic-bezier(0.16,1,0.3,1), letter-spacing 0.88s cubic-bezier(0.16,1,0.3,1)';
-                lTitle.style.fontSize = '12.5vw';
-                lTitle.style.letterSpacing = '0.04em';
-            }, 260);
-            setTimeout(function() {
-                loader.style.transition = 'transform 0.88s cubic-bezier(0.76,0,0.24,1)';
-                loader.style.transform = 'translateY(-100%)';
-            }, 980);
-            setTimeout(function() {
-                document.body.style.overflow = '';
-                loader.style.display = 'none';
-                var heroTitle = document.getElementById('heroTitle');
-                var heroLeft  = document.getElementById('heroLeft');
-                var heroImage = document.getElementById('heroImage');
-                var heroRight = document.getElementById('heroRight');
-                if (heroTitle) heroTitle.classList.add('revealed');
-                setTimeout(function() { if (heroLeft)  heroLeft.classList.add('revealed'); }, 90);
-                setTimeout(function() { if (heroImage) heroImage.classList.add('revealed'); }, 190);
-                setTimeout(function() { if (heroRight) heroRight.classList.add('revealed'); }, 280);
-            }, 1750);
-        }
     })();
+
 </script>
 </body>
 </html>
