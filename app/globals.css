@@ -328,6 +328,7 @@ body::before {
     padding: 0 72px 80px;
     min-height: 300px;
     gap: 48px;
+    overflow: hidden;
 }
 .hero-bottom-left {
     align-self: end;
@@ -1111,6 +1112,12 @@ footer {
 .footer-personal-link:hover { color: rgba(191,160,140,0.75); }
 
 /* ─── RESPONSIVE ────────────────────────────── */
+@media (max-width: 1200px) {
+    .hero-bottom { gap: 28px; padding: 0 48px 60px; }
+    .hero-bottom-image { width: clamp(160px, 20vw, 300px); }
+    .hero-right-desc { font-size: 0.72rem; letter-spacing: 0.08em; line-height: 1.85; }
+    .hero-left-line { font-size: clamp(1.6rem, 3vw, 3rem); }
+}
 @media (max-width: 900px) {
     .section { padding: 80px 32px; }
     #studio { padding: 80px 32px; }
