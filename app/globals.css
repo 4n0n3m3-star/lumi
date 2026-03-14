@@ -878,7 +878,7 @@ body::before {
     display: flex;
     gap: 20px;
     width: max-content;
-    animation: reviews-scroll 40s linear infinite;
+    animation: reviews-scroll 80s linear infinite;
 }
 .reviews-marquee:hover .reviews-marquee-track {
     animation-play-state: paused;

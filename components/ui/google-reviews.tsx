@@ -48,11 +48,7 @@ function ReviewCard({ review }: { review: Review }) {
         <Stars rating={review.rating} />
       </div>
       {review.text && (
-        <p className="review-text">
-          {review.text.length > 180
-            ? review.text.slice(0, 180).trim() + '…'
-            : review.text}
-        </p>
+        <p className="review-text">{review.text}</p>
       )}
     </div>
   );
@@ -115,12 +111,11 @@ export function GoogleReviews() {
       </div>
       <div className="reviews-marquee fade-up delay-1">
         <div className="reviews-marquee-track">
-          {reviews.map((review, i) => (
-            <ReviewCard key={`a-${i}`} review={review} />
-          ))}
-          {reviews.map((review, i) => (
-            <ReviewCard key={`b-${i}`} review={review} />
-          ))}
+          {[0, 1, 2, 3].map((set) =>
+            reviews.map((review, i) => (
+              <ReviewCard key={`${set}-${i}`} review={review} />
+            ))
+          )}
         </div>
       </div>
     </div>

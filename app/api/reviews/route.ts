@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 
 const PLACE_ID = 'ChIJ-4wK2qfVHg0RO3AGqZtgosg';
-const CACHE_TTL = 3600 * 1000; // 1 hour
+const CACHE_TTL = 86400 * 1000; // 24 hours
 
 let cache: { data: unknown; timestamp: number } | null = null;
 
@@ -27,7 +27,7 @@ export async function GET() {
         'X-Goog-Api-Key': apiKey,
         'X-Goog-FieldMask': 'rating,userRatingCount,reviews',
       },
-      next: { revalidate: 3600 },
+      next: { revalidate: 86400 },
     });
 
     if (!res.ok) {
