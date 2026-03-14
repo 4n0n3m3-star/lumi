@@ -22,10 +22,19 @@ const ARTISTS: Record<string, { name: string; email: string; from: string; insta
 
 export async function POST(req: Request) {
   const body = await req.json();
-  const { name, email, service, lang, artist } = body;
+  const { name, email, service, lang, artist, website } = body;
+
+  // Honeypot check
+  if (website) {
+    return NextResponse.json({ ok: true });
+  }
 
   if (!email || !name) {
     return NextResponse.json({ error: 'Missing fields' }, { status: 400 });
+  }
+
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return NextResponse.json({ error: 'Invalid email' }, { status: 400 });
   }
 
   const isPt = lang !== 'en';

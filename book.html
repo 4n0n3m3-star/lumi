@@ -764,6 +764,12 @@
         <input type="hidden" name="redirect" value="false">
         <input type="hidden" name="service" id="form-service" value="tattoo">
         <input type="hidden" name="artist" id="form-artist" value="stephany-ribeiro">
+        <input type="hidden" name="_form_loaded" id="form-loaded-at" value="">
+        <!-- honeypot — hidden from humans, bots fill it -->
+        <div style="position:absolute;left:-9999px;top:-9999px;opacity:0;height:0;overflow:hidden;" aria-hidden="true" tabindex="-1">
+            <label for="website">Website</label>
+            <input type="text" name="website" id="hp-website" autocomplete="off" tabindex="-1">
+        </div>
 
         <!-- ─── COMMON FIELDS ─────────────────────────── -->
         <div class="form-row">
@@ -1322,12 +1328,22 @@
         return data.secure_url;
     }
 
+    // ─── ANTI-SPAM: set load timestamp ─────────────────
+    document.getElementById('form-loaded-at').value = String(Date.now());
+
     // ─── FORM SUBMISSION ──────────────────────────────
     document.getElementById('contact-form').addEventListener('submit', async (e) => {
         e.preventDefault();
         const form = e.target;
         const btn = document.getElementById('submit-btn');
         const t = i18n[currentLang];
+
+        // Anti-spam checks
+        const hp = document.getElementById('hp-website');
+        if (hp && hp.value) { btn.textContent = t['sent']; return; } // bot filled honeypot
+        const loadedAt = parseInt(document.getElementById('form-loaded-at').value || '0', 10);
+        if (Date.now() - loadedAt < 3000) { btn.textContent = t['sent']; return; } // submitted in < 3s
+
         btn.disabled = true;
 
         const fd = new FormData(form);
