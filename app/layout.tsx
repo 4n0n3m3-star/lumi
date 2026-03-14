@@ -1,5 +1,9 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
+
+export const viewport: Viewport = {
+  themeColor: "#1A0E06",
+};
 
 export const metadata: Metadata = {
   title: "LUMI Atelier — Estúdio de Tattoo & Piercing em Venda do Pinheiro",
@@ -13,7 +17,6 @@ export const metadata: Metadata = {
     images: [{ url: "https://lumiatelierpt.com/media/DSCF4917.jpg" }],
   },
   twitter: { card: "summary_large_image" },
-  themeColor: "#1A0E06",
   alternates: { canonical: "https://lumiatelierpt.com" },
 };
 
