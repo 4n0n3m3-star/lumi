@@ -78,6 +78,8 @@ const styles = {
     background: '#FAF7F1',
     fontFamily: "'Montserrat', sans-serif",
     color: '#3F2F24',
+    overflowX: 'hidden',
+    maxWidth: '100vw',
   } as React.CSSProperties,
 
   // Login

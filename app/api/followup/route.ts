@@ -24,7 +24,7 @@ const ARTISTS: Record<string, { name: string; email: string; from: string; insta
 
 export async function POST(req: Request) {
   const body = await req.json();
-  const { type, name, email, lang, artist, budget, reason, eta, sketch_url, duration, session_url, session_date, _afterDetails } = body;
+  const { type, name, email, lang, artist, budget, reason, session_date, duration, _afterDetails } = body;
 
   if (!email || !name || !type) {
     return NextResponse.json({ error: 'Missing fields' }, { status: 400 });
@@ -37,7 +37,7 @@ export async function POST(req: Request) {
 
   if (type === 'Orçamento') {
     subject = isPt ? `✨ O teu orçamento — ${a.name}` : `✨ Your quote — ${a.name}`;
-    html = buildBudgetEmail({ isPt, name, budget, a, afterDetails: !!_afterDetails });
+    html = buildBudgetEmail({ isPt, name, budget, duration, a, afterDetails: !!_afterDetails });
   } else if (type === 'Mais Detalhes') {
     subject = isPt ? `✨ Preciso de mais detalhes — ${a.name}` : `✨ A few more details needed — ${a.name}`;
     html = buildDetailsEmail({ isPt, name, a });
@@ -47,15 +47,6 @@ export async function POST(req: Request) {
   } else if (type === 'deposito') {
     subject = isPt ? `✨ Ainda estou por aqui — ${a.name}` : `✨ Just checking in — ${a.name}`;
     html = buildFollowUpEmail({ isPt, name, a });
-  } else if (type === 'deposito_confirmado') {
-    subject = isPt ? `✨ Depósito confirmado — ${a.name}` : `✨ Deposit confirmed — ${a.name}`;
-    html = buildDepositConfirmedEmail({ isPt, name, eta, a });
-  } else if (type === 'estudo') {
-    subject = isPt ? '✨ O teu estudo está pronto!' : '✨ Your study is ready!';
-    html = buildSketchEmail({ isPt, name, sketch_url, duration, session_url: session_url || a.cal, a });
-  } else if (type === 'sessao') {
-    subject = isPt ? `✨ Sessão confirmada — ${a.name}` : `✨ Session confirmed — ${a.name}`;
-    html = buildSessionEmail({ isPt, name, session_date, duration, a });
   } else if (type === 'lembrete') {
     subject = isPt ? '✨ Lembrete: a tua sessão é amanhã!' : '✨ Reminder: your session is tomorrow!';
     html = buildReminderEmail({ isPt, name, session_date, duration, a });
@@ -158,16 +149,6 @@ function btn(href: string, label: string) {
           </table>`;
 }
 
-function formatEta(raw: string | undefined, isPt: boolean) {
-  if (!raw) return '';
-  const str = String(raw);
-  if (str.match(/^\d{4}-\d{2}-\d{2}/)) {
-    const d = new Date(str);
-    return d.toLocaleDateString(isPt ? 'pt-PT' : 'en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
-  }
-  return str;
-}
-
 function directContact(isPt: boolean, a: ArtistConfig) {
   return isPt
     ? `Se precisares de alguma coisa, podes sempre responder a este email, enviar-me mensagem no <a href="${a.instagram}" style="color:#A77049;text-decoration:underline;">Instagram</a> ou no <a href="https://wa.me/351932558951" style="color:#A77049;text-decoration:underline;">WhatsApp</a>. Estou aqui para ti!`
@@ -206,7 +187,15 @@ function lumiLink(isPt: boolean) {
 
 /* ── Step 4a: Budget quote ── */
 
-function buildBudgetEmail({ isPt, name, budget, a, afterDetails = false }: { isPt: boolean; name: string; budget: string; a: ArtistConfig; afterDetails?: boolean }) {
+const SESSION_LINKS: Record<string, string> = {
+  '1h': 'https://cal.com/lumiatelier/sessao-curta-1h',
+  '2h': 'https://cal.com/lumiatelier/sessao-curta-2h',
+  '3h': 'https://cal.com/lumiatelier/sessao-standard-3h',
+  '4h': 'https://cal.com/lumiatelier/sessao-longa-4h',
+  '5h': 'https://cal.com/lumiatelier/sessao-longa-5h',
+};
+
+function buildBudgetEmail({ isPt, name, budget, duration, a, afterDetails = false }: { isPt: boolean; name: string; budget: string; duration: string; a: ArtistConfig; afterDetails?: boolean }) {
   const para1 = afterDetails
     ? (isPt
       ? 'Agora que tenho mais detalhes sobre a tua ideia, posso seguramente dar-te o orçamento. Preparei tudo com muito carinho!'
@@ -215,13 +204,15 @@ function buildBudgetEmail({ isPt, name, budget, a, afterDetails = false }: { isP
       ? 'Adorei a tua ideia! Dediquei toda a atenção a analisá-la e preparei o teu orçamento com muito carinho.'
       : "I loved your idea! I've given it my full attention and prepared your quote with care.");
 
+  const sessionUrl = SESSION_LINKS[duration] || SESSION_LINKS['2h'];
+
   const depositText = isPt
-    ? 'Se concordares com o orçamento e quiseres que eu comece a trabalhar na tua peça, basta enviares um depósito de <strong>20€</strong> via MB Way para o número <strong>932 558 951</strong>. O depósito é não reembolsável e serve para reservar o teu lugar na minha agenda.'
-    : 'If you agree with the quote and would like me to start working on your piece, just send a non-refundable deposit of <strong>€20</strong> via MB Way to <strong>932 558 951</strong>. The deposit reserves your spot in my schedule.';
+    ? 'Se concordares com o orçamento, marca o teu horário no link abaixo. Para confirmar a marcação, envia um depósito de <strong>20€</strong> via MB Way para o número <strong>932 558 951</strong>. O depósito é não reembolsável e serve para reservar o teu lugar na minha agenda.'
+    : 'If you agree with the quote, book your slot using the link below. To confirm your booking, send a non-refundable deposit of <strong>€20</strong> via MB Way to <strong>932 558 951</strong>. The deposit reserves your spot in my schedule.';
 
   const para2 = isPt
-    ? `Assim que receber o depósito, confirmo a receção e envio-te uma data estimada para o estudo. Se tiveres alguma dúvida, responde a este email ou envia-me mensagem no <a href="${a.instagram}" style="color:#A77049;text-decoration:underline;">Instagram</a>. Vou adorar criar esta peça para ti!`
-    : `Once I receive the deposit, I'll confirm it and send you an estimated date for the study. If you have any questions, reply to this email or message me on <a href="${a.instagram}" style="color:#A77049;text-decoration:underline;">Instagram</a>. I would love to create this piece for you!`;
+    ? `Assim que receber o depósito, confirmo a tua sessão. Se tiveres alguma dúvida, responde a este email ou envia-me mensagem no <a href="${a.instagram}" style="color:#A77049;text-decoration:underline;">Instagram</a>. Vou adorar criar esta peça para ti!`
+    : `Once I receive the deposit, I'll confirm your session. If you have any questions, reply to this email or message me on <a href="${a.instagram}" style="color:#A77049;text-decoration:underline;">Instagram</a>. I would love to create this piece for you!`;
 
   return buildEmail(isPt, name, `
         <p style="margin:0 0 24px;font-size:14px;color:#1E1713;line-height:1.8;font-weight:300;">${para1}</p>
@@ -234,6 +225,7 @@ function buildBudgetEmail({ isPt, name, budget, a, afterDetails = false }: { isP
           </tr>
         </table>
         <p style="margin:0 0 20px;font-size:14px;color:#806A58;line-height:1.8;font-weight:300;">${depositText}</p>
+        ${btn(sessionUrl, isPt ? `Marcar Sessão · ${duration}` : `Book Session · ${duration}`)}
         <p style="margin:0 0 48px;font-size:14px;color:#806A58;line-height:1.8;font-weight:300;">${para2}</p>
     `, a);
 }
@@ -323,76 +315,7 @@ function buildFollowUpEmail({ isPt, name, a }: { isPt: boolean; name: string; a:
     `, a);
 }
 
-/* ── Step 5b: Deposit confirmed + estudo ETA ── */
-
-function buildDepositConfirmedEmail({ isPt, name, eta, a }: { isPt: boolean; name: string; eta: string; a: ArtistConfig }) {
-  const formattedEta = formatEta(eta, isPt);
-
-  const para1 = isPt
-    ? 'O teu depósito foi recebido com sucesso! Muito obrigada — está tudo confirmado do teu lado.'
-    : "Your deposit has been received! Thank you so much — everything is confirmed on your end.";
-
-  const etaText = isPt
-    ? `Vou começar a trabalhar no teu estudo e tê-lo pronto até <strong>${formattedEta}</strong>. Mal posso esperar para te mostrar!`
-    : `I'll start working on your study and have it ready by <strong>${formattedEta}</strong>. Can't wait to show you!`;
-
-  return buildEmail(isPt, name, `
-        <p style="margin:0 0 20px;font-size:14px;color:#1E1713;line-height:1.8;font-weight:300;">${para1}</p>
-        <p style="margin:0 0 20px;font-size:14px;color:#806A58;line-height:1.8;font-weight:300;">${etaText}</p>
-        <p style="margin:0 0 48px;font-size:14px;color:#806A58;line-height:1.8;font-weight:300;">${directContact(isPt, a)}</p>
-    `, a);
-}
-
-/* ── Step 6: Arte final ready + booking ── */
-
-function buildSketchEmail({ isPt, name, sketch_url, duration, session_url, a }: { isPt: boolean; name: string; sketch_url: string; duration: string; session_url: string; a: ArtistConfig }) {
-  const para1 = isPt
-    ? 'O teu estudo está pronto e estou muito orgulhosa do resultado! Espero que gostes tanto quanto eu — criei-o a pensar em ti.'
-    : "Your study is ready and I'm so proud of how it turned out! I hope you love it as much as I do — I created it with you in mind.";
-
-  const durationText = isPt
-    ? `A sessão tem duração estimada de <strong>${duration}</strong>. Escolhe o dia que te der mais jeito no link abaixo:`
-    : `The session has an estimated duration of <strong>${duration}</strong>. Pick the day that works best for you:`;
-
-  const para3 = isPt
-    ? `Se tiveres alguma dúvida sobre o estudo ou quiseres ajustar algum detalhe, não hesites em falar comigo — responde a este email ou envia mensagem no <a href="${a.instagram}" style="color:#A77049;text-decoration:underline;">Instagram</a>.`
-    : `If you have any questions about the study or want to adjust any detail, don't hesitate to reach out — reply to this email or message me on <a href="${a.instagram}" style="color:#A77049;text-decoration:underline;">Instagram</a>.`;
-
-  return buildEmail(isPt, name, `
-        <p style="margin:0 0 24px;font-size:14px;color:#1E1713;line-height:1.8;font-weight:300;">${para1}</p>
-        <img src="${sketch_url}" alt="Estudo" style="width:100%;max-width:464px;border-radius:16px;margin:0 0 28px;display:block;" />
-        <p style="margin:0 0 24px;font-size:14px;color:#806A58;line-height:1.8;font-weight:300;">${durationText}</p>
-        ${btn(session_url, isPt ? 'Marcar Sessão' : 'Book Session')}
-        <p style="margin:0 0 48px;font-size:14px;color:#806A58;line-height:1.8;font-weight:300;">${para3}</p>
-    `, a);
-}
-
-/* ── Step 7: Session confirmed + pre-session tips ── */
-
-function buildSessionEmail({ isPt, name, session_date, duration, a }: { isPt: boolean; name: string; session_date: string; duration: string; a: ArtistConfig }) {
-  const para1 = isPt
-    ? 'A tua sessão está oficialmente confirmada! Estou muito entusiasmada para te conhecer e dar vida a esta peça.'
-    : "Your session is officially confirmed! I'm so excited to meet you and bring this piece to life.";
-
-  return buildEmail(isPt, name, `
-        <p style="margin:0 0 24px;font-size:14px;color:#1E1713;line-height:1.8;font-weight:300;">${para1}</p>
-        <table cellpadding="0" cellspacing="0" role="presentation" style="margin:0 0 32px;">
-          <tr>
-            <td style="border-left:2px solid #A77049;padding:12px 20px;">
-              <p style="margin:0 0 4px;font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:#BFA08C;">${isPt ? 'Data' : 'Date'}</p>
-              <p style="margin:0 0 12px;font-size:20px;font-weight:300;color:#1E1713;">${session_date}</p>
-              <p style="margin:0 0 4px;font-size:10px;letter-spacing:0.3em;text-transform:uppercase;color:#BFA08C;">${isPt ? 'Duração estimada' : 'Estimated duration'}</p>
-              <p style="margin:0;font-size:20px;font-weight:300;color:#1E1713;">${duration}</p>
-            </td>
-          </tr>
-        </table>
-        ${preSessionTips(isPt)}
-        <p style="margin:0 0 20px;font-size:14px;color:#1E1713;line-height:1.8;font-weight:300;">${lumiLink(isPt)}</p>
-        <p style="margin:0 0 48px;font-size:14px;color:#806A58;line-height:1.8;font-weight:300;">${directContact(isPt, a)}</p>
-    `, a);
-}
-
-/* ── Step 8: Day-before reminder ── */
+/* ── Day-before reminder ── */
 
 function buildReminderEmail({ isPt, name, session_date, duration, a }: { isPt: boolean; name: string; session_date: string; duration: string; a: ArtistConfig }) {
   const para1 = isPt

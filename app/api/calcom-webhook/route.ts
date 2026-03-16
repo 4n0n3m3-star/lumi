@@ -40,7 +40,7 @@ export async function POST(req: Request) {
   const data = JSON.parse(body);
   const event = data.triggerEvent;
 
-  // Only process new bookings
+  // Only process new bookings (fires after manual confirmation if "Requires confirmation" is enabled)
   if (event !== 'BOOKING_CREATED') {
     return NextResponse.json({ ok: true, skipped: true });
   }

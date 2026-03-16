@@ -145,7 +145,11 @@
     --hero-title-spacing: 0.04em;
 }
 
-html { scroll-behavior: smooth; }
+html {
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+    overscroll-behavior-x: none;
+}
 
 body {
     background: var(--cream-light);
@@ -154,6 +158,8 @@ body {
     font-weight: 300;
     line-height: 1.7;
     overflow-x: hidden;
+    overscroll-behavior-x: none;
+    -webkit-overflow-scrolling: touch;
 }
 
 body::before {
