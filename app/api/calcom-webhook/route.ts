@@ -85,11 +85,10 @@ export async function POST(req: Request) {
     const sheetData = await sheetRes.json();
 
     if (!sheetData.matched) {
-      console.log('Cal.com booking: no matching row for', attendee.email);
-      return NextResponse.json({ ok: true, matched: false });
+      console.log('Cal.com booking: no matching sheet row for', attendee.email, '— sending email with Cal.com data');
     }
 
-    // Send "sessao" (session confirmed) email
+    // Send "sessao" (session confirmed) email — use sheet data if matched, otherwise fall back to Cal.com data
     const name = sheetData.name || attendee.name || 'Cliente';
     const lang = sheetData.lang || 'pt';
     const artistKey = sheetData.artist || 'stephany-ribeiro';
