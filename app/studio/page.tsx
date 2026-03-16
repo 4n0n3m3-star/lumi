@@ -43,23 +43,19 @@ interface FollowUpType {
 }
 
 const FOLLOWUP_TYPES: FollowUpType[] = [
-  { key: 'Orçamento', label: 'Orçamento', icon: '💰', fields: ['budget'] },
+  { key: 'Orçamento', label: 'Orçamento', icon: '💰', fields: ['budget', 'duration'] },
   { key: 'Mais Detalhes', label: 'Mais Detalhes', icon: '📝' },
   { key: 'Recusado', label: 'Recusar', icon: '✕', fields: ['reason'] },
   { key: 'deposito', label: 'Follow Up', icon: '💬' },
-  { key: 'deposito_confirmado', label: 'Depósito OK', icon: '✓', fields: ['eta'] },
-  { key: 'estudo', label: 'Estudo', icon: '✏️', fields: ['sketch_url', 'duration'] },
   { key: 'reagendar', label: 'Reagendar', icon: '📅' },
 ];
 
 const SESSION_DURATIONS = [
-  { value: '1 hora', label: '1 hora' },
-  { value: '1.5 horas', label: '1.5 horas' },
-  { value: '2 horas', label: '2 horas' },
-  { value: '3 horas', label: '3 horas' },
-  { value: '4 horas', label: '4 horas' },
-  { value: '5 horas', label: '5 horas' },
-  { value: '6 horas', label: '6 horas' },
+  { value: '1h', label: '1 hora' },
+  { value: '2h', label: '2 horas' },
+  { value: '3h', label: '3 horas' },
+  { value: '4h', label: '4 horas' },
+  { value: '5h', label: '5 horas' },
 ];
 
 const REJECTION_REASONS = [
@@ -1152,17 +1148,10 @@ export default function StudioPage() {
                 {(() => {
                   const sent = selected ? getSentTypes(selected.id) : [];
                   const hasOrcamento = sent.includes('Orçamento');
-                  const hasDepositoOk = sent.includes('deposito_confirmado');
                   const hasMaisDetalhes = sent.includes('Mais Detalhes');
-                  const hasEstudo = sent.includes('estudo');
 
                   let visible = FOLLOWUP_TYPES;
-                  if (hasEstudo) {
-                    // After estudo, only reagendar makes sense
-                    visible = FOLLOWUP_TYPES.filter(t => t.key === 'reagendar');
-                  } else if (hasDepositoOk) {
-                    visible = FOLLOWUP_TYPES.filter(t => t.key === 'estudo');
-                  } else if (hasOrcamento) {
+                  if (hasOrcamento) {
                     visible = FOLLOWUP_TYPES.filter(t => !['Mais Detalhes', 'Recusado'].includes(t.key));
                   }
 
@@ -1220,29 +1209,6 @@ export default function StudioPage() {
                             <option key={r.value} value={r.value}>{r.label}</option>
                           ))}
                         </select>
-                      </div>
-                    )}
-                    {fields.includes('eta') && (
-                      <div>
-                        <label style={styles.fieldLabel}>Data prevista do estudo</label>
-                        <input
-                          type="date"
-                          value={formData.eta || ''}
-                          onChange={e => setFormData({ ...formData, eta: e.target.value })}
-                          style={styles.fieldInput}
-                        />
-                      </div>
-                    )}
-                    {fields.includes('sketch_url') && (
-                      <div>
-                        <label style={styles.fieldLabel}>URL do estudo</label>
-                        <input
-                          type="url"
-                          placeholder="https://..."
-                          value={formData.sketch_url || ''}
-                          onChange={e => setFormData({ ...formData, sketch_url: e.target.value })}
-                          style={styles.fieldInput}
-                        />
                       </div>
                     )}
                     {fields.includes('duration') && (
