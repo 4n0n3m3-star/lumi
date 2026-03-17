@@ -6,3 +6,7 @@ temporary screenshots/
 .env
 .env.local
 .env*.local
+
+.next/
+*.pem
+*.key

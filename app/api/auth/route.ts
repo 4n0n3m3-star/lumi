@@ -2,7 +2,8 @@ import { NextResponse } from 'next/server';
 import crypto from 'crypto';
 
 const PASSWORD = process.env.STUDIO_PASSWORD || '';
-const SECRET = process.env.STUDIO_SECRET || 'lumi-default-secret-change-me';
+const SECRET = process.env.STUDIO_SECRET;
+if (!SECRET) throw new Error('STUDIO_SECRET env var is required');
 
 function sign(value: string) {
   return crypto.createHmac('sha256', SECRET).update(value).digest('hex');

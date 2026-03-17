@@ -2,8 +2,8 @@ import { NextResponse } from 'next/server';
 import crypto from 'crypto';
 import { Resend } from 'resend';
 
-const SHEET_URL = process.env.GOOGLE_SHEET_URL
-  || 'https://script.google.com/macros/s/AKfycbz9psqxbGmws9RbwbKrwgYfexPJ_0fSIii8q4uohrbsv19cyG65up3qLlMBdW5e2ZLD/exec';
+const SHEET_URL = process.env.GOOGLE_SHEET_URL;
+if (!SHEET_URL) throw new Error('GOOGLE_SHEET_URL env var is required');
 
 const ARTISTS: Record<string, { name: string; from: string; instagram: string; cal: string }> = {
   'stephany-ribeiro': {
@@ -29,7 +29,8 @@ export async function POST(req: Request) {
 
   // Verify Cal.com webhook signature
   const secret = process.env.CAL_WEBHOOK_SECRET;
-  if (secret) {
+  if (!secret) return NextResponse.json({ error: 'Server misconfigured' }, { status: 500 });
+  {
     const sig = req.headers.get('x-cal-signature-256') || '';
     const expected = crypto.createHmac('sha256', secret).update(body).digest('hex');
     if (sig !== expected) {

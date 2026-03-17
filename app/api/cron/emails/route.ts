@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server';
 import { Resend } from 'resend';
 
-const SHEET_URL = process.env.GOOGLE_SHEET_URL
-  || 'https://script.google.com/macros/s/AKfycbz9psqxbGmws9RbwbKrwgYfexPJ_0fSIii8q4uohrbsv19cyG65up3qLlMBdW5e2ZLD/exec';
+const SHEET_URL = process.env.GOOGLE_SHEET_URL;
+if (!SHEET_URL) throw new Error('GOOGLE_SHEET_URL env var is required');
 
 const ARTISTS: Record<string, { name: string; from: string; instagram: string }> = {
   'stephany-ribeiro': {
@@ -25,7 +25,8 @@ export async function GET(req: Request) {
   // Verify cron secret
   const authHeader = req.headers.get('authorization');
   const cronSecret = process.env.CRON_SECRET;
-  if (cronSecret && authHeader !== `Bearer ${cronSecret}`) {
+  if (!cronSecret) return NextResponse.json({ error: "Server misconfigured" }, { status: 500 });
+  if (authHeader !== `Bearer ${cronSecret}`) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 

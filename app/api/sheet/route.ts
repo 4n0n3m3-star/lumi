@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 
-const SHEET_URL = process.env.GOOGLE_SHEET_URL
-  || 'https://script.google.com/macros/s/AKfycbz9psqxbGmws9RbwbKrwgYfexPJ_0fSIii8q4uohrbsv19cyG65up3qLlMBdW5e2ZLD/exec';
+const SHEET_URL = process.env.GOOGLE_SHEET_URL;
+if (!SHEET_URL) throw new Error('GOOGLE_SHEET_URL env var is required');
 
 // Simple rate limit: max 5 submissions per IP per 10 minutes
 const rateMap = new Map<string, number[]>();
