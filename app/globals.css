@@ -1166,7 +1166,8 @@ footer {
     .art-glass-label { font-size: clamp(0.95rem, 3vw, 1.2rem); }
     #art { padding: 64px 24px; }
     #contact-cta { padding: 80px 24px; }
-    .footer-hero { padding: 64px 24px; }
+    .footer-hero { padding: 64px 24px; overflow: hidden; }
+    .footer-hero-title { font-size: 10vw; }
     .footer-bottom { padding: 20px 24px; flex-direction: column; gap: 12px; text-align: center; }
     .hero-scroll { display: none; }
     :root { --hero-title-size: calc((100vw - 48px) / 7.6); --hero-title-spacing: 0.03em; }
