@@ -44,7 +44,7 @@
             --ink:         #1E1713;
         }
 
-        html { scroll-behavior: smooth; }
+        html { scroll-behavior: smooth; overflow-x: hidden; }
 
         body {
             background: var(--cream-light);
@@ -668,7 +668,8 @@
             .contact-link { font-size: clamp(0.9rem, 4vw, 1.2rem); word-break: break-all; }
             .service-pills { flex-direction: column; }
             .service-pill { text-align: center; }
-            .footer-hero { padding: 64px 24px; }
+            .footer-hero { padding: 64px 24px; overflow: hidden; }
+            .footer-hero-title { font-size: 10vw; }
             .footer-bottom { padding: 20px 24px; flex-direction: column; gap: 12px; text-align: center; }
                     }
     </style>
