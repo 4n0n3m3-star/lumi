@@ -4,9 +4,10 @@ import crypto from 'crypto';
 const PASSWORD = process.env.STUDIO_PASSWORD || '';
 const SECRET = process.env.STUDIO_SECRET;
 if (!SECRET) throw new Error('STUDIO_SECRET env var is required');
+const SECRET_KEY: string = SECRET;
 
 function sign(value: string) {
-  return crypto.createHmac('sha256', SECRET).update(value).digest('hex');
+  return crypto.createHmac('sha256', SECRET_KEY).update(value).digest('hex');
 }
 
 export async function POST(req: Request) {
