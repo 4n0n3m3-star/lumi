@@ -4,6 +4,7 @@ import { Resend } from 'resend';
 
 const SHEET_URL = process.env.GOOGLE_SHEET_URL;
 if (!SHEET_URL) throw new Error('GOOGLE_SHEET_URL env var is required');
+const SHEET_URL_STR: string = SHEET_URL;
 
 const ARTISTS: Record<string, { name: string; from: string; instagram: string; cal: string }> = {
   'stephany-ribeiro': {
@@ -72,7 +73,7 @@ export async function POST(req: Request) {
 
   try {
     // Update Google Sheet with session info
-    const sheetRes = await fetch(SHEET_URL, {
+    const sheetRes = await fetch(SHEET_URL_STR, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
