@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 
 const SHEET_URL = process.env.GOOGLE_SHEET_URL;
 if (!SHEET_URL) throw new Error('GOOGLE_SHEET_URL env var is required');
+const SHEET_URL_STR: string = SHEET_URL;
 
 const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
 let cache: { data: unknown; timestamp: number } | null = null;

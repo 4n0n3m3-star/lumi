@@ -3,6 +3,7 @@ import { Resend } from 'resend';
 
 const SHEET_URL = process.env.GOOGLE_SHEET_URL;
 if (!SHEET_URL) throw new Error('GOOGLE_SHEET_URL env var is required');
+const SHEET_URL_STR: string = SHEET_URL;
 
 const ARTISTS: Record<string, { name: string; from: string; instagram: string }> = {
   'stephany-ribeiro': {
@@ -32,7 +33,7 @@ export async function GET(req: Request) {
 
   try {
     // Fetch pending emails from Google Sheet
-    const res = await fetch(SHEET_URL, {
+    const res = await fetch(SHEET_URL_STR, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ action: 'get_pending_emails' }),
@@ -75,7 +76,7 @@ export async function GET(req: Request) {
         await resend.emails.send({ from: a.from, to: item.email, subject, html });
 
         // Mark as sent in the sheet
-        await fetch(SHEET_URL, {
+        await fetch(SHEET_URL_STR, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({

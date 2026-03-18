@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 
 const SHEET_URL = process.env.GOOGLE_SHEET_URL;
 if (!SHEET_URL) throw new Error('GOOGLE_SHEET_URL env var is required');
+const SHEET_URL_STR: string = SHEET_URL;
 
 // Simple rate limit: max 5 submissions per IP per 10 minutes
 const rateMap = new Map<string, number[]>();
@@ -41,7 +42,7 @@ export async function POST(req: Request) {
   }
 
   try {
-    const response = await fetch(SHEET_URL, {
+    const response = await fetch(SHEET_URL_STR, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
