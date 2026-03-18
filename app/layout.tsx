@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import Script from "next/script";
+import DropPopup from "./components/DropPopup";
 import "./globals.css";
 
 export const viewport: Viewport = {
@@ -66,6 +67,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         {children}
+        <DropPopup />
         {/* Google Ads tag */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=AW-17997598675"

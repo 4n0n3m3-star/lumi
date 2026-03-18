@@ -1181,6 +1181,143 @@ footer {
     .art-subscribe input { border-right: 1px solid var(--cream); border-bottom: none; }
 }
 
+/* ─── DROP POPUP ─────────────────────────────── */
+.drop-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: rgba(30, 23, 19, 0.72);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    animation: drop-overlay-in 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+@keyframes drop-overlay-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+.drop-modal {
+    position: relative;
+    background: #1E1713;
+    color: #FAF7F1;
+    width: 100%;
+    max-width: 420px;
+    padding: 52px 48px 44px;
+    overflow: hidden;
+    animation: drop-modal-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) 0.05s both;
+}
+@keyframes drop-modal-in {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+.drop-grain {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.045;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 180px 180px;
+}
+.drop-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: rgba(250,247,241,0.3);
+    cursor: pointer;
+    padding: 6px;
+    transition: color 0.2s ease;
+    line-height: 0;
+}
+.drop-close:hover { color: #FAF7F1; }
+.drop-eyebrow {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.55rem;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #BFA08C;
+    margin: 0 0 24px;
+}
+.drop-title {
+    font-family: 'Tenor Sans', serif;
+    font-size: clamp(2rem, 8vw, 2.8rem);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    line-height: 1.05;
+    color: #FAF7F1;
+    margin: 0 0 20px;
+}
+.drop-sub {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    line-height: 1.8;
+    color: rgba(250,247,241,0.5);
+    margin: 0 0 32px;
+}
+.drop-form { margin: 0 0 16px; }
+.drop-input-wrap {
+    display: flex;
+    border: 1px solid rgba(250,247,241,0.15);
+    transition: border-color 0.2s ease;
+}
+.drop-input-wrap:focus-within { border-color: rgba(191,160,140,0.6); }
+.drop-input {
+    flex: 1;
+    background: none;
+    border: none;
+    outline: none;
+    color: #FAF7F1;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 300;
+    letter-spacing: 0.06em;
+    padding: 14px 18px;
+}
+.drop-input::placeholder { color: rgba(250,247,241,0.25); }
+.drop-btn {
+    background: #BFA08C;
+    border: none;
+    color: #1E1713;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.6rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 14px 22px;
+    cursor: pointer;
+    transition: background 0.2s ease, opacity 0.2s ease;
+    white-space: nowrap;
+}
+.drop-btn:hover { background: #d4b8a6; }
+.drop-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+.drop-confirm {
+    font-family: 'Tenor Sans', serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.04em;
+    color: #BFA08C;
+    margin: 0 0 16px;
+    animation: drop-overlay-in 0.4s ease both;
+}
+.drop-note {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.5rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(250,247,241,0.18);
+    margin: 0;
+}
+@media (max-width: 480px) {
+    .drop-modal { padding: 44px 28px 36px; }
+    .drop-title { font-size: clamp(1.8rem, 10vw, 2.4rem); }
+}
+
 /* ─── WHATSAPP BUTTON ────────────────────────── */
 .whatsapp-btn {
     position: fixed;
