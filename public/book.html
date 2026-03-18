@@ -16,6 +16,14 @@
     <link rel="alternate" hreflang="pt" href="https://lumiatelier.pt/book">
     <link rel="alternate" hreflang="en" href="https://lumiatelier.pt/book">
     <link rel="apple-touch-icon" href="/favicon.ico">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17997598675"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'AW-17997598675');
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="dns-prefetch" href="https://fonts.googleapis.com">
@@ -1461,6 +1469,11 @@
             if (data.success) {
                 btn.textContent = t['sent'];
                 btn.style.background = 'var(--dark-brown)';
+
+                // Google Ads conversion tracking
+                if (typeof gtag === 'function') {
+                    gtag('event', 'conversion', { 'send_to': 'AW-17997598675' });
+                }
 
                 fetch('/api/confirm', {
                     method: 'POST',
