@@ -1472,7 +1472,11 @@
 
                 // Google Ads conversion tracking
                 if (typeof gtag === 'function') {
-                    gtag('event', 'conversion', { 'send_to': 'AW-17997598675' });
+                    gtag('event', 'conversion', {
+                        'send_to': 'AW-17997598675/hkiLCPXH7YocENOf9oVD',
+                        'value': 1.0,
+                        'currency': 'EUR'
+                    });
                 }
 
                 fetch('/api/confirm', {
